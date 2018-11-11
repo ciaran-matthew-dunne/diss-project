@@ -1,6 +1,6 @@
-\documentclass[12pt]{report}
+\documentclass[12pt]{article}
 \usepackage{verbatim}
-
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
 \title{Toward a Foundation of Mathematics More Suitable for Education}
 \author{Ciarán Dunne}
 
@@ -14,41 +14,100 @@ Set theory as a foundation of mathematics has been studied intensely in the past
 \end{minipage}
 \clearpage
 
-\chapter{Introduction}
-
+\section{Introduction}
 % Abstract, Aims, Objectives, Project Description
 % Are these clearly expressed, testable, and achievable?
+From Euclid to Hilbert, mathematicians and philosophers have been interested in finding logical foundations for various areas of mathematics. In the early 20th century, due to concerns of paradoxes and logical gaps, mathematicians were drawn to logical systems to ground their work in. Set theory played a pivotal role in this foundational crsis. Set theory is a branch of mathematics that studies sets, which can informally be described as collections of objects, for instance, the set of all natural numbers, denoted $\mathbb{N}$. Set theory proves itself to be incredibly useful in almost every area of mathematics, since it acts as a powerful language to express concepts in these fields.
+The theory's original formulation - now known as na\"ive set theory - given by Gerog Cantor and Richard Dedekind in the late 19th century, was made in an attempt to confront questions regarding infinity. However, due to paradoxes discovered in na\"ive set theory, most notably Russell's paradox (the set of all sets that contain themselves), mathematicians started to question the correctness of their work. From this, axiomatic systems were proposed to ground set theory, and thus all mathematics relying on it, with the now most widely accepted being Zermelo-Fraenkel with Choice (hereinafter ZFC) due to its expressive power.
 
-\section{Aims}
-\section{Objectives}
-\section{Project Description}
+The axioms of ZFC accurately characterise the notion of set, and assert the existence of sets that can be constructed via the rules of inference of first order logic. When viewed on a low-level, these sets are just collections of other sets, but with the correct definitions, one can define high-level mathematical objects such as ordered pairs $(x,y)$. The introduction of an ordered pair is extremely important, since from it we can define relations and functions, and describe properties such as \emph{transitivity} for relations, or \emph{injectivity} for functions. The importance of the  introduction of concepts such as relations and functions play an extremely important role in formalizing mathematics.
+
+In education, set theory is often introduced to students at an undergraduate level, mainly to mathematics students as a tool to - as mentioned above - define concepts in areas such as analysis and algebra. Set theory is often also introduced to undergraduate computer science students, as an insight into the foundations of the subject. In these cases, set theory is rarely taught in an axiomatic way, and rather in a more intuitive, user friendly manner. The reason for this is that in ZFC, \emph{everything} is a set. For example, the natural number $1$ is a non-empty set, thus there exists some $x$ such that $x\in 1$. Trying to teach in this way would almost definitely lead to immediate confusion amongst the class. A more practical, intuitive approach is often employed, where we consider natural numbers, and ordered pairs to be primitive objects. In set theory, such non-set objects are known as \emph{urelements}, and are sometimes called atoms. Urelements do play a role in many other set theories, such as KPU (Kripke-Platek with Urelements), and ZFA (Zermelo-Fraenkel with Atoms).
+
+\subsection{Aims}
+We aim to formalize an alternative set theory, to a specification that is useful in an educational context. Such a theory will involve the distinction of sets and ordered pairs, and the primitivity of the natural numbers. The theory must remain consistent, and also be sufficiently powerful in order to express the high-level matehmatical concepts taught in undergraduate mathematics and computer science courses.
+
+\subsection{Objectives}
+To do this, we must first solidify a specification of how such a system would work, by analysis of the rules and mechanics that we deem to be practical and intuitive to students. Then, by employing methods from Model Theory, we rigorously define the syntax and semantics of our system, by showing that it has an interpretation in ZFC.
+
+\subsection{Project Description}
 
 
-\chapter{Literature Review}
+\section{Background \& Literature Review}
+
+This section will review some of the main concepts that will be involved in the project, with respect to the literature mentioning them.
 
 % - How relevant is the literature that is covered?
 % • Is there missing material?
 % • Is it well structured?
 % • Are good quality sources used and properly cited?
 % • How strong are the comparative and critical aspects?
-% • Is the literature review of an appropriate length?
+% • Is the literature review of an appropriate length
+\subsection{Alternative Theories}
+A comprehensive review of alternative axiomatic set theories is given in \cite{ast}. As with ZFC, most of these theories are for theoretical work rather than for practical use. Homles proposes Pocket Set Theory as an alternative foundation for mathematics in \cite{pocket}, with the main difference with respect to other theories being that the only cardinals in his theory are $\aleph_0$ and $c$.
 
+A practical, intuitive approach to a mathematical foundation is Chiron, given in \cite{chiron}. Chiron is a derivative of Von-Neumann-G\"odel-Bernays (NGB) set theory, and is intended to be a logic for mechanizing mathematics. The paper notes that ZFC, NGB and other such systems are intended to be theoretical tools, which are incredibly expressively theoretically, but not practically.
 
-\chapter{Research Questions}
+\subsection{Urelements}
+Zermelo's original axiomatisation did allow the existence of urelements \cite{zermelo}, later however, Fraenkel specifically mentioned the unnessecity of them, and this was realised by mainstream set theory.
+
+A short section in \cite{ast} mentions the role of urelements in Zermelo's original theory. It is shown that theories such as ZFA and NFU can be obtained by simply weakening the axiom of extensionality, by restricting the objects in question to sets. Once a predicate for an object being a set is defined, the existence of urelements can follow. It is also mentioned that in NFU, Quine claimed that the choice of strong or weak extensionality is just down to preference, since urelements can be represented as singleton-sets, and the membership relation can be redefined accordingly to allow urelements be included in the domain of discourse in the axiom of extensionality. However, this cannot be done in NFU since the singleton operation is unstratified.
+
+Barwise \cite{barwise} gives a strong argument for the use of urelements in set theory and why ZFC is ``too strong", claiming that large parts of mathematical practice are distorted by the demand that all objects be realized as sets, as opposed to being isomorphic to sets. He also notes, as above, that in the work of Zermelo, urelements were an integral part of the subject.
+
+In the appendix of \cite{barwise}, Barwise also shows us how to formally interpret one set theory with urelements, KPU, in terms of another, KP. He does this by defining predicates in KP for indentifying urelements and sets, by ``tagging" objects with natural numbers in ordered pairs. %More on this?
+Then by giving appropriate definitions to membership, Barwise shows that every axiom of KPU is a theorem of KP. A similar method is given in \cite{lowe}, for interpreting ZFU in ZF.
+\section{Research Questions}
 
 % • Are the requirements/hypothesis/research questions clearly expressed, testable, and achievable?
 % • Are the requirements of an appropriate length?
 
-\chapter{Testing and Evalutation Strategy}
+\section{Testing and Evalutation Strategy}
 
 % • Is a suitable evaluation planned?
 % • Is a sound/rigorous methodology being proposed?
 
-\chapter{Project Plan}
+\section{Project Plan}
 
 % • Is a realistic project plan and timetable proposed?
 % • Has a risk analysis been performed and sensible mitigation plans proposed?
 % • Is there a safe core to the project, with scope for more challenging activities?
 % • Does the student show a good understanding of the PLES issues relevant to the project and discussed these?
+
+\begin{thebibliography}{9}
+\bibitem{zermelo}
+Akihiro Kanamori.
+\textit{Zermelo and Set Theory.}
+The Bulletin of Symbolic Logic, Vol. 10, No. 4, 2004
+
+\bibitem{ast}
+M. Randall Holmes, Thomas Forster, and Thierry Libert.
+\textit{Alternative Set Theories.}
+Handbook of the History of Logic: Sets and Extensions in the Twentieth Century, 2012.
+
+\bibitem{barwise}
+Jon Barwise.
+\textit{Admissible Sets and Structures.}
+Springer, 1975
+
+\bibitem{lowe}
+Benedikt L\"owe
+\textit{Set Theory with and without Urelements and Categories of Interpretations}
+
+\bibitem{pocket}
+M. Randall Holmes.
+\textit{Pocket Set Theory: a modest proposal.}
+
+
+\bibitem{chiron}
+William M. Farmer.
+\textit{Chiron: A Set Theory with Types,
+Undefinedness, Quotation, and Evaluation.}
+McMaster University, 2009
+
+\end{thebibliography}
+
+
+
 
 \end{document}
