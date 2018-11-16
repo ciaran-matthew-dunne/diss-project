@@ -1,15 +1,52 @@
 \documentclass[12pt]{article}
 \usepackage{verbatim}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath, amsthm, amssymb, amsfonts}
-\title{Toward a Foundation of Mathematics More Suitable for Education}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\title{}
 \author{Ciarán Dunne}
 
 \begin{document}
 
-\begin{minipage}[h]{0.9\textwidth}
-\maketitle
+\begin{titlepage}
+   \begin{center}
+       \vspace*{1cm}
+
+       \Large
+       \textbf{Toward a Foundation of Mathematics More Suitable for Education}
+
+       \vspace{0.5cm}
+       \large
+        Dissertation First Deliverable
+
+       \vspace{1.5cm}
+
+       \textbf{Ciarán Dunne}\\
+       Supervised by: J.B Wells
+       \vfill
+
+       Submitted for the Honours Degree of \\
+       Bachelor of Science (Mathematics and Computer Science)
+
+       \vspace{0.8cm}
+
+       School of Mathematics and Computer Science\\
+       Heriot-Watt University\\
+       Edinburgh, United Kingdom\\
+   \end{center}
+\end{titlepage}
+
+\begin{minipage}[c]{0.9\textwidth}
 \begin{abstract}
-Set theory as a foundation of mathematics has been studied intensely in the past century. Zermelo-Frankel with Choice (ZFC) set theory is widely accepted as a mathematical foundation, and is built parsimoniously to formalize a single notion of a set, such that every mathematical object can be constructed as a set. However, when learning introductory university courses in theoretical computer science and set theory, then notion of set, natural numbers, and ordered pairs are usually introduced as primitive concepts. We seek to give this intuition a formalisation, by constructing a model according to this specification, which can interpreted in ZFC and also characterized by a list of axioms. We look at the use of \emph{urelements} to model objects which we consider to be distinct from sets, and we also consider ways of dealing with undefinedness that can result from erroneous expressions. This paper will outline the construction of this model, its advantages and disadvantages in a mathematical and set theoretical context, and also in an educational context.
+\noindent
+Set theory as a foundation of mathematics has been studied intensely in the past century, with Zermelo-Frankel set theory with Choice (ZFC) widely accepted as a mathematical foundation.
+ZFC and other theories are built parsimoniously in axiomatic systems with high generality, so that every mathematical object can be constructed as a set, preserving its truth and structure.
+However, when learning introductory university courses in theoretical computer science and set theory, then notion of set, natural numbers, and ordered pairs are usually introduced as primitive concepts.
+We seek to give this intuition a formalisation, by constructing a model according to this specification, which can interpreted in ZFC and also characterized by axioms.
+We look at the use of \emph{urelements} to model objects which we consider to be distinct from sets, and we also consider ways of dealing with exceptions that can result from erroneous expressions.
 \end{abstract}
 \end{minipage}
 \clearpage
@@ -17,25 +54,45 @@ Set theory as a foundation of mathematics has been studied intensely in the past
 \section{Introduction}
 % Abstract, Aims, Objectives, Project Description
 % Are these clearly expressed, testable, and achievable?
-From Euclid to Hilbert, mathematicians and philosophers have been interested in finding logical foundations for various areas of mathematics. In the early 20th century, due to concerns of paradoxes and logical gaps, mathematicians were drawn to logical systems to ground their work in. Set theory played a pivotal role in this foundational crsis. Set theory is a branch of mathematics that studies sets, which can informally be described as collections of objects, for instance, the set of all natural numbers, denoted $\mathbb{N}$. Set theory proves itself to be incredibly useful in almost every area of mathematics, since it acts as a powerful language to express concepts in these fields.
-The theory's original formulation - now known as na\"ive set theory - given by Gerog Cantor and Richard Dedekind in the late 19th century, was made in an attempt to confront questions regarding infinity. However, due to paradoxes discovered in na\"ive set theory, most notably Russell's paradox (the set of all sets that contain themselves), mathematicians started to question the correctness of their work. From this, axiomatic systems were proposed to ground set theory, and thus all mathematics relying on it, with the now most widely accepted being Zermelo-Fraenkel with Choice (hereinafter ZFC) due to its expressive power.
+For the past century, mathematicians and philosophers have been interested in finding logical foundations for various areas of mathematics. Various systems have been proposed, but set theory has played the biggest role in this search for rigor.
+Set theory is a branch of mathematics that studies sets, which can informally be described as collections of objects, for instance, the set of all natural numbers, denoted $\mathbb{N}$.
+Set theory proves itself to be incredibly useful in almost every area of mathematics, since it acts as a powerful language to express concepts in these fields.
+The theory's original formulation - now known as na\"ive set theory - given by Georg Cantor in the late 19th century, was defined informally, using natural language to describe sets and their operations.
+However, due to paradoxes discovered in na\"ive set theory, most notably Russell's paradox (the set of all sets that contain themselves), mathematicians now not only questioned the correctness of their work, but also the limitations of formalism.
+From this, axiomatic systems were proposed to ground set theory, and thus all mathematics relying on it, with the now most widely accepted being Zermelo-Fraenkel with Choice (hereinafter ZFC).
 
-The axioms of ZFC accurately characterise the notion of set, and assert the existence of sets that can be constructed via the rules of inference of first order logic. When viewed on a low-level, these sets are just collections of other sets, but with the correct definitions, one can define high-level mathematical objects such as ordered pairs $(x,y)$. The introduction of an ordered pair is extremely important, since from it we can define relations and functions, and describe properties such as \emph{transitivity} for relations, or \emph{injectivity} for functions. The importance of the  introduction of concepts such as relations and functions play an extremely important role in formalizing mathematics.
+The axioms of ZFC attempt to characterise the notion of set, and the rules that they play by, allowing us to formally prove the existence of sets possessing certain properties.
+% I wanted to say "assert the existence of a universe of sets", but this is misleading since such a universe cannot exists AS A SET in ZFC.
+When viewed on a low-level, these sets are just collections of other sets, but with the correct definitions, one can define high-level mathematical objects such as ordered pairs $(x,y)$.
+The introduction of an ordered pair is extremely important, since from it we can define relations and functions, and describe properties such as \emph{transitivity} for relations, or \emph{injectivity} for functions.
+The introduction of concepts such as relations and functions play an extremely important role in formalizing mathematics.
 
-In education, set theory is often introduced to students at an undergraduate level, mainly to mathematics students as a tool to - as mentioned above - define concepts in areas such as analysis and algebra. Set theory is often also introduced to undergraduate computer science students, as an insight into the foundations of the subject. In these cases, set theory is rarely taught in an axiomatic way, and rather in a more intuitive, user friendly manner. The reason for this is that in ZFC, \emph{everything} is a set. For example, the natural number $1$ is a non-empty set, thus there exists some $x$ such that $x\in 1$. Trying to teach in this way would almost definitely lead to immediate confusion amongst the class. A more practical, intuitive approach is often employed, where we consider natural numbers, and ordered pairs to be primitive objects. In set theory, such non-set objects are known as \emph{urelements}, and are sometimes called atoms. Urelements do play a role in many other set theories, such as KPU (Kripke-Platek with Urelements), and ZFA (Zermelo-Fraenkel with Atoms).
+In education, set theory is often introduced to students at an undergraduate level, mainly to mathematics students as a tool to - as mentioned above - define concepts in areas such as analysis and algebra.
+Set theory is often also introduced to undergraduate computer science students, as an insight into the foundations of the subject.
+In these cases, set theory is rarely taught in an axiomatic way, but instead, a more practical, intuitive approach is often employed, where we consider natural numbers, and ordered pairs to be primitive objects.
+One reason for this approach is that in ZFC, \emph{everything} is a set, with all sets contained in the \emph{cumulative heirarchy} of sets.
+This is called \emph{pure set theory}.
+For example - when using the Von Neumann definition of the ordinals - the natural number $1$ is a non-empty set, thus there exists some $x$ such that $x\in 1$.
+Trying to teach in this way would almost definitely lead to immediate confusion amongst the class.
+This method allows teachers to gloss over such extraneous details, and focus on the applications of set theory in the field in question.
+In the vocabulary of set theory, such non-set objects are known as \emph{urelements} (from the German prefix \emph{ur}, meaning primordial), and are sometimes called atoms.
+Urelements do play a role in many other set theories, such as KPU (Kripke-Platek with Urelements), and ZFA (Zermelo-Fraenkel with Atoms).
 
 \subsection{Aims}
-We aim to formalize an alternative set theory, to a specification that is useful in an educational context. Such a theory will involve the distinction of sets and ordered pairs, and the primitivity of the natural numbers. The theory must remain consistent, and also be sufficiently powerful in order to express the high-level matehmatical concepts taught in undergraduate mathematics and computer science courses.
-
+We aim to formalize an alternative set theory, to a specification that is useful in an educational context.
+Such a theory will involve the distinction of sets and ordered pairs, and the primitivity of the natural numbers.
+The theory must be consistent with standard results in mathematics, in that things are true in ZFC, are also true in our new theory.
+The theory must also have sufficient expressive power in order to express the high-level mathematical concepts taught in undergraduate mathematics and computer science courses.
+If these aims cannot be met, due to some unforseen mathematical roadblock, it will then be our aim to understand the limitations at hand.
 \subsection{Objectives}
-To do this, we must first solidify a specification of how such a system would work, by analysis of the rules and mechanics that we deem to be practical and intuitive to students. Then, by employing methods from Model Theory, we rigorously define the syntax and semantics of our system, by showing that it has an interpretation in ZFC.
+To do this, we must first solidify an informal specification of how such a system would work, by analysis of the rules and mechanics that we deem to be practical and intuitive to students.
+Then, by employing methods from Model Theory, we rigorously define the syntax and semantics of our system, by showing that it has an interpretation in ZFC.
 
 \subsection{Project Description}
 
 
 \section{Background \& Literature Review}
-
-This section will review some of the main concepts that will be involved in the project, with respect to the literature mentioning them.
+This section will review some of the main concepts that will be involved in the project, with references to literature involving them.
 
 % - How relevant is the literature that is covered?
 % • Is there missing material?
@@ -43,11 +100,87 @@ This section will review some of the main concepts that will be involved in the 
 % • Are good quality sources used and properly cited?
 % • How strong are the comparative and critical aspects?
 % • Is the literature review of an appropriate length
+\subsection{Propositional and First-order Logic}
+Propositional logic deals with statements that are true or false, and serves as a basis for logical reasoning. Propositional logic only deals with statements made from atomic propositions, and logical connectives combining them. The logical connectives are as follows:
+$$\neg, \wedge, \vee,\implies,\iff$$
+Their meanings, respectively, are `and', `or', `implies', and `if and only if'.
+%Feels like I have more to say, but can't think of what to put??
+\noindent
+First-order logic extends this by allowing universal and existential \emph{quantification}, which allow us to make statements beginning with ``for all\ldots ($\forall$)" and ``there exists\ldots ($\exists$)". We also have \emph{predicates}, such as
+$$P(x) : x \text{ is prime}$$
+$$ x > y : x \text{ is greater than } y$$
+\noindent
+The alphabet of first-order logic consists of logical symbols and non-logical symbols.
+The logical symbols consist of the connectives shown above, along with the quantifiers, as well as parentheses, an infinite set of variables $x_0, x_1, x_2,\ldots$, and an equality symbol.
+The non-logical symbols are those that represent the predicates, functions, and constants that allow us to form a language for talking about mathematical objects.
+
+A formal description of non-logical symbols is
+given by a \emph{signature}. A signature is a triple $(F,R,\alpha)$, where:
+\begin{itemize}
+\item $F$ is a set of function symbols, those that represent operations that convert objects into new ones, such as $+$ or $\sqrt{x}$.
+\item $R$ is a set of predicate symbols, those that represent relationships between objects, such as $>$ or $P$ as shown above.
+\item $\alpha$ is a function which assigns \emph{arities} to each of the function and predicate symbols.
+For example $\alpha(+) = 2$. Function symbols with arity $0$ are often called \emph{constants}, and are used to denote specific objects in the domain in question.
+\end{itemize}
+A standard example is the signature for fields, where $+,*$ are the symbols for addition and multiplication, and $0,1$ are the constants for the , and $>,<$ are the less than, greater than relationship symbols:
+$$\sigma_{\mathcal{N}} = \big(\{+, *, S, 0\},\{>,<\},\{(+, 2), (*, 2), (S,1), (0,0), (<,2),(>,2)\}\big)$$
+It should be noted however, that these are just the symbols for the language, a signature does not contain any information about the symbols, other than their arities.
+
+Using a signature and the standard logical symbols of first-order logic, we can create a \emph{first-order language}, often denoted $\mathcal{L}_\sigma$, for some signature $\sigma$.
+The \emph{terms} of a language are the variables or constants, or the result of application of a function symbol to a term.
+
+The \emph{formulas} of a language are defined by the follow rules:
+\begin{itemize}
+  \item Let $P$ be an $n$-ary predicate symbol, and $t_1,\ldots,t_n$ be terms, then $P(t_1,\ldots,t_n)$ is a formula.
+  \item Let $t_1$ and $t_2$ be terms, then the equality $t_1 = t_2$ is a formula.
+  \item Let $\varphi$ be a formula, then the negation $\neg\varphi$ is also a formula.
+  \item Let $\varphi$ and $\psi$ be formulas, then all of the following are formulas: $\varphi\wedge\psi$, $\varphi\vee\psi$, $\varphi\implies\psi$, $\varphi\iff\psi$.
+  \item Let $\varphi$ be a formula, and $x$ be a variable, then $\forall x:\varphi$ and $\exists x:\varphi$ are formulas.
+\end{itemize}
+An occurence of a variable contained in a formula is said to be \emph{bound} if it is being quantified by either $\forall$, or $\exists$.
+Otherwise the variable is said to be \emph{free}. For example, in the formula $(\forall x: x+y=0)$, $x$ is bound, and $y$ is free.
+
+A \emph{sentence} is a formula with no free variable occurences.
+Since in sentences, all variables must be quantified, sentences can always have well-defined truth values, depending on the meaning of the function and predicate symbols.\\
+
+Continuing with the example of natural arithmetic, we can define a structure $(\mathbb{N}, )$
+
+\noindent
+We can use first-order languages to talk about the properties of mathematical systems.
+For example, we can use formula in the language of natural arithmetic, $L_\mathcal{N}$, to define the properties such as divisibility:
+$$x\mid y \equiv_{def} \exists z: z*x = y$$
+$$\text{``There exists $z$, such that $z*x = y$"}$$
+and also the property of a number being prime:
+$$\text{Prime}(p) \equiv_{def} \neg\exists x: (x>1)\wedge(x\mid p)$$
+$$\text{``There does not exist $x$, such that $x$ is greater than $1$, and $x$ divides $p$"}$$
+Using these formula, we can then also form setences about natural arithmetic, such as Euclid's theorem, stating that there an infinite amount of prime numbers:
+$$\forall x \exists p: (p>x)\wedge\text{Prime}(p)$$
+
+\subsection{Model Theory}
+First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions \cite{stanmodel}.
+We will show how to give meaning to formula in a first-order language, by specifying a set of objects that the variables range over, and assigning actual functions and relations to the symbols in the signature.\\
+
+\noindent
+A \emph{structure} $\mathcal{A}$ is a triple $(A, \sigma,\mathcal{I})$ where:
+\begin{itemize}
+  \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$.
+  \item $\sigma$ is a sigature.
+  \item $\mathcal I$ is a function that assigns set-theoretic functions and relations to the function and relation symbols in $\sigma$. Constants are assigned an element in $|\mathcal{A}|$.
+\end{itemize}
+
+\subsection{Zermelo-Fraenkel Set Theory}
+As discussed above, ZFC is widely accepted as a standard foundation for mathematics. There are two important thing to note from this statement: that every mathematical object can be viewed as a set, and that every theorem of mathematics can be proven from the axioms of ZFC using first order logic.
+
 \subsection{Alternative Theories}
-A comprehensive review of alternative axiomatic set theories is given in \cite{ast}. As with ZFC, most of these theories are for theoretical work rather than for practical use. Homles proposes Pocket Set Theory as an alternative foundation for mathematics in \cite{pocket}, with the main difference with respect to other theories being that the only cardinals in his theory are $\aleph_0$ and $c$.
+A comprehensive review of alternative axiomatic set theories is outlined by Holmes, Forster and Libert \cite{ast}.
+As with ZFC, most of these theories are for theoretical work rather than for practical use, or use in education.
 
-A practical, intuitive approach to a mathematical foundation is Chiron, given in \cite{chiron}. Chiron is a derivative of Von-Neumann-G\"odel-Bernays (NGB) set theory, and is intended to be a logic for mechanizing mathematics. The paper notes that ZFC, NGB and other such systems are intended to be theoretical tools, which are incredibly expressively theoretically, but not practically.
+Holmes proposes Pocket Set Theory \cite{pocket} as an alternative foundation for mathematics, with the main difference with respect to other theories being that the only infinite cardinals in his theory are $\aleph_0$ and $c$.
+Holmes claims that these are the only two infinities which occur naturally outside of set theory, and that in ZFC and other theories, far more superstructure is produced than needed to support classical mathematics.
 
+Another approach to an alternative to ZFC as a mathematical foundation is Chiron, given by Farmer \cite{chiron}. Chiron is a derivative of Von-Neumann-G\"odel-Bernays (NGB) set theory, and is intended to be a logic for mechanizing mathematics. The paper notes that ZFC, NGB and other such systems are intended to be theoretical tools, which are incredibly expressively theoretically, but not practically.
+
+These are two concrete examples of alternative theories being created for some manifesto.
 \subsection{Urelements}
 Zermelo's original axiomatisation did allow the existence of urelements \cite{zermelo}, later however, Fraenkel specifically mentioned the unnessecity of them, and this was realised by mainstream set theory.
 
@@ -57,24 +190,32 @@ Barwise \cite{barwise} gives a strong argument for the use of urelements in set 
 
 In the appendix of \cite{barwise}, Barwise also shows us how to formally interpret one set theory with urelements, KPU, in terms of another, KP. He does this by defining predicates in KP for indentifying urelements and sets, by ``tagging" objects with natural numbers in ordered pairs. %More on this?
 Then by giving appropriate definitions to membership, Barwise shows that every axiom of KPU is a theorem of KP. A similar method is given in \cite{lowe}, for interpreting ZFU in ZF.
+
 \section{Research Questions}
 
 % • Are the requirements/hypothesis/research questions clearly expressed, testable, and achievable?
 % • Are the requirements of an appropriate length?
 
 \section{Testing and Evalutation Strategy}
-
 % • Is a suitable evaluation planned?
 % • Is a sound/rigorous methodology being proposed?
 
 \section{Project Plan}
+Model building
+Axiom list
+Definite descriptions
+Abbreviation mechanism using definite
+Lots of examples
 
 % • Is a realistic project plan and timetable proposed?
 % • Has a risk analysis been performed and sensible mitigation plans proposed?
 % • Is there a safe core to the project, with scope for more challenging activities?
 % • Does the student show a good understanding of the PLES issues relevant to the project and discussed these?
-
 \begin{thebibliography}{9}
+\bibitem{stanmodel}
+Hodges, Wilfrid and Scanlon, Thomas.
+\textit{First-order Model Theory", The Stanford} Encyclopedia of Philosophy (Spring 2018 Edition)
+
 \bibitem{zermelo}
 Akihiro Kanamori.
 \textit{Zermelo and Set Theory.}
@@ -97,7 +238,6 @@ Benedikt L\"owe
 \bibitem{pocket}
 M. Randall Holmes.
 \textit{Pocket Set Theory: a modest proposal.}
-
 
 \bibitem{chiron}
 William M. Farmer.
