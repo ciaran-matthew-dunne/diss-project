@@ -122,11 +122,20 @@ given by a \emph{signature}. A signature is a triple $(F,R,\alpha)$, where:
 \item $\alpha$ is a function which assigns \emph{arities} to each of the function and predicate symbols.
 For example $\alpha(+) = 2$. Function symbols with arity $0$ are often called \emph{constants}, and are used to denote specific objects in the domain in question.
 \end{itemize}
-A standard example is the signature for fields, where $+,*$ are the symbols for addition and multiplication, and $0,1$ are the constants for the , and $>,<$ are the less than, greater than relationship symbols:
-$$\sigma_{\mathcal{N}} = \big(\{+, *, S, 0\},\{>,<\},\{(+, 2), (*, 2), (S,1), (0,0), (<,2),(>,2)\}\big)$$
-It should be noted however, that these are just the symbols for the language, a signature does not contain any information about the symbols, other than their arities.
+A standard example is the signature for groups.
+A group is a algebraic structure consisting of a set of objects and a binary operation.
+The notion of a group is a general one, so it is important also for our language for them to be general.
+Groups always have an identity element in its set of objects, for instance, in the group of integers under addition, denoted $(\mathbb{Z}, +)$, $0$ is the identity element since $n + 0 = n$ for all integers $n\in\mathbb{Z}$.
+Groups also always have inverses for each element, for example, we know that for each $n\in\mathbb{Z}$, there exists a unique inverse, denoted $-n$, such that $n + (-n) = 0$.
 
-Using a signature and the standard logical symbols of first-order logic, we can create a \emph{first-order language}, often denoted $\mathcal{L}_\sigma$, for some signature $\sigma$.
+So in the signature for groups, we only have function symbols, $*$ for the binary operation, $^{-1}$ for the inverse operator, $e$ as a constant for the identity element.
+$$\sigma_{\text{grp}} = \big(\{*,^{-1}, e\},\emptyset,\{(*, 2), (^{-1}, 1),(e,0)\}\big)$$
+The signature for ZFC - and most other set theories - has no function symbols, and a single binary predicate symbol for set membership.
+$$\sigma_{\text{ZFC}} = \big(\emptyset,\{\in\},\{(\in, 2)\})$$
+It should be noted however, that these are just the symbols for a language, the signature does not contain any information about the properties of groups.
+
+Using a signature $\sigma$ and the standard logical symbols of first-order logic, we can create a \emph{first-order language}, often denoted $\mathcal{L}_\sigma$.
+
 The \emph{terms} of a language are the variables or constants, or the result of application of a function symbol to a term.
 
 The \emph{formulas} of a language are defined by the follow rules:
@@ -143,18 +152,11 @@ Otherwise the variable is said to be \emph{free}. For example, in the formula $(
 A \emph{sentence} is a formula with no free variable occurences.
 Since in sentences, all variables must be quantified, sentences can always have well-defined truth values, depending on the meaning of the function and predicate symbols.\\
 
-Continuing with the example of natural arithmetic, we can define a structure $(\mathbb{N}, )$
-
-\noindent
 We can use first-order languages to talk about the properties of mathematical systems.
-For example, we can use formula in the language of natural arithmetic, $L_\mathcal{N}$, to define the properties such as divisibility:
-$$x\mid y \equiv_{def} \exists z: z*x = y$$
-$$\text{``There exists $z$, such that $z*x = y$"}$$
-and also the property of a number being prime:
-$$\text{Prime}(p) \equiv_{def} \neg\exists x: (x>1)\wedge(x\mid p)$$
-$$\text{``There does not exist $x$, such that $x$ is greater than $1$, and $x$ divides $p$"}$$
-Using these formula, we can then also form setences about natural arithmetic, such as Euclid's theorem, stating that there an infinite amount of prime numbers:
-$$\forall x \exists p: (p>x)\wedge\text{Prime}(p)$$
+Continuing with our earlier examples of the signatures for groups and ZFC, we can use the language of groups $\mathcal{L}_{\sigma_{\text{grp}}}$ to state the property of associativity:
+$$\forall x,y,z: x*(y*z) = (x*y)*z$$
+and we can use the language of set theory $\mathcal{L}_{\sigma_{\text{ZFC}}}$ to state the property of extensionality, which says that two sets are equal if and only if they contain the same elements:
+$$\forall A,B (\forall x (x\in A \iff x\in B) \iff A = B)$$
 
 \subsection{Model Theory}
 First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions \cite{stanmodel}.
@@ -165,9 +167,11 @@ A \emph{structure} $\mathcal{A}$ is a triple $(A, \sigma,\mathcal{I})$ where:
 \begin{itemize}
   \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$.
   \item $\sigma$ is a sigature.
-  \item $\mathcal I$ is a function that assigns set-theoretic functions and relations to the function and relation symbols in $\sigma$. Constants are assigned an element in $|\mathcal{A}|$.
+  \item $\mathcal I$ is a function that assigns actual functions and relations to the function and relation symbols in $\sigma$. Constants are assigned an element in $|\mathcal{A}|$.
 \end{itemize}
-
+Using this definition, we can now formally define the group of integers as a structure with the $\sigma_{\text{grp}}$ signature:
+$$\mathcal{Z} = (\mathbb{Z}, \sigma_{\text{grp}}, \mathcal{I})$$
+$$\text{ where \hspace{1mm}} \mathcal{I}(*) = +,\hspace{1mm} \mathcal{I}(^{-1}) = -, \text{ and } \mathcal{I}(e) = 0.$$
 \subsection{Zermelo-Fraenkel Set Theory}
 As discussed above, ZFC is widely accepted as a standard foundation for mathematics. There are two important thing to note from this statement: that every mathematical object can be viewed as a set, and that every theorem of mathematics can be proven from the axioms of ZFC using first order logic.
 
