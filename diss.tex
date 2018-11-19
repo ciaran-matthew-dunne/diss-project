@@ -84,15 +84,16 @@ Such a theory will involve the distinction of sets and ordered pairs, and the pr
 The theory must be consistent with standard results in mathematics, in that things are true in ZFC, are also true in our new theory.
 The theory must also have sufficient expressive power in order to express the high-level mathematical concepts taught in undergraduate mathematics and computer science courses.
 If these aims cannot be met, due to some unforseen mathematical roadblock, it will then be our aim to understand the limitations at hand.
+
 \subsection{Objectives}
-To do this, we must first solidify an informal specification of how such a system would work, by analysis of the rules and mechanics that we deem to be practical and intuitive to students.
+To achieve the aims specified above, we must first solidify an informal specification of how such a system would work, by analysis of the rules and mechanics that we deem to be practical and intuitive to students.
 Then, by employing methods from Model Theory, we rigorously define the syntax and semantics of our system, by showing that it has an interpretation in ZFC.
 
 \subsection{Project Description}
-
+In conclusion, this project is an investigation into how we can formalise the way that set theory is taught in undergraduate mathematics and computer science courses.
 
 \section{Background \& Literature Review}
-This section will review some of the main concepts that will be involved in the project, with references to literature involving them.
+This section will review some of the main concepts that will be involved in the project, in reference to literature involving them.
 
 % - How relevant is the literature that is covered?
 % • Is there missing material?
@@ -114,6 +115,7 @@ The alphabet of first-order logic consists of logical symbols and non-logical sy
 The logical symbols consist of the connectives shown above, along with the quantifiers, as well as parentheses, an infinite set of variables $x_0, x_1, x_2,\ldots$, and an equality symbol.
 The non-logical symbols are those that represent the predicates, functions, and constants that allow us to form a language for talking about mathematical objects.
 
+\subsubsection{Signatures}
 A formal description of non-logical symbols is
 given by a \emph{signature}. A signature is a triple $(F,R,\alpha)$, where:
 \begin{itemize}
@@ -134,6 +136,7 @@ The signature for ZFC - and most other set theories - has no function symbols, a
 $$\sigma_{\text{ZFC}} = \big(\emptyset,\{\in\},\{(\in, 2)\})$$
 It should be noted however, that these are just the symbols for a language, the signature does not contain any information about the properties of groups.
 
+\subsubsection{First-Order Languages}
 Using a signature $\sigma$ and the standard logical symbols of first-order logic, we can create a \emph{first-order language}, often denoted $\mathcal{L}_\sigma$.
 
 The \emph{terms} of a language are the variables or constants, or the result of application of a function symbol to a term.
@@ -152,6 +155,7 @@ Otherwise the variable is said to be \emph{free}. For example, in the formula $(
 A \emph{sentence} is a formula with no free variable occurences.
 Since in sentences, all variables must be quantified, sentences can always have well-defined truth values, depending on the meaning of the function and predicate symbols.\\
 
+\noindent
 We can use first-order languages to talk about the properties of mathematical systems.
 Continuing with our earlier examples of the signatures for groups and ZFC, we can use the language of groups $\mathcal{L}_{\sigma_{\text{grp}}}$ to state the property of associativity:
 $$\forall x,y,z: x*(y*z) = (x*y)*z$$
@@ -160,21 +164,44 @@ $$\forall A,B (\forall x (x\in A \iff x\in B) \iff A = B)$$
 
 \subsection{Model Theory}
 First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions \cite{stanmodel}.
-We will show how to give meaning to formula in a first-order language, by specifying a set of objects that the variables range over, and assigning actual functions and relations to the symbols in the signature.\\
+Meaning is given to formula in a first-order language by assigning functions and relations to the symbols in the signature of the language, and by specifying a set that acts as the domain for the variables of the language to range over.
 
+\subsubsection{Structures}8
 \noindent
 A \emph{structure} $\mathcal{A}$ is a triple $(A, \sigma,\mathcal{I})$ where:
 \begin{itemize}
   \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$.
   \item $\sigma$ is a sigature.
-  \item $\mathcal I$ is a function that assigns actual functions and relations to the function and relation symbols in $\sigma$. Constants are assigned an element in $|\mathcal{A}|$.
+  \item $\mathcal I$ is the interpreation function that assigns actual functions and relations to the function and relation symbols in $\sigma$. Each constants symbol is  assigned an element in $|\mathcal{A}|$.
 \end{itemize}
 Using this definition, we can now formally define the group of integers as a structure with the $\sigma_{\text{grp}}$ signature:
 $$\mathcal{Z} = (\mathbb{Z}, \sigma_{\text{grp}}, \mathcal{I})$$
 $$\text{ where \hspace{1mm}} \mathcal{I}(*) = +,\hspace{1mm} \mathcal{I}(^{-1}) = -, \text{ and } \mathcal{I}(e) = 0.$$
-\subsection{Zermelo-Fraenkel Set Theory}
-As discussed above, ZFC is widely accepted as a standard foundation for mathematics. There are two important thing to note from this statement: that every mathematical object can be viewed as a set, and that every theorem of mathematics can be proven from the axioms of ZFC using first order logic.
+\subsubsection{Satisfiability of Formula}
+We can determine which sentences of the language $\mathcal{L_\sigma}$ are true under the interpretation and domain of a structure $\mathcal{M}$ by inductively evalutating the truth values of formula using Tarski's so-called ``T-Schema"\cite{tarski}.
+A \emph{variable assignment} on a structure $\mathcal{A}$ is a function $\mu: \textbf{Var} \rightarrow |\mathcal{A}|$ that assigns each variable an element in the domain of the struture.
+We say that a formula $\psi$ is \emph{satisfiable} if there is a structure $\mathcal A$, and variable assignment $\mu$ in which $\psi$ is true, written as $\mathcal{A}, \mu \vDash \psi$.\\
 
+\noindent
+If $\psi$ has no free variables, then the variable assignment does not effect the truth evalutation, and we simply write $\mathcal{M} \vDash \psi$.
+In most sentences ``for all" and ``there exists" quantifiers are involved.
+So the sentence $\forall x: \psi(x)$ is true if and only if $\psi(x)$ is for all variable assignments of the variable $x$, and the sentence $\exists x: \psi(x)$ is true if and only if there exists a variable assignment of $x$ such that $\psi(x)$ is true.
+\subsubsection{First-Order Theories}
+A \emph{first-order theory} is a set of sentences in a language $\mathcal{L}_\sigma$.
+These sentences are called the \emph{axioms} of the theory, and any sentences that follow from the axioms via logical consequence are called the \emph{theorems} of the theory. We write $T\vdash \psi$ if a sentence $\psi$ is a theorem of the theory $T$.
+
+A structure $\mathcal M$ satisfies as theory $T$ when all of the sentences of $T$ are satisfied by $\mathcal{M}$, written $\mathcal{M} \vDash T$. If there is a structure that satisfies a theory, then the theory is called \emph{satisfiable}, moreover, the structure is called a \emph{model} for $T$.
+
+Theories can specified either by listing a set of axioms in a language, or by considering a structures in the signature of the language, and letting the theory be the smallest set of sentences satisfied in all structures.
+
+\subsection{Zermelo-Fraenkel Set Theory}
+As discussed above, ZFC is widely accepted as a standard foundation for mathematics.
+As mentioned above, the signature for ZFC consists of a single predicate symbol $\in$ for set membership.
+The theory $ZFC$ is a set of sentences in $\mathcal{L}_{\sigma_{\text{ZFC}}}$ that characterise the behaviour of the membership relation.
+Thus, the theorems of $ZFC$ tell us the properties of the sets can be constructed from the axioms and the rules of first-order logic.
+
+It is a known result, that due to G\"odel's completeness theorem, there cannot exist a model for $ZFC$, that is, a structure with signature $\sigma_{\text{ZFC}}$ that satisfies the theory $ZFC$.
+However, we can still talk about the intended model of $ZFC$ by considering the universe $V$ of all sets as the domain of the model, but this is too large to be actually be a set in ZFC.
 \subsection{Alternative Theories}
 A comprehensive review of alternative axiomatic set theories is outlined by Holmes, Forster and Libert \cite{ast}.
 As with ZFC, most of these theories are for theoretical work rather than for practical use, or use in education.
@@ -182,18 +209,27 @@ As with ZFC, most of these theories are for theoretical work rather than for pra
 Holmes proposes Pocket Set Theory \cite{pocket} as an alternative foundation for mathematics, with the main difference with respect to other theories being that the only infinite cardinals in his theory are $\aleph_0$ and $c$.
 Holmes claims that these are the only two infinities which occur naturally outside of set theory, and that in ZFC and other theories, far more superstructure is produced than needed to support classical mathematics.
 
-Another approach to an alternative to ZFC as a mathematical foundation is Chiron, given by Farmer \cite{chiron}. Chiron is a derivative of Von-Neumann-G\"odel-Bernays (NGB) set theory, and is intended to be a logic for mechanizing mathematics. The paper notes that ZFC, NGB and other such systems are intended to be theoretical tools, which are incredibly expressively theoretically, but not practically.
+Another approach to an alternative to ZFC as a mathematical foundation is Chiron, given by Farmer \cite{chiron}. Chiron is a derivative of Von-Neumann-G\"odel-Bernays (NGB) set theory, and is intended to be a logic for mechanizing mathematics. The paper notes that ZFC, NGB and other such systems are intended to be theoretical tools, which are incredibly expressively theoretically, but have some practical difficulties.
 
 These are two concrete examples of alternative theories being created for some manifesto.
+
 \subsection{Urelements}
-Zermelo's original axiomatisation did allow the existence of urelements \cite{zermelo}, later however, Fraenkel specifically mentioned the unnessecity of them, and this was realised by mainstream set theory.
+Zermelo's original axiomatisation did allow the existence of urelements \cite{zermelo}.
+Later however, Fraenkel specifically mentioned the unnessecity of them, and this was realised by mainstream set theory.
 
-A short section in \cite{ast} mentions the role of urelements in Zermelo's original theory. It is shown that theories such as ZFA and NFU can be obtained by simply weakening the axiom of extensionality, by restricting the objects in question to sets. Once a predicate for an object being a set is defined, the existence of urelements can follow. It is also mentioned that in NFU, Quine claimed that the choice of strong or weak extensionality is just down to preference, since urelements can be represented as singleton-sets, and the membership relation can be redefined accordingly to allow urelements be included in the domain of discourse in the axiom of extensionality. However, this cannot be done in NFU since the singleton operation is unstratified.
+Barwise \cite{barwise} gives a strong argument for the use of urelements in set theory and why ZFC is ``too strong", claiming that large parts of mathematical practice are distorted by the demand that all objects be realized as sets, as opposed to being isomorphic to sets.
+He also notes, as above, that in the work of Zermelo, urelements were an integral part of the subject.
 
-Barwise \cite{barwise} gives a strong argument for the use of urelements in set theory and why ZFC is ``too strong", claiming that large parts of mathematical practice are distorted by the demand that all objects be realized as sets, as opposed to being isomorphic to sets. He also notes, as above, that in the work of Zermelo, urelements were an integral part of the subject.
-
-In the appendix of \cite{barwise}, Barwise also shows us how to formally interpret one set theory with urelements, KPU, in terms of another, KP. He does this by defining predicates in KP for indentifying urelements and sets, by ``tagging" objects with natural numbers in ordered pairs. %More on this?
-Then by giving appropriate definitions to membership, Barwise shows that every axiom of KPU is a theorem of KP. A similar method is given in \cite{lowe}, for interpreting ZFU in ZF.
+In the appendix of \cite{barwise}, Barwise also shows us how to formally interpret one set theory with urelements, KPU, in terms of another, KP.
+He does this by defining predicates in KP for identifying urelements and sets as follows:
+$$U(x) \equiv_{def} \exists y: x = (0,y)$$
+$$\text{Set}(x) \equiv_{def} \exists y:(x = (1,y) \wedge (\forall z\in y: U(z) \vee \text{Set}(z))$$
+Since for each set in KP $x$, there will exist ordered pairs $(0,x)$ and $(1,x)$, so effectively, two copies of the universe are created, whose objects are distinct from each other.
+The second part of the conjunction of $\text{Set}(x)$ ensures that all elements of the set are of the same form of the paired universe.
+A new definition is then given for set membership in KPU:
+$$x\in_{KPU} y \equiv_{def} \exists y: (x=(1,y) \wedge z\in y)$$
+Barwise then shows that when we use this new definition, and range the variables of logical formula over all sets in KP such that $U(x)$ or $\text{Set}(x)$, every axiom of KPU is a theorem of KP. A similar method is given in \cite{lowe}, for interpreting ZFU in ZF.
+This method will be employed when creating the model for our new theory, but working axiomatically within ZFC rather than KP.
 
 \section{Research Questions}
 
@@ -218,7 +254,13 @@ Lots of examples
 \begin{thebibliography}{9}
 \bibitem{stanmodel}
 Hodges, Wilfrid and Scanlon, Thomas.
-\textit{First-order Model Theory", The Stanford} Encyclopedia of Philosophy (Spring 2018 Edition)
+\textit{First-order Model Theory}
+The Stanford Encyclopedia of Philosophy (Spring 2018 Edition)
+
+\bibitem{tarski}
+Hodges, Wilfrid.
+\textit{Tarski's Truth Definitions}
+The Stanford Encyclopedia of Philosophy (Fall 2018 Edition)
 
 \bibitem{zermelo}
 Akihiro Kanamori.
