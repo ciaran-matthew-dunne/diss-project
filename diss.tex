@@ -555,7 +555,7 @@ This axiom can remain unchanged, since the use of the membership relation implie
 We add an analogous axiom for creating ordered pairs, similarly with no need to assert that the quantified object is an ordered pair, because of the use of the projection relations.
 \begin{enumerate}[label=(\roman*)]
 \item $\forall a,b: (\exists x: \forall c:
-          c\in x \Rightarrow (c=a \vee c=b))$
+          c\in x \Leftrightarrow (c=a \vee c=b))$
 \item $\forall a,b: (\exists p: a\pleft p \wedge b\pright p)$
 \end{enumerate}
 
@@ -654,6 +654,14 @@ This model will consist of a domain of interpretation in which the objects of th
 When constructing this model, we will be working axiomatically in $\mathit{ZF}$, so really, we are looking for some collection of sets obtainable in $\mathit{ZF}$, and some definition of a new membership relation, and the projection relations, which satisfy the axioms of $\mathit{ZFP}$.
 This means that unless specified otherwise, the sets, and operations used in this construction, are that of $\mathit{ZF}$.
 In particular, when we refer to ordered pairs, we will use the notation $\pair{a}{b}$ to refer to the Kuratowski defined ordered pair $\{\{a\}, \{a,b\}\}$, to avoid confusion with the primitive pairs of $\mathit{ZFP}$, denoted $(a,b)$.
+
+The projection relations for the Kuratowski defined pairs $\pleft$ and $\pright$ are defined as:
+\begin{align*}
+a\pleft p &\eqdef (\forall x\in p: a\in x) \\
+b\pright p &\eqdef (\exists x\in p: b\in x) \wedge
+                (\forall x,y \in p: x\neq y \Rightarrow (b\notin x \vee b\notin y))
+\end{align*}
+These defininitions can easily be shown to have the properties of uniqueness, so that if $a\pleft p$, and $b\pleft p$, then $a=b$, and similarly for $\pright$. As a consequence, they also have the characteristic property of ordered pairs, so that if $\forall a: (a\pleft p)\Leftrightarrow(a\pleft q)$, and $\forall b: (b\pright p)\Leftrightarrow(b\pright q)$, then $p=q$.
 
 \subsubsection{Domain of Interpretation}
 First, we construct a domain of discourse in which all of the objects of our theory belong.
@@ -759,8 +767,68 @@ Now that we have proved these properties relating to the form, existence and uni
 \begin{enumerate}[resume=axiomlist, label=\Roman*.]
   \item \textit{Extensionality:}
   \begin{enumerate}[series=sublist, label=(\roman*)]
-    \item \textit{Sets:} $\all{Set} x: $
+    \item \textit{Sets:} $\all{Set} x: (\forall a: (a\in x \Leftrightarrow a\in y) \Rightarrow x=y)$
   \end{enumerate}
+  \begin{proof}
+    Let $x,y$ be such that $\mathit{Set}(x)$ and $\mathit{Set}(y)$, then $x=\pair{0}{x'}$ and $y=\pair{0}{y'}$.
+    Suppose that $(a \zin x \Leftrightarrow a\zin y)$, then by definition we have that $(a\in x' \Leftrightarrow a\in y')$, and so $x'=y'$.
+    $$x'=y'\implies \pair{0}{x'} = \pair{0}{y'} \implies x = y$$.
+  \end{proof}
+  \begin{enumerate}[resume=sublist, label=(\roman*)]
+    \item \textit{Pairs:}\\
+    $\all{U}p,q: ((\forall a: a\pi_1 p \Leftrightarrow a\pi_1 q)\wedge(\forall b: b\pi_2 p \Leftrightarrow b\pi_2 q)\Rightarrow p=q)$
+  \end{enumerate}
+  \begin{proof}
+  Let $p,q$ be ordered pairs, so $p = \pair{1}{p'}$, and $q= \pair{1}{q'}$.
+  Suppose that $(\forall a: a\zpleft p \Leftrightarrow a\zpleft q)$, and also $(\forall b: b\zpright p \Leftrightarrow b\zpright q)$.
+  Since $U(p)$ and $U(q)$, we know that $1\pleft p$ and $1\pleft q$, and that $p',q'$ are ordered pairs.
+  So we have that $(\forall a: a\pleft p' \Leftrightarrow a\pleft q')$, and also $(\forall b: b\pright p' \Leftrightarrow b\pright q')$, and so $p'=q'$.
+  $$p'=q' \implies \pair{1}{p'} = \pair{1}{q'} \implies p = q$$
+  \end{proof}
+  \item \textit{Pairing:}
+  \begin{enumerate}[series=sublist, label=(\roman*)]
+    \item \textit{Sets:}
+    $\forall a,b: (\exists x: \forall c: c\in x \Leftrightarrow (c=a \vee c=b))$
+  \end{enumerate}
+  \begin{proof}
+    Let $a,b$ be any objects, then $a,b\in W_\alpha$ for some ordinal $\alpha$.
+    There exists a set $x = \pair{0}{x'}$, where $x'=\{a,b\} \in \mathcal{P}(W_\alpha)$, and so $x\in W_{\alpha+1}$.
+    For all $c$, $c\in x' \Leftrightarrow (c=a \vee c=b)$.
+    Let $x = \pair{0}{x'}$, then:
+      $$c\zin x \iff c\in x' \iff c = a \vee c = b$$
+  \end{proof}
+
+  \begin{enumerate}[resume=sublist,label=(\roman*)]
+    \item \textit{Pairs:}
+    $\forall a,b: (\exists p: a\pleft p \wedge b\pright p)$
+  \end{enumerate}
+  \begin{proof}
+  Let $a,b$ be any objects, then $a,b\in W_\alpha$ for some ordinal $\alpha$.
+  Now let $p = \pair{1}{p'}$ where $p'=\pair{a}{b} \in W_\alpha^2$, and so $p\in W_{\alpha+1}$, and $a\zpleft p$, $b\zpright p$.
+  \end{proof}
+
+\item \textit{Union:}
+      $\all{Set} x: \exists y: \forall a: (a\in y \Leftrightarrow (\exists z: z\in x \wedge a\in z))$
+\begin{proof}
+  Let $x=\pair{0}{x'}$ be a set, and let $y=\pair{0}{y'}$, where $$y'=\cup(\cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\})$$
+  Then:
+  \begin{align*}
+    a\zin y &\iff (a\in \cup(\cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\})) \\
+    &\iff (\exists u: u\in \cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\} \wedge a\in u) \\
+    &\iff (\exists u: (\exists v: v \in \cup \{p\in x' : 0\pleft p\} \wedge u \in v) \wedge u \neq 0 \wedge a\in u) \\
+    &\iff (\exists u: (\exists v: (\exists w: w\in\{p\in x' : 0\pleft p\}\wedge v \in w) \wedge u \in v) \wedge u \neq 0 \wedge a\in u)\\
+  \end{align*}
+  So if $w\in\{p\in x' : 0\pleft p\}$, $w=\pair{0}{w'}=\{\{0\},\{0,w'\}\}$ for some $w'$.
+  Then if $v\in w$, then either $v=\{0\}$, or $v=\{0,w'\}$.
+  But $u\in v$, and $u\neq 0$, so $u=w'$.
+  Finally $a\in u$, so $a\in w'$, and $a \zin w$, and $w \zin x$.\\
+  
+  We are also required to show that $y\in W$, which can be seen easily since $x\in W_\alpha$ for some ordinal $\alpha$, then if $a\zin y$, there exists $v\in x'$ such that $a\zin v$.
+  Since $v\in x'$, and $x'\in\mathcal{P}(W_{\alpha-1})$, $v\in W_{\alpha-1}$, thus $a\in W_{\alpha-2}$.
+  So $y'\subseteq W_{\alpha-2}$, and thus $y \in W_{\alpha-1}$.
+\end{proof}
+
+\item \textit{Power Set:}
 \end{enumerate}
 
 
