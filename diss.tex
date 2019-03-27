@@ -72,7 +72,7 @@ A consequence of this high level of abstraction is that the only objects of the 
 Whilst this generality may be convenient for studies into the nature of mathematics, the use of set theory between ordinary mathematicians and set theorists could not differ more.   
 In most undergraduate mathematical texts, sets are introduced to be unordered collections of pre-existing objects.
 Simple examples in discrete mathematics often use sets of natural numbers, or even simply sets of coloured balls, to help guide intuition of the operations of set-theoretic membership, union, and intersection.
-Ordered pairs are introduced as a structure distinct from sets, often used to in mathematics to define co-ordinate systems, as well as rigorous definitions functions and relations.
+Ordered pairs are introduced as a structure distinct from sets, often used to in mathematics to define co-ordinate systems, as well as rigorous definitions of functions and relations.
 This project aims to detail the modifications necessary to the theory of $\mathit{ZF}$ to allow ordered pairs as a primitive structure, as well as proving that these modifications are logically sound. 
 We hope that this will begin bridge the gap between a widely accepted foundation of mathematics, and standard mathematical practice. 
 These modifications will be guided by research of axiomatic set theory, in particular, theories that involve \emph{urelements} to model objects which are considered to be distinct from sets.
@@ -100,7 +100,7 @@ These modifications will be guided by research of axiomatic set theory, in parti
 \chapter{Introduction and Project Description}
 % Abstract, Aims, Objectives, Project Description
 % Are these clearly expressed, testable, and achievable?
-\section{Introduction}
+\section{Motivation}
 For the past century, mathematicians and philosophers have been interested in finding logical foundations for various areas of mathematics. Various systems have been proposed, but set theory appears to have played the biggest role in this search for rigour.
 Set theory is a branch of mathematics that studies sets, which can informally be described as collections of objects that possess some common property, for instance, the set of all natural numbers, denoted $\mathbb{N}$.
 Set theory proves itself to be incredibly useful in almost every area of mathematics, because it acts as a powerful language to express concepts in these fields.
@@ -110,24 +110,30 @@ After decades of research, set theory has become a standard language of mathemat
 For example, the $\mathit{Mizar}$ proof assistant and the $\mathit{Z}$ specification language are both based off formal set theory \cite{mizar} \cite{zspec}.
 
 Axiomatic systems were proposed to ground set theory and thus all mathematics relying on it, with the now most widely accepted being Zermelo-Fraenkel set theory (hereinafter ZF).
-An axiomatic system is defined as a logical system which possesses an explicitly stated set of axioms from which theorems can be derived \cite{wolfaxiom}.
+An axiomatic system is defined as a logical system which possesses an explicitly stated set of axioms from which theorems can be derived~\cite{wolfaxiom}.
 An axiom is a statement in a language which is presumed to be true.
 An axiomatic system is thus a collection of elementary truths, and using logical and mathematical principles, we can draw conclusions and gain new truths.
-The axiomatic method can be found as early as Euclid, and even in the contemporary mathematics of group theory.
-The study of such systems has also been a prominent area of research in mathematical logic, and computer science.
+Use of the axiomatic method can be found as early as Euclid, and even in the contemporary mathematics of group theory.
+Axiomatic systems have also been studied in attempts of discovering the limitations of mathematics and computation, most notably the work of Turing, Church and G\"odel, relating to the \emph{Entscheidungsproblem} posed by David Hilbert~\cite{stancomput}.\\
+
 The axioms of $\mathit{ZF}$ are usually stated in the language of \emph{first-order logic}.
 First-order logic uses object variables, quantifiers and logical connectives to describe logical statements.
-The axioms of $\mathit{ZF}$ attempt to characterise the notion of set, by listing axioms in first-order logic in terms of the \emph{membership relation} $\in$.
+The axioms of $\mathit{ZF}$ attempt to characterise the notion of set, by listing axioms in first-order logic in terms of the \emph{membership relation}, commonly denoted by the symbol $\in$.
 These axioms allow us to formally prove the existence and properties of various sets.
-For instance, the first axiom of $\mathit{ZF}$ is the axiom of extensionality. asserts that two sets are equal if and only if they contain the same elements, and the axiom schema of specification allows us to create subsets of some initial set, containing only elements which satisfy some common property.
-More of the axioms will be detailed in later sections.
-Usually the only objects considered in set theory are the empty set, denoted $\emptyset$, and all other sets that can be formed from it, e.g $\{\emptyset, \{\emptyset, \{\emptyset\}\}\}$. This means that \emph{everything} is a set, so the words `object' and `set' are synonomous.
+For instance, the first axiom of $\mathit{ZF}$ is the axiom of extensionality, which asserts that two sets are equal if and only if they contain the same elements.
+The axiom schema of specification tells us that given some existing set, and some logical property, there exists another set containing exactly the elements that satisfy that property.
+This ability to `filter' a set is a powerful and understandable notion, and has been mimicked in programming languages such as Python and Haskell. 
+More of the axioms will be detailed in later sections.\\
+
+The objects of an axiomatic set theory are exactly those that can be proved to exist using the axioms of the theory. 
+In most theories, the only objects considered are the empty set, denoted $\emptyset$, and all other sets that can be formed from it, e.g $\{\emptyset, \{\emptyset, \{\emptyset\}\}\}$. 
+This means that \emph{everything} is a set, so the words `object' and `set' are synonymous.
 When viewed on a low-level, these sets are just collections of other sets, but with the correct definitions, one can define high-level mathematical objects such as the natural numbers, can be defined as $0 = \emptyset$, $1=\{\emptyset\}$, $2=\{\emptyset, \{\emptyset\}\}$, and so on.
-These sets are defined in this way to adhere to the structure and truth of the natural numbers, for instance, they ordered by the memership relation, since $0\in 1$, $2\notin 1$, etc.
+These sets are defined in this way to adhere to the structure and truth of the natural numbers, for instance, they ordered by the membership relation, since $0\in 1$, $2\notin 1$, etc.
 One can then go on to define, addition and multiplication, giving a rigourous basis and foundation for arithmetic.
 
 Ordered pairs are used widely in mathematics due to the characteristic property of being unique up to ordering --- i.e $(x,y) \neq (y,x)$.
-This makes them an ideal candidate for co---ordinate systems and definitions of functions and relations.
+This makes them an ideal candidate for co-ordinate systems and definitions of functions and relations.
 However, these objects are not a primitive structure in set theory, and are defined as a set.
 The original definition is given by Weiner as $\{\{\{x\},\emptyset\},\{\{y\}\}\}$, and later improved by Kuratowski as $\{\{x\},\{x,y\}\}$.
 The introduction of an ordered pair is extremely important, since from it we can define relations and functions, and describe properties such as \emph{transitivity} for relations, or \emph{injectivity} for functions.
@@ -135,54 +141,85 @@ Concepts such as relations and functions play an extremely important role in for
 
 In education, set theory is often introduced to students at an undergraduate level, mainly to mathematics students as a tool to --- as mentioned above --- define concepts in areas such as analysis and algebra.
 Set theory is often also introduced to undergraduate computer science students, as an insight into the foundations of the subject.
-In these cases, set theory is rarely taught in an axiomatic way, but instead, a more practical approach is often employed, natural numbers are considered as primitive objects, and ordered pairs are considered to be a structures containing objects, yet distinct from sets.
-For example --- when using the Von Neumann definition of the ordinals --- the natural numbers $1,2,3$ are actually non-empty sets, defined as $\{0\}, \{0,1\}$,$\{0,1,2\}$, respectively.
-Trying to teach in this way would almost definitely lead to immediate confusion among the class.
+In these cases, set theory is rarely taught in an axiomatic way, but instead, a more practical approach is often employed. 
+Sets are considered to be collections of pre-existing mathematical objects that students are familiar with, and ordered pairs are structures that can contain mathematical objects, or the newly introduced sets.  
 This method allows teachers to gloss over such extraneous details, and focus on the applications of set theory in the field in question.
 Various alternative set theories have been created such as KPU (Kripke-Platek with Urelements), and ZFA (Zermelo-Fraenkel with Atoms), to allow such non-set objects explicitly.
 These objects are known as \emph{urelements} (from the German prefix \emph{ur}, meaning primordial), and are sometimes called atoms.
+The non-set objects in these theories, however, have no internal structure, so ordered pairs still must be defined as sets.
+For these reasons, it is necessary to create a set theory which has urelements with internal structure that behaves in the same way of that of ordered pairs. 
+This begins to provide a formal basis for how we actually teach set theory in the classroom. \\
 
-This project will be an investigation into how we can formalise the way that set theory is taught in undergraduate mathematics and computer science.
+As well as an educational motivation, this project also contributes to the effort of creating a library mathematical knowledge, understandable to both humans and machines.
+In 2016, Stephen Wolfram --- creator of the influential system Mathematica --- organised a workshop to pool the knowledge of a select group of experts, in attempt to find an agreement on how to design a language to describe all of mathematics. 
+The white paper states that the workshop not only failed to come to an agreement, but also failed to provide a specific direction for a first step. 
+They agreed to abandon focus on the possible development of such a language, and instead, discuss the general problem of working towards a Global Digital Mathematical Library. 
+The white paper then identifies criteria that such a library would have, one of which is ``making explicit all structures in mathematics". 
+The importance of this is that we want to keep any potential computerization of mathematics as close as possible to how it was written. 
+There are many papers in which ordered pairs are considered to be primitive, under the assumption that the foundations can be adjusted to allow this. 
+Computerizing one of these papers in $\mathit{ZF}$ would mean that the original mathematics would have to be changed, losing historical accuracy, and potentially mathematical accuracy. 
+A strong example of this sort of reasoning can be found in work on the $\lambda$-calculus by Kamareddine~\cite{fairouz}, which makes the notion of substitution explicit in the theory, rather than defined at the meta-level.
+This modification allows for an easier implementation of the $\lambda$-calculus in programming languages. 
+
+This project is an investigation into how we can formalise the way that set theory is taught in undergraduate mathematics and computer science.
+This mainly involves a formal modification of $\mathit{ZF}$ set theory which allows ordered pairs as a primitive structure, as well as a proof of its consistency.
+In addition to this, this document will act as a guide for those who want to understand the necessary modifications required for adding new objects to set theories. 
+There will also be discussion of the wider philosophical relevance, and future work that could be done to further bridge the gap between theoretical foundations, and high level mathematics. 
 
 \section{Aims}
-We aim to formalise an alternative set theory, to a specification that is useful in an educational context.
+We aim to formalise an alternative set theory, to a specification that is useful in an educational context, whilst maintaining the same amount of theoretical power that $\mathit{ZF}$ has.
 Such a theory will involve the introduction of ordered pairs as a primitive structure, distinct from sets.
-Whilst the primitivity of natural numbers would be a great feature of the theory, their implementation would require a lot of time and work, thus this task is out of the scope of this project.
+These new ordered pairs should behave in the same ways as the commonly used Kuratowski definition.
 The sets and ordered pairs of this theory should have no type restrictions, in that anything can be contained in a set, and anything can be contained in an ordered pair.
 The introduction will require research from results in axiomatic set theory, in order to sufficiently modify Zermelo-Fraenkel set theory to allow ordered pairs that satisfy list of desired properties.
-Once we have specified our theory as a list of axioms, we will attempt to find an model of our theory in $\mathit{ZF}$, which will be a collection of sets in $\mathit{ZF}$ that satisfy the axioms of our theory.
-If $\mathit{ZF}$ is assumed to be consistent, and an interpetation can exist, then we can conlude that our new system is also consistent.
 
-It would also be ideal to introduce a so-called ``garbage" or ``exception" object, should be returned when we try to construct sets or pairs that do not exist, or from a function application on an element which is outside of the domain of the function.
+To be acceptable for use in an educational context, the theory must at least have sufficient power to express the high-level mathematical concepts taught in undergraduate mathematics and computer science courses.\\
+
+In addition to these broad aims, we also state some technical aims. 
+We want the theory to be a \emph{conservative extension} of $\mathit{ZF}$, in that it extends the theory with new symbols and new axioms, but proves nothing new about sets.
+The motivation for this aim is that the new theory should be an acceptable replacement of $\mathit{ZF}$ for those who are familiar with $\mathit{ZF}$, but want to rigorously reason about ordered pairs without any worries of violating the abstraction.
+One of the most known conservative extensions of set theory is Von Neumann-Bernays-G\"odel set theory, which adds ``classes'' (collections of sets that are `too big' to be sets) to $\mathit{ZFC}$. 
+
+Once we have specified our theory as a list of axioms, we will attempt to find an model of our theory in $\mathit{ZF}$, which will be a collection of sets in $\mathit{ZF}$ that satisfy the axioms of our theory.
+If $\mathit{ZF}$ is assumed to be consistent, and an interpretation can exist, then we can conclude that our new system is also consistent.
+
+The supervisor of this project, Joe Wells, teaches Heriot-Watt University's ``Foundations 2'' course, which introduces set theory as a foundation for the theory of computability.
+The course syllabus introduces pairs as primitive objects, along with many other shortcuts to ease the understanding for many students without a mathematical background.  
+He often feels uncomfortable about teaching a course on mathematical foundations, without any confirmed foundation involving primitive ordered pairs! 
+Having a guarantee that there exists a consistent mathematical system of the specification detailed above would help bring confidence into the introduction of these concepts.
+
+From all of the mathematical work, we want to create a document that details the construction of an alternative set theory with non-set objects, so that mathematicians can easily make their own, and be able to understand the properties of it.
+
+An additional aim and overall outcome of this project is to increase my own personal knowledge of mathematical logic, and the foundations of mathematics.
+Whilst this is a personal ambition of mine, the knowledge and skills gained from this dissertation will prepare me to undertake my [potential] PhD project next year which will focus on a framework for the computerisation of mathematics.
+
+It was also an aim to introduce a so-called ``garbage" or ``exception" object, should be returned when we try to construct sets or pairs that do not exist, or from a function application on an element which is outside of the domain of the function.
 This object, whilst belonging to the domain of any model of the theory, would not be able to be contained in sets or pairs.
 Whilst this would help the understanding of previously undefined results, this development is outside of the scope of this project, and will be left to future work.
 
-The theory must have sufficient power to express the high-level mathematical concepts taught in undergraduate mathematics and computer science courses.
-The theory must be consistent with standard results in mathematics, in that things that are generally considered to be true about mathematical objects will also true in our new theory.
-From all of the mathematical work, we want to create a document that details the construction of a custom set theory, so that mathematicians can easily make their own, and be able to understand the properties of it.
-
-Joe Wells teaches Heriot-Watt University's ``Foundations 2'' course, which uses distinct pairs, and distinct numbers.
-He often feels uncomfortable using this mathematical foundation without confirmed reasoning behind this.
-Having a guarantee that there exists a consistent mathematical system of the specification detailed above would help bring confidence into the introduction of these concepts.
-
-It should be noted, however, that these are only my current aims.
-There could be situations where working on these aims could trigger a change in research aims.
-The reader should see the risk analysis in Section 5 for more details.
-
 \section{Objectives}
-To achieve the aims specified above, we target 3 main objectives:
-\begin{itemize}
-  \item Define an intended model, as a structure with an interpretation in ZF. This structure will have a single relation symbol for the set membership relation, and a function symbol for the pairing operation.
-  A constant symbol will be used for the exception object.
-  The structure's interpretation should assign appropriate definitions in ZF to the symbols of the language, so that sets, pairs, and the exception are all distinct objects.
+To achieve the aims specified above, we targeted 4 main objectives:
+\begin{enumerate}
+  \item Provide a literature review and documentation detailing a background of axiomatic set theory, model theory, and set theory with urelements, as well as detailing important contributions that will assist this project.
+  Success of this objective has been evaluated through discussion with my supervisor, who is an expert in mathematical logic. 
+  The key success criteria is outlined by ensuring that the review is:
+  \begin{enumerate}
+    \item Mathematically Accurate: The review has no mathematical inconsistencies, and has as little ambiguity as possible, without going into too much detail. 
+    \item Well-Cited: Definitions and results mentioned in the review has citations where appropriate, allowing the reader to conduct further reading if needed. 
+    \item Understandable: This project is aimed at undergraduate students with an interest in the foundations of mathematics. Concepts are introduced in a fashion similar to that of university lecture notes, without any assumptions of prerequisite knowledge. 
+  \end{enumerate} 
 
   \item Create a list of axioms that characterise a set of structures, one of these being our intended model.
   We will also look at other, non-intended models which are also characterised by these axioms.
   Part of this objective is the research into axiomatic systems and model theory.
 
+  \item Define an intended model, as a structure with an interpretation in ZF. This structure will have a single relation symbol for the set membership relation, and a function symbol for the pairing operation.
+  A constant symbol will be used for the exception object.
+  The structure's interpretation should assign appropriate definitions in ZF to the symbols of the language, so that sets, pairs, and the exception are all distinct objects.
+
   \item A proof of equiconsistency with ZF, so that we know that if ZF is consistent, our new theory is also consistent.
   This will require research into consistency proofs and modern results of the consistency of ZF.
-\end{itemize}
+\end{enumerate}
 
 \chapter{Background \& Literature Review}
 This section will review some of the main concepts that will be involved in the project, in reference to literature involving them.
@@ -285,7 +322,7 @@ The axioms are listed as follows:
 
 \subsubsection*{I. Axiom of Extensionality}
 If two sets have exactly the same members, then they are equal:
-$$\forall x,y:[\forall z: (z\in x \Leftrightarrow z\in y) \Rightarrow x=y]$$
+$$\forall x,y:(\forall z: (z\in x \Leftrightarrow z\in y) \Rightarrow x=y)$$
 
 \subsubsection*{II. Axiom of Pairing}
 If two sets $x$, and $y$ exist, then so does $\{x,y\}$, the set containing exactly $x$ and $y$ as members.
@@ -1057,6 +1094,16 @@ Department of Computer Science, School of Mathematical and Computer Sciences, He
 Weisstein, Eric W.
 \textit{Axiom}
 From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/Axiom.html
+
+\bibitem{stancomput}
+Immerman, Neil.
+\textit{Computability and Complexity}
+The Stanford Encyclopedia of Philosophy. https://plato.stanford.edu/archives/win2018/entries/computability/
+
+\bibitem{fairouz}
+Kamareddine, Fairouz.
+\textit{A lambda-calculus à la de Bruijn with explicit substitutions}
+1995
 
 \bibitem{beckert}
 B. Beckert.
