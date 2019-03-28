@@ -5,8 +5,10 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath, amsthm, amssymb, amsfonts}
 \usepackage{setspace}
+\usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{enumitem}
+\usepackage{quoting}
 \usepackage{array}
 \usepackage[margin=1in]{geometry}
 \newcommand{\all}[1]{\forall_{\mathit{#1}}\hspace{0.5mm}}
@@ -137,7 +139,7 @@ This makes them an ideal candidate for co-ordinate systems and definitions of fu
 However, these objects are not a primitive structure in set theory, and are defined as a set.
 The original definition is given by Weiner as $\{\{\{x\},\emptyset\},\{\{y\}\}\}$, and later improved by Kuratowski as $\{\{x\},\{x,y\}\}$.
 The introduction of an ordered pair is extremely important, since from it we can define relations and functions, and describe properties such as \emph{transitivity} for relations, or \emph{injectivity} for functions.
-Concepts such as relations and functions play an extremely important role in formalising mathematics.
+Concepts such as relations and functions play an extremely important role in formalising mathematics.\\
 
 In education, set theory is often introduced to students at an undergraduate level, mainly to mathematics students as a tool to --- as mentioned above --- define concepts in areas such as analysis and algebra.
 Set theory is often also introduced to undergraduate computer science students, as an insight into the foundations of the subject.
@@ -159,13 +161,48 @@ The importance of this is that we want to keep any potential computerization of 
 There are many papers in which ordered pairs are considered to be primitive, under the assumption that the foundations can be adjusted to allow this. 
 Computerizing one of these papers in $\mathit{ZF}$ would mean that the original mathematics would have to be changed, losing historical accuracy, and potentially mathematical accuracy. 
 A strong example of this sort of reasoning can be found in work on the $\lambda$-calculus by Kamareddine~\cite{fairouz}, which makes the notion of substitution explicit in the theory, rather than defined at the meta-level.
-This modification allows for an easier implementation of the $\lambda$-calculus in programming languages. 
+This modification allows for an easier implementation of the $\lambda$-calculus in programming languages.\\
 
 This project is an investigation into how we can formalise the way that set theory is taught in undergraduate mathematics and computer science.
 This mainly involves a formal modification of $\mathit{ZF}$ set theory which allows ordered pairs as a primitive structure, as well as a proof of its consistency.
 In addition to this, this document will act as a guide for those who want to understand the necessary modifications required for adding new objects to set theories. 
 There will also be discussion of the wider philosophical relevance, and future work that could be done to further bridge the gap between theoretical foundations, and high level mathematics. 
 
+\section{Eggs and Turtles}
+When discussing foundations of mathematics, we are not suggesting that any particular `foundation' --- whether it be set theory, type theory --- is \emph{actually} the stuff that mathematics is made out of, we are only saying that mathematics \emph{can} be expressed in a particular formal system. 
+Whilst a reductionist approach may seem tempting and even more secure, it also brings the inconvenience of having to break every single calculation down to its fundamentals.
+If we had some particular foundation, in which we claimed was \emph{the} foundation for mathematics, natural questions would be: how do we know that this foundation is correct? Do we need a foundation for this foundation? 
+The following quote from Douglas Hofstadter's \textit{G\"odel, Escher, Bach} springs to mind: 
+
+\begin{quotation}
+\begin{small}\textit{
+``A system of reasoning can be compared to an egg. An egg has a shell
+which protects its insides. If you want to ship an egg somewhere, though,
+you don't rely on the shell. You pack the egg in some sort of container,
+chosen according to how rough you expect the egg's voyage to be. To be
+extra careful, you may put the egg inside several nested boxes. However,
+no matter how many layers of boxes you pack your egg in, you can imagine
+some cataclysm which could break the egg. But that doesn't mean that
+you'll never risk transporting your egg."}\\
+\end{small}
+\end{quotation}
+Mathematics would still go on, since definitions and theorems can still be made, without any formal language and all-encompassing theory behind them, as long as there is some agreement or convention between those who use it.
+Those working on number theory do not need to think of numbers as sets, and app developers don't consider their programs to be proofs, as the \emph{Curry-Howard Correspondence} would have you believe. 
+To summarise, I find the word `foundation' is ambiguous and misleading, as it loosely implies that there exists some final, bottom layer to mathematics, which clearly leads to infinite regress. 
+In the same way that a field of mathematics seeks to describe some real-world system, so-called `foundations` attempt to describe mathematics itself.\\
+
+\begin{wrapfigure}{r}{7cm}
+\centering
+\includegraphics[width=7cm]{turtles.jpg}
+\end{wrapfigure}
+\noindent
+So if the world of mathematics rests upon a turtle of set theory, and set theory rests upon a turtle of first-order logic, then who does she rest upon? 
+Set theory can also be expressed using type theory, or category theory. And also first-order logic can be expressed in set theory.
+What does our turtle structure look like? 
+Is it \emph{turtles all the way down}? 
+An circle of turtles with an infinite radius?
+I prefer the viewpoint of \emph{any turtle you like}. 
+\clearpage
 \section{Aims}
 We aim to formalise an alternative set theory, to a specification that is useful in an educational context, whilst maintaining the same amount of theoretical power that $\mathit{ZF}$ has.
 Such a theory will involve the introduction of ordered pairs as a primitive structure, distinct from sets.
@@ -200,26 +237,48 @@ Whilst this would help the understanding of previously undefined results, this d
 \section{Objectives}
 To achieve the aims specified above, we targeted 4 main objectives:
 \begin{enumerate}
-  \item Provide a literature review and documentation detailing a background of axiomatic set theory, model theory, and set theory with urelements, as well as detailing important contributions that will assist this project.
+  \item \textbf{Provide a literature review} and documentation detailing a background of axiomatic set theory, model theory, and set theory with urelements, as well as detailing important contributions that will assist this project.
   Success of this objective has been evaluated through discussion with my supervisor, who is an expert in mathematical logic. 
   The key success criteria is outlined by ensuring that the review is:
   \begin{enumerate}
-    \item Mathematically Accurate: The review has no mathematical inconsistencies, and has as little ambiguity as possible, without going into too much detail. 
-    \item Well-Cited: Definitions and results mentioned in the review has citations where appropriate, allowing the reader to conduct further reading if needed. 
-    \item Understandable: This project is aimed at undergraduate students with an interest in the foundations of mathematics. Concepts are introduced in a fashion similar to that of university lecture notes, without any assumptions of prerequisite knowledge. 
+    \item \textbf{Mathematically Accurate:} The review has no mathematical inconsistencies, and has as little ambiguity as possible, without going into too much detail. 
+    \item \textbf{Well-Cited:} Definitions and results mentioned in the review has citations where appropriate, allowing the reader to conduct further reading if needed. 
+    \item \textbf{Understandable:} This project is aimed at undergraduate students with an interest in the foundations of mathematics. Concepts are introduced in a fashion similar to that of university lecture notes, without any assumptions of considerable prerequisite knowledge. 
   \end{enumerate} 
 
-  \item Create a list of axioms that characterise a set of structures, one of these being our intended model.
-  We will also look at other, non-intended models which are also characterised by these axioms.
-  Part of this objective is the research into axiomatic systems and model theory.
+  \item \textbf{Design and present an axiomatisation} of a variant of $\mathit{ZF}$ theory with primitive ordered pairs. 
+  Success of this objective has been evaluated by giving proofs that the axioms satisfy the requirements given in~\ref{zfpreq}.
+  In addition to this, discussions with my supervisor have ensured that the axiomatisation is readable and intuitive. 
+  The key success criteria is outlined by ensuring that the axiomatisation is: 
+  \begin{enumerate}
+    \item \textbf{Understandable:} The formulation and presentations of the axioms have been ensured to make clear what logical properties the axioms state. Further discussion is also given for explanation of why specific axioms are needed, and why they are stated in the ways that they are. 
+    \item \textbf{Powerful:} The axioms are able to prove all of the logical properties given in the requirements. 
+    \item \textbf{Interpretable:} The language and axioms of the system have been designed in order to allow the objects and relations of the theory to be easily defined in $\mathit{ZF}$.
+    \item \textbf{Consistent:} Whilst it is not possible to prove full syntactic consistency, the system is designed to avoid contradictions. 
+    \item \textbf{$\mathbf{ZF}$-like}: The axiomatisation is as close to $\mathit{ZF}$ as possible, in attempt to preserve the nice properties that $\mathit{ZF}$ has.
+    Resemblance too such a popular foundation also increases understandability.  
+  \end{enumerate}  
 
-  \item Define an intended model, as a structure with an interpretation in ZF. This structure will have a single relation symbol for the set membership relation, and a function symbol for the pairing operation.
-  A constant symbol will be used for the exception object.
-  The structure's interpretation should assign appropriate definitions in ZF to the symbols of the language, so that sets, pairs, and the exception are all distinct objects.
+  \item \textbf{Define an intended model} as a structure with a domain in $\mathit{ZF}$, and relation symbols defined in the language of $\mathit{ZF}$. 
+  This structure will have a relation symbol for the set membership relation, as well as relation symbols for the ordered pair left and right projections.
+  Success of this objective will consist of a mathematical proof showing that the defined structure satisfies the axioms specified in~\ref{zfpaxioms}.
+  The key success criteria for the building of the intended model is outline by ensuring it has the following properties:
+  \begin{enumerate}
+    \item \textbf{Satisfaction:} Every axiom of the theory given in~\ref{zfpaxioms} must be satisfied by the model. This will require a proof for each axiom, and in turn prove that the theory is consistent. 
+    \item \textbf{Large enough} to contain all of the sets that are characterised by the axioms of $\mathit{ZF}$.
+  \end{enumerate} 
 
-  \item A proof of equiconsistency with ZF, so that we know that if ZF is consistent, our new theory is also consistent.
-  This will require research into consistency proofs and modern results of the consistency of ZF.
+  \item \textbf{Define an embedding} which maps all of the sets of an assumed model of $\mathit{ZF}$, to `pure sets' (those not containing any primitive ordered pairs anywhere in their structure) of the new theory. 
+  This will provide an argument for the new theory being a conservative extension of $\mathit{ZF}$.
+  Success of this objective will consist of a series of lemmas and a theorem showing that the mapping preserves the truth of the membership relation. 
+  The key success criteria for the definition of this mapping is outlined by ensuring it is:
+  \begin{enumerate}
+    \item \textbf{Useful:} The new model defined will be a subclass of the model constructed in~\ref{zfpmodel}, so firstly it is important to show that this subclass is a model of the theory.
+    \item \textbf{Total:} The mapping is total on the model of $\mathit{ZF}$, so that we know all sets of $\mathit{ZF}$ can be remade in the `pure set' model. 
+    \item \textbf{Elementary:} An elementary embedding is a map which preserves the truth of a model, so that all true formula in the model of $\mathit{ZF}$ are also true in the new model.   
+  \end{enumerate} 
 \end{enumerate}
+
 
 \chapter{Background \& Literature Review}
 This section will review some of the main concepts that will be involved in the project, in reference to literature involving them.
@@ -534,7 +593,7 @@ Regardless of any specific plan or schedule, we aim to gain as much knowledge ar
 
 \chapter{Design and Implementation}
 \section{The Theory $\mathit{ZFP}$}
-\subsection{Requirements}
+\subsection{Requirements}\label{zfpreq}
 
 We first propose an alternative set theory $\mathit{ZFP}$, which is mainly just $\mathit{ZF}$, but uses ordered pairs as a primitive structure.
 These ordered pairs will techssnically be urelements, but not in the sense mentioned earlier.
@@ -545,7 +604,7 @@ We will use the general term \emph{object} to mean something that is either a se
 Since these ordered pairs are not sets, their behaviour and existence is not determined by the current axioms of $\mathit{ZF}$.
 They will need their own axioms to govern their use.
 
-\subsection{Discussion}
+\subsection{Discussion}\label{zfpaxioms}
 We propose an extension to the current language of the theory of $\mathit{ZF}$, that contains binary predicate symbols for the set membership relation $\in$ as standard, along with projection relations for ordered pairs $\pleft$, and $\pright$.
 In addition to this, we will have a unary predicate for identifying our urelements, which are ordered pairs.
 \begin{definition}
@@ -736,7 +795,7 @@ b\pright p &\eqdef (\exists x\in p: b\in x) \wedge
 \end{align*}
 These defininitions can easily be shown to have the properties of uniqueness, so that if $a\pleft p$, and $b\pleft p$, then $a=b$, and similarly for $\pright$. As a consequence, they also have the characteristic property of ordered pairs, so that if $\forall a: (a\pleft p)\Leftrightarrow(a\pleft q)$, and $\forall b: (b\pright p)\Leftrightarrow(b\pright q)$, then $p=q$.
 
-\subsection{Discussion}
+\subsection{Discussion}\label{zfpmodel}
 
 \subsubsection{Domain of Interpretation}
 First, we construct a domain of discourse in which all of the objects of our theory belong.
