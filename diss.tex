@@ -67,16 +67,16 @@
 \begin{abstract}
 \noindent
 Set theory has been studied intensely in the past century, as mathematicians have searched to give mathematics a rigorous foundation.  
-The study of set theory itself has led to many interesting results concerning the nature and philosophy of mathematics, as well as computer science.
-Zermelo-Frankel set theory ($\mathit{ZF}$) was developed over the $20^{\mathit{th}}$ century in order to create a theory of sets free of paradoxes.
+The study of set theory itself has led to many interesting results concerning the nature and philosophy of mathematics and, as well as fundamental questions of computer science.
+Zermelo-Frankel set theory ($\mathit{ZF}$) was developed in the early $20^{\mathit{th}}$ century to create a theory of sets free of paradoxes.
 $\mathit{ZF}$ and other set theories are built in axiomatic systems with a single fundamental relation of set membership.
 A consequence of this high level of abstraction is that the only objects of the theory are sets, allowing us to study mathematical objects as sets governed by the axioms of $\mathit{ZF}$.
 Whilst this generality may be convenient for studies into the nature of mathematics, the use of set theory between ordinary mathematicians and set theorists could not differ more.   
 In most undergraduate mathematical texts, sets are introduced to be unordered collections of pre-existing objects.
 Simple examples in discrete mathematics often use sets of natural numbers, or even simply sets of coloured balls, to help guide intuition of the operations of set-theoretic membership, union, and intersection.
-Ordered pairs are introduced as a structure distinct from sets, often used to in mathematics to define co-ordinate systems, as well as rigorous definitions of functions and relations.
+Ordered pairs are introduced as a structure distinct from sets, often used in mathematics to define co-ordinate systems, as well as for rigorous definitions of functions and relations.
 This project aims to detail the modifications necessary to the theory of $\mathit{ZF}$ to allow ordered pairs as a primitive structure, as well as proving that these modifications are logically sound. 
-We hope that this will begin bridge the gap between a widely accepted foundation of mathematics, and standard mathematical practice. 
+We hope that this will begin to bridge the gap between a widely accepted foundation of mathematics, and standard mathematical practice. 
 These modifications will be guided by research of axiomatic set theory, in particular, theories that involve \emph{urelements} to model objects which are considered to be distinct from sets.
 \end{abstract}
 \end{minipage}
@@ -94,7 +94,7 @@ These modifications will be guided by research of axiomatic set theory, in parti
   \vspace{1cm}
   Date: 22/11/2018
 \end{minipage}
-\footnotetext{This declaration is taken from Appendix C.1 in \cite{dissguide}}
+\footnotetext{This declaration is taken from Appendix C.1 in the Dissertation Handbook~\cite{dissguide}}
 \clearpage
 
 \tableofcontents
@@ -108,36 +108,39 @@ Set theory is a branch of mathematics that studies sets, which can informally be
 Set theory proves itself to be incredibly useful in almost every area of mathematics, because it acts as a powerful language to express concepts in these fields.
 The original formulation of the theory --- now known as na\"ive set theory --- given by Georg Cantor in the late 19th century, was defined somewhat formally, but used natural language to describe sets and their operations.
 However, due to paradoxes discovered in na\"ive set theory, most notably Russell's paradox (``the set of all sets that do not contain themselves"), mathematicians not only questioned the correctness of their work, but also the limitations of formalism.
-After decades of research, set theory has become a standard language of mathematics, and is also used in many areas of computer science.
-For example, the $\mathit{Mizar}$ proof assistant and the $\mathit{Z}$ specification language are both based off formal set theory \cite{mizar} \cite{zspec}.
+A proposed solution to this crisis of uncertainty was \emph{Hilbert's program}, whose main goal was to provide a complete, and consistent foundation for all of mathematics.
+However, in 1931, the publication of \emph{G\"odel's incompleteness theorems} showed this goal to be impossible, by proving that in any consistent theory, there are statements which are true, but cannot be proved by the theory itself.
+Though Hilbert's program was not successful, it breathed fire into many areas of research in mathematical logic, particularly set theory.
+After decades of research, set theory became the standard language of mathematics, and is also used in many areas of computer science.
+For example, the $\mathit{Mizar}$ proof assistant and the $\mathit{Z}$ specification language are both based on formal set theory \cite{mizar} \cite{zspec}.\\
 
-Axiomatic systems were proposed to ground set theory and thus all mathematics relying on it, with the now most widely accepted being Zermelo-Fraenkel set theory (hereinafter ZF).
+Set theory and various areas of mathematics --- arithmetic, group theory, geometry --- can be defined in \emph{axiomatic systems}, with the now most widely accepted being Zermelo-Fraenkel set theory (hereinafter $\mathit{ZF}$).
 An axiomatic system is defined as a logical system which possesses an explicitly stated set of axioms from which theorems can be derived~\cite{wolfaxiom}.
 An axiom is a statement in a language which is presumed to be true.
-An axiomatic system is thus a collection of elementary truths, and using logical and mathematical principles, we can draw conclusions and gain new truths.
-Use of the axiomatic method can be found as early as Euclid, and even in the contemporary mathematics of group theory.
-Axiomatic systems have also been studied in attempts of discovering the limitations of mathematics and computation, most notably the work of Turing, Church and G\"odel, relating to the \emph{Entscheidungsproblem} posed by David Hilbert~\cite{stancomput}.\\
+An axiomatic system is thus a collection of elementary truths, and using logical and mathematical principles, we can draw conclusions and gain new truths, known as theorems.
+Axiomatic systems were one of the main subjects of Hilbert's program mentioned above, most notably the work of Turing, Church, and G\"odel, relating to the \emph{Entscheidungsproblem} posed by David Hilbert~\cite{stancomput}.\\
+
 
 The axioms of $\mathit{ZF}$ are usually stated in the language of \emph{first-order logic}.
 First-order logic uses object variables, quantifiers and logical connectives to describe logical statements.
-The axioms of $\mathit{ZF}$ attempt to characterise the notion of set, by listing axioms in first-order logic in terms of the \emph{membership relation}, commonly denoted by the symbol $\in$.
+The axioms of $\mathit{ZF}$ to characterise the notion of set, by listing axioms in first-order logic in terms of the \emph{membership relation}, commonly denoted by the symbol $\in$.
 These axioms allow us to formally prove the existence and properties of various sets.
 For instance, the first axiom of $\mathit{ZF}$ is the axiom of extensionality, which asserts that two sets are equal if and only if they contain the same elements.
-The axiom schema of specification tells us that given some existing set, and some logical property, there exists another set containing exactly the elements that satisfy that property.
+The axiom schema of specification tells us that given some existing set $S$, and some logical property, there exists another set containing exactly the elements of $S$ that satisfy that property.
 This ability to `filter' a set is a powerful and understandable notion, and has been mimicked in programming languages such as Python and Haskell. 
 More of the axioms will be detailed in later sections.\\
 
 The objects of an axiomatic set theory are exactly those that can be proved to exist using the axioms of the theory. 
 In most theories, the only objects considered are the empty set, denoted $\emptyset$, and all other sets that can be formed from it, e.g $\{\emptyset, \{\emptyset, \{\emptyset\}\}\}$. 
 This means that \emph{everything} is a set, so the words `object' and `set' are synonymous.
-When viewed on a low-level, these sets are just collections of other sets, but with the correct definitions, one can define high-level mathematical objects such as the natural numbers, can be defined as $0 = \emptyset$, $1=\{\emptyset\}$, $2=\{\emptyset, \{\emptyset\}\}$, and so on.
-These sets are defined in this way to adhere to the structure and truth of the natural numbers, for instance, they ordered by the membership relation, since $0\in 1$, $2\notin 1$, etc.
-One can then go on to define, addition and multiplication, giving a rigourous basis and foundation for arithmetic.
+When viewed on a low-level, these sets are just collections of other sets, but with the correct definitions, one can define high-level mathematical objects such as the natural numbers, which can be defined as $0 = \emptyset$, $1=\{\emptyset\}$, $2=\{\emptyset, \{\emptyset\}\}$, and so on.
+These sets are defined in this way to adhere to the structure and truth of the natural numbers, for instance, they are ordered by the membership relation, since $0\in 1$, $2\notin 1$, etc.
+One can then go on to define addition and multiplication, giving a rigorous basis and foundation for arithmetic.
 
-Ordered pairs are used widely in mathematics due to the characteristic property of being unique up to ordering --- i.e $(x,y) \neq (y,x)$.
+Ordered pairs are used widely in mathematics due to the characteristic property of having a specific ordering --- i.e $(x,y) \neq (y,x)$.
 This makes them an ideal candidate for co-ordinate systems and definitions of functions and relations.
-However, these objects are not a primitive structure in set theory, and are defined as a set.
-The original definition is given by Weiner as $\{\{\{x\},\emptyset\},\{\{y\}\}\}$, and later improved by Kuratowski as $\{\{x\},\{x,y\}\}$.
+However, these objects are not a primitive structure in any standard set theory, and are defined as sets.
+The first such definition was given by Weiner as $\{\{\{x\},\emptyset\},\{\{y\}\}\}$, and later improved by Kuratowski as $\{\{x\},\{x,y\}\}$.
 The introduction of an ordered pair is extremely important, since from it we can define relations and functions, and describe properties such as \emph{transitivity} for relations, or \emph{injectivity} for functions.
 Concepts such as relations and functions play an extremely important role in formalising mathematics.\\
 
@@ -145,16 +148,16 @@ In education, set theory is often introduced to students at an undergraduate lev
 Set theory is often also introduced to undergraduate computer science students, as an insight into the foundations of the subject.
 In these cases, set theory is rarely taught in an axiomatic way, but instead, a more practical approach is often employed. 
 Sets are considered to be collections of pre-existing mathematical objects that students are familiar with, and ordered pairs are structures that can contain mathematical objects, or the newly introduced sets.  
-This method allows teachers to gloss over such extraneous details, and focus on the applications of set theory in the field in question.
+This method allows teachers to gloss over difficult details, and focus on the applications of set theory in the field in question.
 Various alternative set theories have been created such as KPU (Kripke-Platek with Urelements), and ZFA (Zermelo-Fraenkel with Atoms), to allow such non-set objects explicitly.
 These objects are known as \emph{urelements} (from the German prefix \emph{ur}, meaning primordial), and are sometimes called atoms.
 The non-set objects in these theories, however, have no internal structure, so ordered pairs still must be defined as sets.
 For these reasons, it is necessary to create a set theory which has urelements with internal structure that behaves in the same way of that of ordered pairs. 
 This begins to provide a formal basis for how we actually teach set theory in the classroom. \\
 
-As well as an educational motivation, this project also contributes to the effort of creating a library mathematical knowledge, understandable to both humans and machines.
-In 2016, Stephen Wolfram --- creator of the influential system Mathematica --- organised a workshop to pool the knowledge of a select group of experts, in attempt to find an agreement on how to design a language to describe all of mathematics. 
-The white paper states that the workshop not only failed to come to an agreement, but also failed to provide a specific direction for a first step. 
+As well as an educational motivation, this project also contributes to the effort of creating a library of mathematical knowledge, understandable to both humans and machines.
+In 2016, Stephen Wolfram --- creator of the influential system Mathematica --- organised a workshop to pool the knowledge of a select group of experts, in an attempt to find an agreement on how to design a language to describe all of mathematics. 
+The resulting white paper states that the workshop not only failed to come to an agreement, but also failed to provide a specific direction for a first step. 
 They agreed to abandon focus on the possible development of such a language, and instead, discuss the general problem of working towards a Global Digital Mathematical Library. 
 The white paper then identifies criteria that such a library would have, one of which is ``making explicit all structures in mathematics". 
 The importance of this is that we want to keep any potential computerization of mathematics as close as possible to how it was written. 
@@ -166,7 +169,7 @@ This modification allows for an easier implementation of the $\lambda$-calculus 
 This project is an investigation into how we can formalise the way that set theory is taught in undergraduate mathematics and computer science.
 This mainly involves a formal modification of $\mathit{ZF}$ set theory which allows ordered pairs as a primitive structure, as well as a proof of its consistency.
 In addition to this, this document will act as a guide for those who want to understand the necessary modifications required for adding new objects to set theories. 
-There will also be discussion of the wider philosophical relevance, and future work that could be done to further bridge the gap between theoretical foundations, and high level mathematics. 
+There will also be discussion of the wider philosophical relevance, and future work that could be done to further bridge the gap between theoretical foundations, and high-level mathematics. 
 
 \section{Eggs and Turtles}
 When discussing foundations of mathematics, we are not suggesting that any particular `foundation' --- whether it be set theory, type theory --- is \emph{actually} the stuff that mathematics is made out of, we are only saying that mathematics \emph{can} be expressed in a particular formal system. 
@@ -203,25 +206,26 @@ Is it \emph{turtles all the way down}?
 An circle of turtles with an infinite radius?
 I prefer the viewpoint of \emph{any turtle you like}. 
 \clearpage
+
 \section{Aims}
 We aim to formalise an alternative set theory, to a specification that is useful in an educational context, whilst maintaining the same amount of theoretical power that $\mathit{ZF}$ has.
 Such a theory will involve the introduction of ordered pairs as a primitive structure, distinct from sets.
-These new ordered pairs should behave in the same ways as the commonly used Kuratowski definition.
+These new ordered pairs should be careful in the same ways as the commonly used Kuratowski definition.
 The sets and ordered pairs of this theory should have no type restrictions, in that anything can be contained in a set, and anything can be contained in an ordered pair.
-The introduction will require research from results in axiomatic set theory, in order to sufficiently modify Zermelo-Fraenkel set theory to allow ordered pairs that satisfy list of desired properties.
+This modification will require research from results in axiomatic set theory, in order to sufficiently modify Zermelo-Fraenkel set theory to allow ordered pairs that satisfy list of desired properties.
 
 To be acceptable for use in an educational context, the theory must at least have sufficient power to express the high-level mathematical concepts taught in undergraduate mathematics and computer science courses.\\
 
 In addition to these broad aims, we also state some technical aims. 
 We want the theory to be a \emph{conservative extension} of $\mathit{ZF}$, in that it extends the theory with new symbols and new axioms, but proves nothing new about sets.
 The motivation for this aim is that the new theory should be an acceptable replacement of $\mathit{ZF}$ for those who are familiar with $\mathit{ZF}$, but want to rigorously reason about ordered pairs without any worries of violating the abstraction.
-One of the most known conservative extensions of set theory is Von Neumann-Bernays-G\"odel set theory, which adds ``classes'' (collections of sets that are `too big' to be sets) to $\mathit{ZFC}$. 
+An example of a conservative extension of a set theory is Von Neumann-Bernays-G\"odel set theory, which adds ``classes'' (collections of sets that are `too big' to be sets) to $\mathit{ZFC}$ (Zermelo-Fraenkel set theory, with the axiom of choice). 
 
 Once we have specified our theory as a list of axioms, we will attempt to find an model of our theory in $\mathit{ZF}$, which will be a collection of sets in $\mathit{ZF}$ that satisfy the axioms of our theory.
 If $\mathit{ZF}$ is assumed to be consistent, and an interpretation can exist, then we can conclude that our new system is also consistent.
 
-The supervisor of this project, Joe Wells, teaches Heriot-Watt University's ``Foundations 2'' course, which introduces set theory as a foundation for the theory of computability.
-The course syllabus introduces pairs as primitive objects, along with many other shortcuts to ease the understanding for many students without a mathematical background.  
+The supervisor of this project, Joe Wells, teaches Heriot-Watt University's ``Foundations 2'' course, which uses set theory as a foundation for the theory of computability.
+The course lecture notes often assume that ordered pairs are primitive objects that are distinct from sets, along with many other shortcuts to ease the understanding for many students without a mathematical background.  
 He often feels uncomfortable about teaching a course on mathematical foundations, without any confirmed foundation involving primitive ordered pairs! 
 Having a guarantee that there exists a consistent mathematical system of the specification detailed above would help bring confidence into the introduction of these concepts.
 
@@ -230,19 +234,21 @@ From all of the mathematical work, we want to create a document that details the
 An additional aim and overall outcome of this project is to increase my own personal knowledge of mathematical logic, and the foundations of mathematics.
 Whilst this is a personal ambition of mine, the knowledge and skills gained from this dissertation will prepare me to undertake my [potential] PhD project next year which will focus on a framework for the computerisation of mathematics.
 
-It was also an aim to introduce a so-called ``garbage" or ``exception" object, should be returned when we try to construct sets or pairs that do not exist, or from a function application on an element which is outside of the domain of the function.
+It was also originally an aim of this project to introduce a formal description mechanism, to allow denotation of objects of the form ``the unique object $x$ such that $\varphi$'' in first-order formula.
+In order to deal with the cases where this description mechanism failed (when no object exists, or that object is not unique), we originally planned to introduce a so-called ``garbage" or ``exception" object which would be returned in case of error.
 This object, whilst belonging to the domain of any model of the theory, would not be able to be contained in sets or pairs.
-Whilst this would help the understanding of previously undefined results, this development is outside of the scope of this project, and will be left to future work.
+Whilst this would have been a great feature and a further tool for the use of set theory in education, this development is outside of the scope of this project, and will be left to future work.
 
 \section{Objectives}
 To achieve the aims specified above, we targeted 4 main objectives:
 \begin{enumerate}
   \item \textbf{Provide a literature review} and documentation detailing a background of axiomatic set theory, model theory, and set theory with urelements, as well as detailing important contributions that will assist this project.
-  Success of this objective has been evaluated through discussion with my supervisor, who is an expert in mathematical logic. 
+  Success of this objective has been evaluated through discussion with my supervisor, who is an expert in mathematical logic.
+  In addition to this, Fairouz Kamareddine, another expert in mathematical logic, will proof-read the review.  
   The key success criteria is outlined by ensuring that the review is:
   \begin{enumerate}
     \item \textbf{Mathematically Accurate:} The review has no mathematical inconsistencies, and has as little ambiguity as possible, without going into too much detail. 
-    \item \textbf{Well-Cited:} Definitions and results mentioned in the review has citations where appropriate, allowing the reader to conduct further reading if needed. 
+    \item \textbf{Well-Cited:} Definitions and results mentioned in the review have citations where appropriate, allowing the reader to conduct further reading if needed. 
     \item \textbf{Understandable:} This project is aimed at undergraduate students with an interest in the foundations of mathematics. Concepts are introduced in a fashion similar to that of university lecture notes, without any assumptions of considerable prerequisite knowledge. 
   \end{enumerate} 
 
@@ -295,19 +301,31 @@ This section will review some of the main concepts that will be involved in the 
 \section{Ordered Pairs}
 
 \section{Propositional and First-order Logic}
-Propositional logic is an elementary system of logic, which deals with statements that are true or false, and serves as a basis for logical reasoning. Propositional logic only deals with statements made from atomic propositions, and logical connectives combining them. The logical connectives are given in \cite[p.~2]{beckert} as follows:
-$$\neg, \wedge, \vee,\Rightarrow,\Leftrightarrow$$
-Their meanings, respectively, are `and', `or', `implies', and `if and only if'.
-Propositional logic also has the nice property that it is \emph{decidable}, meaning that we can determine the truth or falsity of any statement written in its language by some effective method.
+Propositional logic --- or the propositional calculus --- is an elementary system of logic which deals with statements that are true or false, and serves as a basis for logical reasoning. 
+Introduction of the modern propositional calculus is usually attributed to George Boole, and Augustus DeMorgan, but unpublished work of Leibniz from the $17^{\text{th}}$ century show him to be the founder.
 
-First-order logic extends this by allowing universal and existential \emph{quantification}, which allow us to make statements beginning with ``for all $x$ such that \ldots ($\forall x:$)" and ``there exists $y$ such that \ldots ($\exists y:$)". Statements that use multiple instances universal or existential quantification can sometimes be shortened from $\forall x:(\forall y: \varphi(x,y))$ to $\forall x,y: \varphi(x,y)$ for notational convenience.
-These quantifiers were first introduced by Frege \cite{frege} in 1879.
-We also have \emph{predicates}, such as
+The variables of the propositional calculus only range over two values, true and false, these variables are known as \emph{atomic propositions}. 
+Formula are made from atomic propositions, and logical connectives combining them. Specific notation differs through history, but the logical connectives are commonly given as below, found in university lecture notes \cite[p.~2]{beckert} as follows:
+$$\neg, \wedge, \vee,\Rightarrow,\Leftrightarrow$$
+Their meanings, respectively, are `not', `and', `or', `implies', and `if and only if'. 
+These connectives have rules that are well-defined and correspond to their intended meanings, for example $p \wedge q$ is true if and only if $p$ and $q$ are true.  
+As a consequence, propositional logic has the nice property that it is \emph{decidable}, meaning that we can determine the truth or falsity of any statement written in its language by some effective method.
+
+First-order logic extends this by introducing \emph{predicates}, as well as universal and existential \emph{quantification}. 
+The variables in first-order logic are assumed to range over some \emph{domain of discourse}.
+Predicates are conditions on variables which yield true or false, for example include:  
 $$P(x) : x \text{ is prime}$$
 $$ x > y : x \text{ is greater than } y$$
-\noindent
+Quantifiers allow us to make statements beginning with ``for all $x$ such that $\varphi$" and ``there exists $y$ such that $\psi$", formally denoted $(\forall x:\varphi)$ and $(\exists y:\psi)$. 
+Statements that use multiple instances universal or existential quantification can sometimes be shortened from $(\forall x:(\forall y: \varphi))$ to $(\forall x,y: \varphi)$ for notational convenience.
+These quantifiers were first introduced by Frege \cite{frege} in 1879.
 The alphabet of first-order logic consists of logical symbols and non-logical symbols.
-The logical symbols consist of the connectives shown above, along with the quantifiers, as well as parentheses, an infinite set of variables $x_0, x_1, x_2,\ldots$, and an equality symbol.
+Uniqueness can also be expressed, and is often denoted using a `new' quantifier $\exists!$, which stands for ``there exists a unique''. 
+This quantifier can be defined in terms of the others by the abbreviation:
+$$\exists!x:\varphi(x) \eqdef \exists x: (\varphi(x) \wedge (\forall y: \varphi(y) \Rightarrow y=x))$$
+
+
+The logical symbols are the connectives from the propositional calculus, along with the quantifiers, an equality symbol, an infinite set of variables $x_0, x_1, x_2,\ldots$, and parentheses.
 The non-logical symbols are those that represent the predicates, functions, and constants that allow us to form a language for talking about the objects which the variables of the language range over.
 
 \subsection{Signatures}
@@ -320,13 +338,15 @@ given by a \emph{signature} \cite[ch. 1.1]{selinger}. A signature is a triple $(
 For example $\alpha(+) = 2$. Function symbols with arity $0$ are often called \emph{constants}, and are used to denote specific objects in the domain in question.
 \end{itemize}
 Signatures are usually denoted by the Greek letter $\sigma$, with subscript indicating the use of the signature in question.
+Often signatures are not explicitly given as a structure, but instead simply mentioned as a `choice' of function and relation symbols, see~\cite{shortermodel} for an alternative description. 
+In the following chapters we will opt for the explicit choice of signature description, to avoid any ambiguity when working with more than one language.
 
 A standard example is the signature for groups.
-A group is a algebraic structure consisting of a set of objects and a binary operation.
+A group is an algebraic structure consisting of a set of objects and a binary operation.
 A group always has an identity element in its set of objects, for instance, in the group of integers under addition, denoted $(\mathbb{Z}, +)$, $0$ is the identity element since $n + 0 = n$ for all integers $n\in\mathbb{Z}$.
 Groups also always have inverses for each element, for example, we know that for each $n\in\mathbb{Z}$, there exists a unique inverse, denoted $-n$, such that $n + (-n) = 0$.
 
-So in the signature for groups, we only have function symbols, $*$ for the binary operation, $^{-1}$ for the inverse operator, $e$ as a constant for the identity element.
+So in the signature for groups, we only have function symbols, $*$ for the generic binary operation, $^{-1}$ for the inverse operator, and $e$ as a constant for the identity element.
 
 $$\sigma_{\mathit{grp}} = \big(\{*,^{-1}, e\},\emptyset,\{(*, 2), (^{-1}, 1),(e,0)\}\big)$$
 It should be noted however, that these are just the symbols for a language, the signature does not contain any information about the actual existence of an identity element, or inverses.
@@ -337,16 +357,21 @@ $$\sigma_{\mathit{ZF}} = \big(\emptyset,\{\in\},\{(\in, 2)\})$$
 \subsection{First-Order Languages}
 Using a signature $\sigma$ and the standard logical symbols of first-order logic, we can create a \emph{first-order language} \cite[ch.~1]{stanmodel}, often denoted $\mathcal{L}_\sigma$.
 
-The \emph{terms} of a language are the variables or constants, or the result of a function application $f(t_1,\ldots, t_n)$, where $t_1,\ldots,t_n$ are terms \cite[ch.~1.3]{selinger}.
+The \emph{terms} of a language are the variables --- for which we use latin letters --- or constants, or the result of a function application $f(t_1,\ldots, t_n)$, where $f$ is a function symbol, and $t_1,\ldots,t_n$ are terms \cite[ch.~1.3]{selinger}.
 
-The \emph{formula} of a language are defined in \cite[ch~1.4]{selinger}by the follow rules:
+The \emph{formula} of a language are defined \cite[ch~1.4]{selinger} by the follow rules:
 \begin{itemize}
   \item Let $P$ be an $n$-ary predicate symbol, and $t_1,\ldots,t_n$ be terms, then $P(t_1,\ldots,t_n)$ is a formula.
-  \item Let $t_1$ and $t_2$ be terms, then the equality $t_1 = t_2$ is a formula.
-  \item Let $\varphi$ be a formula, then the negation $\neg\varphi$ is also a formula.
-  \item Let $\varphi$ and $\psi$ be formula, then all of the following are formula: $\varphi\wedge\psi$, $\varphi\vee\psi$, $\varphi\Rightarrow\psi$, $\varphi\Leftrightarrow\psi$.
+  \item If $t_1$ and $t_2$ are terms, then the equality $t_1 = t_2$ is a formula.
+  \item Let $\varphi$ be a formula, then the negation $\neg\varphi$ is also a formula, and $(\varphi)$ is a formula.
+  \item Let $\varphi$ and $\psi$ be formula, then all of the following are formula: $\varphi\wedge\psi$, $\varphi\vee\psi$, $\varphi\Rightarrow\psi$, and $\varphi\Leftrightarrow\psi$.
   \item Let $\varphi$ be a formula, and $x$ be a variable, then $\forall x:\varphi$ and $\exists x:\varphi$ are formula.
 \end{itemize}
+The terms of a language represent objects in a language, whereas the formula represent statements about objects that are either true or false. 
+
+In the special when a function or relation symbol is binary (of arity 2), we usually write terms and formula formed from them using \emph{infix} notation.
+This is commonplace in mathematics, for example, we always prefer the term $x+y$ and the formula $x>y$, rather than $+(2,2)$ and $>(x,y)$.
+
 An occurrence of a variable contained in a formula is said to be \emph{bound} if it is being quantified by either $\forall$, or $\exists$.
 Otherwise the variable is said to be \emph{free}. For example, in the formula $(\forall x: x+y=0)$, $x$ is bound, and $y$ is free.
 
@@ -358,22 +383,22 @@ More detail on the specification of free variables is given in lecture notes by 
 We can use first-order languages to talk about the properties of mathematical systems.
 Continuing with our earlier examples of the signatures for groups and ZF, we can use the language of groups $\mathcal{L}_{\sigma_{\text{grp}}}$ to state the property of associativity:
 $$\forall x,y,z: x*(y*z) = (x*y)*z$$
-and we can use the language of set theory $\mathcal{L}_{\sigma_{\text{ZF}}}$ to state the property of extensionality, which says that two sets are equal if and only if they contain the same elements:
+and we can use the language of set theory $\mathcal{L}_{\sigma_{\text{ZF}}}$ to state the property of extensionality, which says that two sets are equal if they contain the same elements\footnote{The converse follows from the logical principle that equal objects satisfy exactly the same properties.}:
 $$\forall A,B: (\forall x:(x\in A \Leftrightarrow x\in B) \Rightarrow A = B)$$
 
 \section{Zermelo-Fraenkel Set Theory}
 As discussed above, the discovery of paradoxes in Cantors original specification of set theory called for a re-evaluation of set theory.
 Many different approaches have been taken to formalise set theory, including axiomatic, logistic, and intuistic approaches.
-The most prominent and fruitful of these has been the axiomatic method, made famous by Euclid in his Elements.
+The most prominent and fruitful of these has been the axiomatic method.
 Axioms are used as a way to formulate basic truths about the existence of various sets, and their properties.
 First order logic then allows us to reason and prove properties of sets.
 
 To continue with the notation and definitions above, we will specify the set theory $\mathit{ZF}$ as a first-order theory.
-Note that this is different from the system $\mathit{ZF}$, due to the lack of the axiom of choice --- which will be omitted for simplicity.
+Note that this is different from the system $\mathit{ZFC}$, due to the lack of the axiom of choice --- which will be omitted for simplicity.
 
 The signature for ZF consists of a single predicate symbol $\in$ for set membership, where `$x \in X$' is interpreted as `$x$ is contained in $X$'.
-The theory $\mathit{ZF}$ is a set of sentences in $\mathcal{L}_{\sigma_{\mathit{ZF}}}$ that characterise the behaviour of the membership relation, these are our axioms.
-Thus, the theorems of $\mathit{ZF}$ tell us about the existence and properties of the sets can be constructed from the axioms and the rules of first-order logic.\\
+The theory $\mathit{ZF}$ is a set of sentences in $\mathcal{L}_{\sigma_{\mathit{ZF}}}$ that characterise the behaviour of the membership relation; these are our axioms.
+Thus, the theorems of $\mathit{ZF}$ tell us about the existence and properties of the sets can be proved to exist from the axioms and the rules of first-order logic.\\
 
 \subsection{Axioms of $\mathit{ZF}$}
 \textit{Foundations of Set Theory} by Fraenkel, Bar-Hillel, and Levy \cite{foundations} gives a detailed description of the axioms of the theory of $\mathit{ZF}$, as well as philosophical discussion of set theory itself.
@@ -381,48 +406,54 @@ The axioms are listed as follows:
 
 \subsubsection*{I. Axiom of Extensionality}
 If two sets have exactly the same members, then they are equal:
-$$\forall x,y:(\forall z: (z\in x \Leftrightarrow z\in y) \Rightarrow x=y)$$
+$$\forall x,y:(\forall z: z\in x \Leftrightarrow z\in y) \Rightarrow x=y$$
 
 \subsubsection*{II. Axiom of Pairing}
 If two sets $x$, and $y$ exist, then so does $\{x,y\}$, the set containing exactly $x$ and $y$ as members.
-$$\forall x,y: \exists z: \forall u: (u\in z \Leftrightarrow (u=x \vee u=y))$$
+$$\forall x,y: \exists z: \forall u: u\in z \Leftrightarrow (u=x \vee u=y)$$
 Given sets $a$ and $b$, the axiom of pairing allows us to create the set $\{a,b\}$, and also, by pairing $a$ and $a$ (or $b$ and $b$), we can create the sets $\{a\}$ and $\{b\}$.
 
 \subsubsection*{III. Axiom of Union}
 For any set $x$, there exists a set $y$, that contains all of the members of the members of $x$.
-$$\forall x: \exists y: \forall z: (z\in y \Leftrightarrow \exists t: (t\in x \wedge z\in t))$$
+$$\forall x: \exists y: \forall z: z\in y \Leftrightarrow \exists t: t\in x \wedge z\in t$$
 This set is called the \emph{union} of $x$, and is denoted $\bigcup x$.
-For example, if $x = \{\{a,b\}, \{c,d,e\}\}$, then $\cup x = \{a,b,c,d,e\}$.
+For example, if $x = \{\{a,b\}, \{c,d,e\}\}$, then $\bigcup x = \{a,b,c,d,e\}$.
 
-\subsubsection*{IV. Axiom Schema of Subsets}
-The subset relation - denoted by $x\subseteq y$, for `$x$ is a subset of $y$' - is defined as: $(\forall a: (a\in x \Rightarrow a\in y))$. This is when all of the members of $x$ are contained in $y$, but not necessarily the other way around.\\
-
+\subsubsection*{IV. Axiom Schema of Specification}
+The subset relation --- denoted by $x\subseteq y$, for `$x$ is a subset of $y$' --- is defined as: $(\forall a: (a\in x \Rightarrow a\in y))$. This is when all of the members of $x$ are contained in $y$, but not necessarily the other way around.\\
 \noindent
-For any set $x$, and for any condition $\varphi$, there exists a set $y$ containing only the members $z \in x$ such that $\varphi(z)$.
-$$\forall x: \exists y: \forall z: [z\in y \Leftrightarrow (z \in x \wedge \varphi(z))] $$
-This axiom allows us to specify subsets of a given set using some predicate. The subset of $x$ specified by the predicate $\varphi$ is denoted as $x_\varphi$ for shorthand, and as $\{a\in x \mid \varphi(a)\}$ in \emph{set comprehension} notation. For example, if we have the set $x = \{1,2,3,4,5,6,7\}$, and the predicate $\varphi(a) \equiv \text{`a is even'}$, by the axiom, we prove the existence of $x_\varphi = \{2,4,6\}$.
+For any set $x$, and for any condition $\varphi$, there exists a set $y$ containing only the members $z \in x$ such that $\varphi$.
+$$\forall x: \exists y: \forall z: z\in y \Leftrightarrow (z \in x \wedge \varphi)$$
+This axiom allows us to specify subsets of a given set using some predicate. The subset of $x$ specified by the predicate $\varphi$ is denoted as $x_\varphi$ for shorthand, and as $\{a\in x \mid \varphi(a)\}$ in \emph{set comprehension} notation. 
+For example, if we have the set $x = \{1,2,3,4,5,6,7\}$, and the predicate $\varphi(a) \equiv \text{`a is even'}$, by the axiom, we prove the existence of $x_\varphi = \{2,4,6\}$.
+The axiom schema can also be used to prove the existence of the \emph{empty set}, denoted $\emptyset$. 
+Using a universally false predicate such as $\psi(x) \equiv x\neq x$, and applying the axiom schema of specification, we obtain a set with no members, which is unique by extensionality . 
 
 \subsubsection*{V. Axiom of Power Set}
 For any set $x$, there exists a set $y$, whose members are all of the subsets of $x$.
-$$\forall x: \exists y: \forall z: (z\in y \Leftrightarrow z \subseteq x)$$
+$$\forall x: \exists y: \forall z: z\in y \Leftrightarrow z \subseteq x$$
 This set is called the \emph{power set} of $x$, denoted $\mathcal{P}(x)$.
 For example, if $x = \{a,b,c\}$, then $\mathcal{P}(x) = \{\{a,b,c\},\{a,b\},\{a,c\},\{b,c\}, \{a\}, \{b\}, \{c\}, \emptyset\}$.
 
 \subsubsection*{VI. Axiom of Infinity}
-There exists a set $z$ such that, $\emptyset \in z$, and, if $x\in z$, then $\{x\}\in z$.
+There exists a set $z$ such that, $\emptyset \in z$, and, if $x\in z$, then $x \cup \{x\}\in z$.
 $$\exists z: [\emptyset\in z \wedge \forall x: (x\in z \Rightarrow x \cup \{x\}\in z)]$$
-Axioms II-V will only allow us to prove the existence of infinitely many finite sets, but never a set with infinitely many members. The axiom of infinity confirms the existence of an infinite set, with the smallest set satisfying these properties being $\{ \emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\},\ldots \}$. This is often defined as the set of all natural numbers.
+Axioms II-V will only allow us to prove the existence of infinitely many finite sets, but never a set with infinitely many members. 
+The axiom of infinity confirms the existence of an infinite set, with the smallest set satisfying these properties being $\{ \emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\},\ldots \}$. 
+This is often defined to be the first infinite set of Von Neumann ordinals, which represent the natural numbers. 
+The Von Neumann ordinals extend further than this, reaching higher infinities.
 
 \subsubsection*{VII. Axiom Schema of Replacement}
 For any set $x$, if $\varphi(a,b)$ is a predicate such that for each $a\in x$, there is a unique set $b$ that satisfies $\varphi$, then there exists a set $y$ containing exactly the sets $b$ such that $\varphi(a,b)$.
 $$\forall x: \big{[}(\forall a: a\in x \Rightarrow \exists! b: \varphi(a,b))
   \Rightarrow [\exists y: \forall b: (b \in y \Leftrightarrow \exists a: (a\in x \wedge \varphi(a,b)))]\big{]}$$
-In other words, if $\varphi(a,b)$ is a predicate that behaves like a function, and if $x$ is a set acting as the domain of the function, then the sets $b$ that are uniquely determined by the predicate belong to a set $y$. This allows us to create functions that have an infinite domain and range, such as functions that are defined for all of the natural numbers.
+In other words, if $\varphi(a,b)$ is a predicate that behaves like a function, and if $x$ is a set acting as the domain of the function, then the sets $b$ that are uniquely determined by the predicate belong to a set $y$.
+The axiom schema of replacement is only needed for proving the existence of some very esoteric sets which couldn't be proven to exist otherwise. 
 
 \subsubsection*{VIII. Axiom of Foundation}
 If $x$ is a non-empty set, then $x$ has a member $a$ such that $a$ and $x$ have no common member.
-$$\forall x: [x \neq \emptyset \Rightarrow \exists a: (a\in x \wedge (a \cap x = \emptyset))]$$
-Axioms I-VII are compatible with the existence and non-existence of self-containing sets, this axiom forces their non-existence. The axiom of foundation tells us that every set is \emph{well-founded}, that is, there are no infinitely descending chains of sets, such as $\{\{\ldots\{\ldots\}\ldots\}\}$.
+$$\forall x: x \neq \emptyset \Rightarrow \exists a: a\in x \wedge a \cap x = \emptyset$$
+Axioms I-VII are compatible with the existence and non-existence of self-containing sets, but this axiom forces their non-existence. The axiom of foundation tells us that every set is \emph{well-founded}, that is, there are no infinitely descending chains of sets, such as $\{\{\ldots\{\ldots\}\ldots\}\}$.
 
 Using these axioms, we can go on to define various useful mathematical objects.
 
@@ -431,40 +462,42 @@ The ordered pair $(a,b)$ is commonly defined as the set $\{\{a\},\{a,b\}\}$, who
 \begin{align*}
   \{a\} & \text{  (pairing of $a,a$)} \\
   \{a,b\} & \text{  (pairing of $a,b$)} \\
-  \{\{a\}, \{a,b\}\} & \text{  (pairing of $\{a\}$ and \{a,b\})}
+  \{\{a\}, \{a,b\}\} & \text{  (pairing of $\{a\}$ and $\{a,b\}$)}
 \end{align*}
-It can then be proved that this definition satisfies the characteristic property of ordered pairs, that is, $(a,b) = (c,d) \Rightarrow a=c \wedge b=d$.
+It can then be proved that this definition satisfies the characteristic property of ordered pairs, that is, $(a,b) = (c,d) \Rightarrow (a=c \wedge b=d)$.
 
-Ordered tuples of arbitary length can be defined by nesting pairs inside of each other:
+Ordered tuples of arbitrary length can be defined by nesting pairs inside of each other:
 $$(a,b,c) \equiv_{\mathit{def}} (a,(b,c)) = \{\{a\},\{a, \{\{b\},\{b,c\}\}\}\}$$
 
 \subsubsection*{Union and Intersection}
-The union of two sets $x$, and $y$, denoted $x\cup y$ is defined as the set containing all members of $x$, and all members of $y$. Its existence can be proved by the axiom of pairing to create $\{x,y\}$, and the axiom of union to create the desired set $\cup \{x,y\}$.
+The union of two sets $x$, and $y$, denoted $x\cup y$ is defined as the set containing all members of $x$, and all members of $y$. Its existence can be proved by the axiom of pairing to create $\{x,y\}$, and the axiom of union to create the desired set $\bigcup \{x,y\}$.
 
 Set intersection, $x \cap y$, is defined as the set all members which are contained in both $x$ and $y$.
 The existence of this set can be proved by an instance of the axiom schema of subsets. Letting $\varphi(a) \equiv a \in y$, the specification $x_\varphi$ is then the desired set $x \cap y$.
 
 \subsubsection*{Cartesian Product}
-The cartesian product of two sets $x$ and $y$ is defined as the set of all pairs in $(a,b)$, $a\in x$, and $b\in y$.
+The cartesian product of two sets $x$ and $y$ is defined as the set of all pairs $(a,b)$, such that $a\in x$, and $b\in y$.
 By the axiom of pairing, all of the pairs $(a,b)$ exist.
 The sets $\{a\}$, and $\{a,b\}$ belong to $\mathcal{P}(x\cup y)$, so any pair $\{\{a\},\{a,b\}\}$ belongs to $\mathcal{P}(\mathcal{P}(x\cup y))$, as well as many other sets which are not ordered pairs.
 Using the axiom of specification, with the predicate
 $\varphi(p) \equiv \exists a,b: (p = (a,b) \wedge a\in x \wedge b\in y)$, we can create $\mathcal{P}(\mathcal{P}(x\cup y))_{\varphi}$ to get the desired set, denoted $x\times y$.
 
 \subsubsection*{Relations and Functions}
-Generally, relations are given as predicates, however, only some of these relations can be represented as sets containing only ordered pairs.
-For a binary relation $\varphi(a,b)$ to be a set, there needs to exist a set $z$ containing all $x,y$ such that $\varphi(x,y)$, then we can use specification on $z\times z$, to get the desired set $r = \{(x,y) \mid \varphi(x,y)\}$.
+Generally, relations are given as predicates.
+However, only some of these relations can be represented as sets containing only ordered pairs.
+We prove that a binary relation $\varphi(a,b)$ can be represented by a set, by proving the existence of a set $z$ containing all $x$ and $y$ such that $\varphi(x,y)$.
+Then we can use specification on $z\times z$, to get the desired set $r = \{(x,y) \in z\times z \mid \varphi(x,y)\}$.
 This same method of proof generalises to ternary relations, 4-place relations and so on.
 
 Functions can also be modelled as sets.
-A set $f$ is a function if $f$ is a relation, and for each $x$, there is a unique $y$ such that $(x,y)\in f$.
-A function maps members of a set $a$ - called the domain - to the members of another (or the same) set $b$ - known as the range.
+A set $f$ is a function if $f$ is a binary relation, and for each $x$, there is at most one $y$ such that $(x,y)\in f$.
+A function maps members of a set $a$ --- called the domain --- to the members of a set $b$ --- known as the range.
 The existence of these sets can be proved using the axiom of replacement.
 Given that the domain $a$ of the desired function exists, and we have a predicate $\varphi(x,y)$ that behaves like a function, we can confirm the existence of the set $b$, and hence $a\times b$.
 By specification, $(a\times b)_\varphi$ is the desired set $f$.
 
 \section{Model Theory}
-First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions \cite{stanmodel}.
+First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions~\cite{stanmodel}.
 Meaning is given to formula in a first-order language by assigning functions and relations to the symbols in the signature of the language, and by specifying a set that acts as the domain for the variables of the language to range over.
 
 \subsection{Structures}
@@ -472,14 +505,14 @@ A \emph{structure} \cite[ch.~2.1]{selinger} $\mathcal{A}$ is a triple $(A, \sigm
 \begin{itemize}
   \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$.
   \item $\sigma$ is a signature.
-  \item $\mathcal I$ is the interpretation function that assigns actual functions and relations to the function and relation symbols in $\sigma$. Each constants symbol is  assigned an element in $|\mathcal{A}|$.
+  \item $\mathcal I$ is the interpretation function that assigns actual functions and relations to the function and relation symbols in $\sigma$. Each constant symbol is  assigned an element in $|\mathcal{A}|$.
 \end{itemize}
 Using this definition, we can now formally define the standard group of integers as a structure with the $\sigma_{\mathit{grp}}$ signature:
 $$\mathcal{Z} = (\mathbb{Z}, \sigma_{\text{grp}}, \mathcal{I})$$
 $$\text{ where \hspace{1mm}} \mathcal{I}(*) = +,\hspace{1mm} \mathcal{I}(^{-1}) = -, \text{ and } \mathcal{I}(e) = 0.$$
 
-\subsection{Satisfiability of Formula}
-We can determine which sentences of the language $\mathcal{L_\sigma}$ are true under the interpretation and domain of a structure $\mathcal{M}$ by inductively evaluating the truth values of formula using Tarski's so-called ``Truth Schema"\cite{tarski}.
+\subsection{Satisfiability of Formulas}
+We can determine which sentences of the language $\mathcal{L_\sigma}$ are true under the interpretation and domain of a structure $\mathcal{M}$ by inductively evaluating the truth values of formula using Tarski's Truth Schema\cite{tarski}.
 A \emph{variable assignment} on a structure $\mathcal{A}$ is a function $\mu: \textbf{Var} \rightarrow |\mathcal{A}|$ that assigns each variable an element in the domain of the structure.
 We say that a formula $\psi$ is \emph{satisfiable} if there is a structure $\mathcal A$, and variable assignment $\mu$ in which $\psi$ is true, written as $\mathcal{A}, \mu \vDash \psi$ \cite[ch.~2.3]{selinger}.\\
 
@@ -494,12 +527,11 @@ A structure $\mathcal M$ satisfies a theory $T$ when all of the sentences of $T$
 
 Any sentences that follow from the sentences of the theory via logical consequence are called the \emph{theorems} of the theory. We write $T\vdash \psi$ if a sentence $\psi$ is a theorem of the theory $T$.
 
-Theories can be specified by constructing a structure $\mathcal{M}$, and consider the theory to be all of the sentences satisfied by $\mathcal{M}$. This is called the \emph{complete theory} of $\mathcal{M}$, denoted $\mathit{Th}(\mathcal{M})$ \cite[ch.~1]{stanmodel}.
+Theories can be specified by constructing a structure $\mathcal{M}$, and considering the theory to be all of the sentences satisfied by $\mathcal{M}$. This is called the \emph{complete theory} of $\mathcal{M}$, denoted by $\mathit{Th}(\mathcal{M})$ \cite[ch.~1]{stanmodel}.
 Alternatively, we could first list an initial set of axioms, then let the theory $T$ be the smallest set containing the axioms, that is also closed under logical consequence. The class of all structures which are models of this theory, denoted $\mathit{Mod(T)}$, is said to be \emph{axiomatised} by $T$.
 When a theory $T$ is constructed with the purpose of describing a structure $\mathcal{M}$, we say that $\mathcal{M}$ is the intended model of $T$ \cite[ch.~2.2]{shortermodel}.
 
 \subsection{Models of $\mathit{ZF}$ and the Von-Neumann Universe}
-With the examples and discussion presented above, it is clear that $\mathit{ZF}$ is an incredibly rich, and powerful system for reasoning about mathematics.
 We talk about the intended model of $\mathit{ZF}$, and also models of other theories and restrictions of $ZF$, by considering the \emph{Von-Neumann universe} $V$ as the domain of the model. This universe is defined using what is known as \emph{transfinite recursion}, a generalisation of standard recursion on the natural numbers, that uses cardinal and ordinal numbers instead. The universe is defined in stages, indexed by the class of ordinal numbers:
 \begin{align*}
   V_0 &\eqdef \emptyset \\
@@ -513,7 +545,7 @@ But this is too large to be a set in $\mathit{ZF}$, instead, this is what is kno
 A proper class is a collection of sets, which cannot be constructed as a set through the axioms of $\mathit{ZF}$.
 Thus $V$ is the class of all well-founded sets, and is often used as a domain for models of set theory, and is usually assumed to be contained in some more powerful theory that allows the use of classes.
 
-This means that $\mathit{ZF}$ is not powerful enough to model itself, that is, there cannot exist a model for the theory $\mathit{ZF}$ whose domain and interpretation exist as sets in $\mathit{ZF}$.
+This means that $\mathit{ZF}$ is not powerful enough to model itself, that is, there cannot exist a model for the theory $\mathit{ZF}[]$ whose domain and interpretation exist as sets in $\mathit{ZF}$.
 So when we talk about models of $ZF$, we assume that we are working \emph{outside} of $\mathit{ZF}$, in a more powerful system. A more detailed summary of these issues is given in a paper by Timothy Chow \cite{force}.
 
 \section{Alternative Axiomatic Set Theories}
@@ -528,18 +560,25 @@ Another approach to an alternative to ZF as a mathematical foundation is Chiron,
 These are two concrete examples of alternative theories being created for some manifesto.
 
 \section{Urelements}
+Urelements are objects in a formal set theory that are considered to be distinct from sets.
+They contain no elements via the standard membership relation, but can still belong to sets, and they are not equal to the empty set. 
+Formal modifications to axiomatic theories need to be made to allow the presence of urelements.
+For example, the axiom of extensionality in $\mathit{ZF}$ would say that all urelements are equal to each other, and equal to the empty set, rendering them useless. 
+
 Zermelo's original axiomatisation did allow the existence of urelements \cite{zermelo}.
 Later however, Fraenkel specifically mentioned the unnecessity of them, and this was realised by mainstream set theory.
 
 Barwise \cite{barwise} gives a strong argument for the use of urelements in set theory and why ZF is ``too strong", claiming that large parts of mathematical practice are distorted by the demand that all objects be realised as sets, as opposed to being isomorphic to sets.
 He also notes, as above, that in the work of Zermelo, urelements were an integral part of the subject.
 
+Urelements are commonly used as `atoms', that have no internal structure, it seems that defining relations on urelements to give them structure has not been considered.
+
 In the appendix of \cite{barwise}, Barwise also shows us how to formally interpret one set theory with urelements, KPU, in terms of another, KP.
 He does this by defining predicates in KP for identifying urelements and sets as follows:
 $$U(x) \equiv_{def} \exists y: x = (0,y)$$
 $$\text{Set}(x) \equiv_{def} \exists y:(x = (1,y) \wedge (\forall z\in y: U(z) \vee \text{Set}(z))$$
 Since for each set in KP $x$, there will exist ordered pairs $(0,x)$ and $(1,x)$, so effectively, two copies of the universe are created, whose objects are distinct from each other.
-This allows us to interpret each urelement $u$ in KPU, as the ordered pair $(0,u)$ in KP, similarly each set $x$ as the ordered pair $(1,x)$.
+This allows us to interpret each urelement $u$ in KPU, as the ordered pair $(0,u)$ in KP, similarly each set $x$ as the ordered pair $(1,x')$, where $x'$ is modified so each of its elements are also of the `new' form.
 The second part of the conjunction of $\text{Set}(x)$ ensures that all elements of the set are of the same form of the paired universe.
 A new definition is then given for set membership in KPU:
 $$x\in_{KPU} y \equiv_{def} \exists z: (y=(1,z) \wedge x\in z)$$
@@ -549,7 +588,27 @@ A similar method is given by L\"owe \cite{lowe}, for interpreting ZFU in ZF.
 This method will be employed when creating the model for our new theory, but working axiomatically within ZF rather than KP.
 
 \section{Aczel and Lunnon}
+Mid-way throughout the project, we found various pieces of literature by Aczel and Lunnon, that sought to provide a mathematical foundation for the field of Situation Theory.
 
+We were initially interested in this literature upon finding a note on Aczel's website~\cite{aczelsite} reading: 
+\begin{quotation}
+\begin{small}
+\noindent
+``This [Generalised Set Theory] is axiomatic set theory, modified to allow for other kinds of objects besides pure sets. The simplest modification is reasonably familiar. This is to allow for atoms (also called urelemente). These are objects that have no internal structure. As well as sets having sets as elements they may have atoms also as elements. But it is also possible to allow for non-sets that do have internal structure. For example axiomatic set theory can be modified so as to allow for a primitive notion of ordered pair. So given any two objects a,b of the universe, sets, atoms or whatever, as well as being allowed to form the unordered pair set {a,b}, it can be allowed to form a new object (a,b), called the ordered pair of a,b. This object is not a set but, like {a,b} is a structured object having internal components a,b. More elaborate kinds of structured objects that are not sets can also be allowed."
+\end{small}
+\end{quotation}
+Tracking down the literature on \emph{Generalised Set Theory} led us to a paper~\cite{gst} detailing this set theory, but not the axiomatisation of it, nor a modification of $ZF$. 
+This paper references a series of papers published by Aczel himself, as well as a joint paper between Aczel and Lunnon, as well as Lunnon's PhD thesis.
+These papers took an algebraic approach to formulating a generalised theory of structured objects.
+
+The work looks somewhat similar in that they have various different kinds of non-set objects, that each have their own ``components" function. 
+However, all of this is defined algebraically, rather than in any set theory. 
+There is discussion of axiomatisation of this theory, but little detail is given. 
+
+Discussions with my supervisor found that the literature was extremely hard to read, and we didn't gain much insight into how it could be used for this project.
+It is possible however, that Aczel and Lunnon have already solved this problem of primitive ordered pairs, and it is just unclear from the papers presented. 
+
+We were also unable to find a copy of Lunnon's PhD thesis.
 \chapter{Research Questions \& Evaluation Strategy}
 \section{Research Questions}
 This project is an exploratory research project.
@@ -596,7 +655,7 @@ Regardless of any specific plan or schedule, we aim to gain as much knowledge ar
 \subsection{Requirements}\label{zfpreq}
 
 We first propose an alternative set theory $\mathit{ZFP}$, which is mainly just $\mathit{ZF}$, but uses ordered pairs as a primitive structure.
-These ordered pairs will techssnically be urelements, but not in the sense mentioned earlier.
+These ordered pairs will technically be urelements, but not in the sense mentioned earlier.
 The urelements most commonly discussed are objects that are distinct from sets, with no internal structure.
 These will be called \emph{atoms} from this point forward.
 Our ordered pairs will be distinct from sets, but with an internal structure consisting of two elements, the left and right projections of the pair.
@@ -1238,6 +1297,14 @@ William M. Farmer.
 Undefinedness, Quotation, and Evaluation.}
 McMaster University, 2009
 
+\bibitem{aczelsite}
+Peter Aczel
+\verb|http://www.cs.man.ac.uk/~petera/LogicWeb/settheory.html|
+
+\bibitem{gst}
+Peter Aczel
+\textit{Generalised Set Theory}, 
+Logic, Language and Computation, Jerry Seligman and Dag Westerstahl, eds, CSLI Lecture Notes No. 58, Stanford University, 1996.
 \end{thebibliography}
 
 
@@ -1253,7 +1320,6 @@ McMaster University, 2009
 % • Is the topic extensively researched or investigated?
 % • Are the project outcomes of a high quality?
 %  20 marks
-
 
 % Project Management
 % • Did the student take responsibility for the management of project?
