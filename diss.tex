@@ -298,8 +298,6 @@ This section will review some of the main concepts that will be involved in the 
 % • How strong are the comparative and critical aspects?
 % • Is the literature review of an appropriate length
 
-\section{Ordered Pairs}
-
 \section{Propositional and First-order Logic}
 Propositional logic --- or the propositional calculus --- is an elementary system of logic which deals with statements that are true or false, and serves as a basis for logical reasoning. 
 Introduction of the modern propositional calculus is usually attributed to George Boole, and Augustus DeMorgan, but unpublished work of Leibniz from the $17^{\text{th}}$ century show him to be the founder.
@@ -387,12 +385,44 @@ and we can use the language of set theory $\mathcal{L}_{\sigma_{\text{ZF}}}$ to 
 $$\forall A,B: (\forall x:(x\in A \Leftrightarrow x\in B) \Rightarrow A = B)$$
 
 \section{Zermelo-Fraenkel Set Theory}
-As discussed above, the discovery of paradoxes in Cantors original specification of set theory called for a re-evaluation of set theory.
+As discussed in the project introduction, the discovery of paradoxes in Cantors original specification of set theory called for a re-evaluation of set theory.
 Many different approaches have been taken to formalise set theory, including axiomatic, logistic, and intuistic approaches.
 The most prominent and fruitful of these has been the axiomatic method.
 Axioms are used as a way to formulate basic truths about the existence of various sets, and their properties.
 First order logic then allows us to reason and prove properties of sets.
 
+Before giving the axiomatic definition of $\mathit{ZF}$ set theory, we will first give a brief overview of the basic notions of set theory.
+These are concepts and operations which would usually be introduced to students at an undergraduate level.
+Sets are introduced as unordered collections of objects, without repetition.
+They are commonly denoted as comma separated lists using braces, also known as ``curly brackets". 
+For example, the set containing exactly the numbers $1,2$, and $3$ is denoted as $\{1,2,3\}$. 
+This notation originates from Cantor~\cite{cantor}.
+Infinite sets are denoted in the same way that one would informally write an infinite series, by writing some initial fragment of the series, and leaving the reader to use their intuition to guess what follows. 
+For example, the set of all even numbers is informally denoted as $\{2,4,6,8,\ldots\}$.
+It is usually necessary to stress the fact that a set is not dependent on the order its elements are written in, to avoid confusion with computer science students, who are used to using \emph{arrays} in programming languages.  
+
+The fundamental notion of set theory is that of \emph{set membership}, characterised by the relation denoted by the symbol $\in$.
+We write $1\in\{1,2,3\}$ to mean ``$1$ is contained in the set $\{1,2,3\}$", which is clearly a true statement. 
+The negation of this relation is denoted by putting a backslash through the symbol, for example $0\notin\{1,2,3\}$ for ``$0$ is not contained in the set $\{1,2,3\}$''.
+It is possible for a set to have no members, this set is known as the \emph{empty set}, and is denoted by the symbol $\emptyset$. 
+
+Another commonly used notion is that of \emph{subset}.
+We say that a set $A$ is a subset of another set $B$ --- denoted $A \subseteq B$ --- if all of the elements of $A$ are also contained in $B$.
+There are also certain operations defined on sets, known as intersection, union, and difference, denoted by $\cap$, $\cup$, and $\setminus$ respectively.
+The intersection of two sets $A$ and $B$ --- $A\cap B$ --- is the set containing all of the elements which are contained in both $A$ and $B$.
+The union of $A$ and $B$ --- $A\cup B$ --- is the set containing all of the elements contained in either $A$ or $B$. 
+The set difference $A\setminus B$ is the set containing all of the elements of $A$ that are not in $B$.
+
+The sets that are first introduced to students are often various sets of numbers.
+At the lowest level we have the natural numbers, $\mathbb{N} = \{1,2,3,\ldots\}$, and then the integers $\mathbb{Z} = \{\ldots, -1, 0, 1, \ldots\}$.
+Continuing, we have the rationals $\mathbb{Q}$, which are all numbers which can be represented as a fraction $\frac{a}{b}$, where $a$ and $b$ are integers.
+Extending even further, we have the real numbers $\mathbb{R}$, where we find numbers such as $\sqrt{2}$, and $\pi$. 
+Finally, we have the complex numbers $\mathbb{C}$, which are all numbers of the form $a+bi$, where $a$ and $b$ are real numbers, and $i$ is the imaginary number representing $\sqrt{-1}$.
+These sets are usually considered to be ordered by the subset relation\footnote{Due to the way that these sets are actually defined, formally, this statement is false. It is the case however that the reals contain a subset that is the same size as, and \emph{behaves} in the same way as the natural numbers.}, that is: 
+$$\mathbb{N} \subseteq \mathbb{Z} \subseteq \mathbb{Q} \subseteq \mathbb{R} \subseteq \mathbb{C}$$
+
+These concepts are all extremely useful in mathematics, and provide a common language for discussing mathematical reasoning. 
+However, as mentioned above, there is a need for a rigorous definition of set theory, to ensure that no paradoxical sets can be proven to exist. 
 To continue with the notation and definitions above, we will specify the set theory $\mathit{ZF}$ as a first-order theory.
 Note that this is different from the system $\mathit{ZFC}$, due to the lack of the axiom of choice --- which will be omitted for simplicity.
 
@@ -458,6 +488,7 @@ Axioms I-VII are compatible with the existence and non-existence of self-contain
 Using these axioms, we can go on to define various useful mathematical objects.
 
 \subsubsection*{Ordered Pairs}
+\label{zfordpair}
 The ordered pair $(a,b)$ is commonly defined as the set $\{\{a\},\{a,b\}\}$, whose existence can be proved using three applications of the axiom of pairing:
 \begin{align*}
   \{a\} & \text{  (pairing of $a,a$)} \\
@@ -496,6 +527,54 @@ The existence of these sets can be proved using the axiom of replacement.
 Given that the domain $a$ of the desired function exists, and we have a predicate $\varphi(x,y)$ that behaves like a function, we can confirm the existence of the set $b$, and hence $a\times b$.
 By specification, $(a\times b)_\varphi$ is the desired set $f$.
 
+\section{Ordered Pairs}
+Ordered pairs ---  as frequently mentioned throughout this document --- or objects which hold two elements; a left projection, and a right projection. 
+They are used to define co-ordinate systems, relations and functions, and are a key, commonly used mathematical structure. 
+Kanamori \cite{kanamori} gives a fantastic review of the history of the ordered pair. 
+He firstly notes that ordered pairs were not explicitly used in the work of Decartes, even though most students first introduction to ordered pairs will have been in simple high-school geometry.
+The first objectification of ordered pairs is attributed to Hamilton is 1837, using them to represent complex numbers (using $(a,b)$ to represent the complex number $a+bi$).
+Peano was focused on creating economical ``reductions" in mathematics, such as defining \emph{sequences} as functions on the natural numbers. 
+He considered ordered pairs to be primitive, and defined relations as collections of ordered pairs. 
+He explicitly gave the ``characteristic property"\footnote{This is equivalent to the property given in~\ref{zfordpair} since $(x,y)=(a,b)$ follows from $(x=a\wedge y=b)$ for any definition of the ordered pair}  of the ordered pair:
+$$(x,y) = (a,b) \iff (x=a \wedge y=b)$$
+and noted the possibility of a reduction.   
+However Russell and Whitehead did quite the opposite in their \emph{Principia Mathematica}, deriving the ordered pair in terms of relations. 
+
+Weiner was the first to define the ordered pair as a set, defining $(x,y)$ as
+$$\{\{\{x\},\emptyset\},\{\{y\}\}\}$$ 
+and notes that this definition satisfies the characteristic property given by Peano.
+Around the same time, Hausdorff\cite{hausdorff} gave his definition as 
+$$\{\{x,1\},\{y,2\}\},$$ 
+were the objects $1$ and $2$ were intended to be distinct objects.
+This definition works even when $x$ or $y$ is equal to $1$ or $2$. 
+
+Kuratowski then introduced the now-standard definition given in most textbooks:
+$$\{\{x\},\{x,y\}\}$$
+Which satisfies the characteristic property, and is also more economical, in the sense that is does not require any external objects, and a pairs existence can be proven solely from the axiom of pairing.
+This definition seemed to stick, as it was adopted by Von Neumann, G\"odel, Bernays, and Tarski.  
+
+Quine, in his 1932 PhD dissertation, took the ordered pair to be primitive, but still noted the ``Weiner-Kuratowski'' ordered pair. 
+Far later, in Quine's philosophical work \emph{Word and Object} in 1960, he describes the Kuratowski ordered pair, but emphasizes that as long as the definition of the ordered pair satisfies the characteristic property, the choice of definition really doesn't matter. 
+Quine writes: 
+\begin{quotation}
+A similar view can be taken of every case of explication: \emph{explication
+is elimination}. We have, to begin with, an expression or form of
+expression that is somehow troublesome. It behaves partly like a
+term but not enough so, or it is vague in ways that bother us, or it
+puts kinks in a theory or encourages one or another confusion. But
+also it serves certain purposes that are not to be abandoned. Then
+we find a way of accomplishing those same purposes through other
+channels, using other and less troublesome forms of expression.
+The old perplexities are resolved.
+\end{quotation}
+Quine also gave his own definition of the ordered pair in his \emph{New Foundations}, though it is extremely convoluted, and not nearly as economical as the earlier definitions by Weiner, Hausdorff and Kuratowski.
+It does however, have the advantage of being \emph{type-level}. 
+Russell's theory of types was intended to avoid paradoxes, so that in statements such as $x\in y$, $x$ must be one type lower than $y$. 
+In more modern terms, the concept of type is equivalent to that of rank. 
+It was seen as a problem that the previous definitions of the ordered pair $(x,y)$ were actually two types higher than the type of $x$ and $y$.
+Quine's new definition in 1966 ensured that $(x,y)$ is the same type as $x$ and $y$.
+Dana Scott also gives a similar type-level definition in his article \emph{Reconsidering Ordered Pairs}~\cite{dscott}.
+
 \section{Model Theory}
 First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions~\cite{stanmodel}.
 Meaning is given to formula in a first-order language by assigning functions and relations to the symbols in the signature of the language, and by specifying a set that acts as the domain for the variables of the language to range over.
@@ -503,7 +582,7 @@ Meaning is given to formula in a first-order language by assigning functions and
 \subsection{Structures}
 A \emph{structure} \cite[ch.~2.1]{selinger} $\mathcal{A}$ is a triple $(A, \sigma,\mathcal{I})$ where:
 \begin{itemize}
-  \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$.
+  \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$. These are the objects that the variables of formula will range over. 
   \item $\sigma$ is a signature.
   \item $\mathcal I$ is the interpretation function that assigns actual functions and relations to the function and relation symbols in $\sigma$. Each constant symbol is  assigned an element in $|\mathcal{A}|$.
 \end{itemize}
@@ -545,7 +624,7 @@ But this is too large to be a set in $\mathit{ZF}$, instead, this is what is kno
 A proper class is a collection of sets, which cannot be constructed as a set through the axioms of $\mathit{ZF}$.
 Thus $V$ is the class of all well-founded sets, and is often used as a domain for models of set theory, and is usually assumed to be contained in some more powerful theory that allows the use of classes.
 
-This means that $\mathit{ZF}$ is not powerful enough to model itself, that is, there cannot exist a model for the theory $\mathit{ZF}[]$ whose domain and interpretation exist as sets in $\mathit{ZF}$.
+This means that $\mathit{ZF}$ is not powerful enough to model itself, that is, there cannot exist a model for the theory $\mathit{ZF}$ whose domain and interpretation exist as sets in $\mathit{ZF}$.
 So when we talk about models of $ZF$, we assume that we are working \emph{outside} of $\mathit{ZF}$, in a more powerful system. A more detailed summary of these issues is given in a paper by Timothy Chow \cite{force}.
 
 \section{Alternative Axiomatic Set Theories}
@@ -1259,7 +1338,7 @@ Hodges, Wilfrid
 Cambridge University Press, 1997
 
 \bibitem{zermelo}
-Akihiro Kanamori.
+Ernst Zermelo.
 \textit{Zermelo and Set Theory.}
 The Bulletin of Symbolic Logic, Vol. 10, No. 4, 2004
 
@@ -1267,6 +1346,26 @@ The Bulletin of Symbolic Logic, Vol. 10, No. 4, 2004
 A.A. Fraenkel, Y. Bar-Hillel, A. Levy.
 \textit{Foundations of Set Theory}
 Studies in Logic, 1973
+
+\bibitem{cantor}
+Cantor, Georg.
+\textit{Contributions to the founding of the theory of transfinite numbers}
+New York : Dover Publications
+
+\bibitem{dscott}
+Scott, Dana. 
+\textit{Reconsidering Ordered Pairs}
+The Bulletin of Symbolic Logic, Vol. 14, No. 3 (Sep., 2008)
+
+\bibitem{kanamori}
+Akihiro Kanamori.
+\textit{The Empty Set, the Singleton, and the Ordered Pair}.
+The Bulletin of Symbolic Logic, Vol. 9, No. 3 (Sep., 2003), pp. 273-298
+
+\bibitem{hausdorff}
+Hausdorff, Felix. 
+\textit{Grundzüge der Mengenlehre}
+Leipzig, 1914
 
 \bibitem{force}
 Chow, Timothy Y.
@@ -1282,6 +1381,11 @@ Handbook of the History of Logic: Sets and Extensions in the Twentieth Century, 
 Jon Barwise.
 \textit{Admissible Sets and Structures.}
 Springer, 1975
+
+\bibitem{dubois}
+Dubois, Laurent.
+\textit{Lambda theory: Introduction of a constant for" nothing" into set theory, a model of consistency and most noticeable conclusions.} 
+Logique Et Analyse 56 (222):165-181.
 
 \bibitem{lowe}
 Benedikt L\"owe
@@ -1305,6 +1409,7 @@ Peter Aczel
 Peter Aczel
 \textit{Generalised Set Theory}, 
 Logic, Language and Computation, Jerry Seligman and Dag Westerstahl, eds, CSLI Lecture Notes No. 58, Stanford University, 1996.
+
 \end{thebibliography}
 
 
