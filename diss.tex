@@ -239,7 +239,7 @@ In order to deal with the cases where this description mechanism failed (when no
 This object, whilst belonging to the domain of any model of the theory, would not be able to be contained in sets or pairs.
 Whilst this would have been a great feature and a further tool for the use of set theory in education, this development is outside of the scope of this project, and will be left to future work.
 
-\section{Objectives}
+\section{Objectives}\label{objectives}
 To achieve the aims specified above, we targeted 4 main objectives:
 \begin{enumerate}
   \item \textbf{Provide a literature review} and documentation detailing a background of axiomatic set theory, model theory, and set theory with urelements, as well as detailing important contributions that will assist this project.
@@ -552,6 +552,13 @@ Kuratowski then introduced the now-standard definition given in most textbooks:
 $$\{\{x\},\{x,y\}\}$$
 Which satisfies the characteristic property, and is also more economical, in the sense that is does not require any external objects, and a pairs existence can be proven solely from the axiom of pairing.
 This definition seemed to stick, as it was adopted by Von Neumann, G\"odel, Bernays, and Tarski.  
+The projection relations for the Kuratowski defined pairs $\pleft$ and $\pright$ are defined as:
+\begin{align*}
+a\pleft p &\eqdef (\forall x\in p: a\in x) \\
+b\pright p &\eqdef (\exists x\in p: b\in x) \wedge
+                (\forall x,y \in p: x\neq y \Rightarrow (b\notin x \vee b\notin y))
+\end{align*}
+These definitions can easily be shown to have the properties of uniqueness, so that if $a\pleft p$, and $b\pleft p$, then $a=b$, and similarly for $\pright$. As a consequence, they also have the characteristic property of ordered pairs, so that if $\forall a: (a\pleft p)\Leftrightarrow(a\pleft q)$, and $\forall b: (b\pright p)\Leftrightarrow(b\pright q)$, then $p=q$.\\
 
 Quine, in his 1932 PhD dissertation, took the ordered pair to be primitive, but still noted the ``Weiner-Kuratowski'' ordered pair. 
 Far later, in Quine's philosophical work \emph{Word and Object} in 1960, he describes the Kuratowski ordered pair, but emphasizes that as long as the definition of the ordered pair satisfies the characteristic property, the choice of definition really doesn't matter. 
@@ -579,7 +586,7 @@ Dana Scott also gives a similar type-level definition in his article \emph{Recon
 First-order model theory is described as a branch of mathematics that deals with the relationships between descriptions in first-order languages, and the structures which satisfy these descriptions~\cite{stanmodel}.
 Meaning is given to formula in a first-order language by assigning functions and relations to the symbols in the signature of the language, and by specifying a set that acts as the domain for the variables of the language to range over.
 
-\subsection{Structures}
+\subsection{Structures}\label{def:structures}
 A \emph{structure} \cite[ch.~2.1]{selinger} $\mathcal{A}$ is a triple $(A, \sigma,\mathcal{I})$ where:
 \begin{itemize}
   \item $A$ is a set, often called the domain of $\mathcal{A}$, denoted $|\mathcal{A}|$. These are the objects that the variables of formula will range over. 
@@ -664,7 +671,15 @@ $$x\in_{KPU} y \equiv_{def} \exists z: (y=(1,z) \wedge x\in z)$$
 From this, we can create a new structure, whose domain ranges over the objects of KP that satisfy $U(x) \vee \text{Set}(x)$, and whose membership relation is $\in_{KPU}$.
 Barwise then shows that under this new interpretation, every axiom of KPU is a theorem of KP.
 A similar method is given by L\"owe \cite{lowe}, for interpreting ZFU in ZF.
-This method will be employed when creating the model for our new theory, but working axiomatically within ZF rather than KP.
+This method will be employed when creating the model for our new theory, but working axiomatically within ZF rather than KP.\\
+
+Dubois~\cite{dubois} presents a set theory which introduces a new constant, $\Lambda$, which represents the concept of ``nothing'', yet is distinct from the empty set.
+This legitimises the existence of the empty set, and the distinction between the empty set and any urelements follows clearly from this introduction\footnote{The original problem stems from the fact that both urelements and the empty set have no members, making them hard to tell apart.}.
+He gives a new theory by extending any set theory which satisfies extensionality, existence of the empty set, and pairing (this could easily be $\mathit{ZF}$).
+He gives new axioms in terms of a new language, which is just the standard language with a new constant $\Lambda$ added. 
+No modifications to the original axioms are needed.
+A model is created in a similar fashion to Barwise, however, less detail is given.
+A new membership relation is defined on this new universe, and it is shown that the new model interprets the extended theory.
 
 \section{Aczel and Lunnon}
 Mid-way throughout the project, we found various pieces of literature by Aczel and Lunnon, that sought to provide a mathematical foundation for the field of Situation Theory.
@@ -688,72 +703,66 @@ Discussions with my supervisor found that the literature was extremely hard to r
 It is possible however, that Aczel and Lunnon have already solved this problem of primitive ordered pairs, and it is just unclear from the papers presented. 
 
 We were also unable to find a copy of Lunnon's PhD thesis.
-\chapter{Research Questions \& Evaluation Strategy}
-\section{Research Questions}
-This project is an exploratory research project.
-The theory we are trying to formalise currently has no known foundation, thus the majority of this project will entail gathering literature relating to set theory and model theory, and applying it to the objectives of the project.
-The overall outcome will be a document that details the construction of a set theory, that is written in a clear and general manner, so that the process can be analysed further.
-The research questions for this project are as follows:
-\begin{itemize}
-  \item Is it possible to create a model of a set theory with ordered pairs as distinct objects?
-  \item Can this be done as a modification to ZF, or does it require some other system such as KP?
-  \item Can such a theory be axiomatised? Are there alternative models other than the intended model we have constructed?
-  \item How repeatable is this construction? What are the limitations of the operations and the features we can add?
-  \item How can formalisation of custom set theories benefit education?
-\end{itemize}
-The research requirements are detailed in the aims section in Chapter 1.
-% • Are the requirements/hypothesis/research questions clearly expressed, testable, and achievable?
-% • Are the requirements of an appropriate length?
-
-Due to the nature of this project, the evaluation strategy is still to be fully decided on.
-However, we expect to be able to evaluate the success of the definition of the intended model by giving examples of constructions in our new theory that highlight its main features. Research into the literature of model theory will allow us to explore the properties of this new model.
-
-We will evaluate the description of the theory by looking at which models the axioms of the theory characterise, how understandable the axioms are, and how they relate to the axioms of ZF and other systems.
-
-We will evaluate the validity of the theory by attempting to prove that the new theory is equiconsistent with ZF.
-
-The current evaluation strategy is quite vague, and will have to be refined as the main objectives of the project are undertaken.
-
-\section{Project Plan}
-The following schedule is proposed for the project:
-\begin{itemize}
-\item Define a structure in ZF that is the intended model of our new theory.
-\item Create a list of axioms which characterise this model, and prove that the model satisfies these axioms.
-\item Add a formal abbreviation mechanism to the theory using definite descriptions.
-\item Provide documentation detailing the construction and findings of the project, containing a variety of examples.
-\end{itemize}
-All of these steps in the plan will require a lot of research and collection of literature, so it is extremely hard to give a schedule.
-In addition to this, there could be mathematical roadblocks found when attempting these steps, which could change the schedule, or even the steps in the plan.
-For instance, it could be the case that there can exist no model for our theory, or that there are certain conditions that need to hold for the existence of such a model.
-These possibilities would be equally as interesting in proving the existence of a model, and my aims would change accordingly.
-There could also be a case in which the construction of such a model is a trivial task, and is just a case of finding the right literature.
-Regardless of any specific plan or schedule, we aim to gain as much knowledge around this area  as possible, and present it sufficiently within the time constraints of the project.
 
 \chapter{Design and Implementation}
 \section{The Theory $\mathit{ZFP}$}
-\subsection{Requirements}\label{zfpreq}
+We propose an alternative set theory \emph{Zermelo-Fraenkel Set Theory, with Ordered Pairs} (hereinafter $\mathit{ZFP}$).
+This theory is mainly just $\mathit{ZF}$, but has ordered pairs as a primitive structure, as well as sets.
+To allow this, we introduce two new relation symbols --- $\pleft$ and $\pright$ --- whose intended meanings are respectively the left and right projection relations.
+We formalise this set theory as a list of axioms that characterise the behaviour of the relation symbols. 
 
-We first propose an alternative set theory $\mathit{ZFP}$, which is mainly just $\mathit{ZF}$, but uses ordered pairs as a primitive structure.
-These ordered pairs will technically be urelements, but not in the sense mentioned earlier.
-The urelements most commonly discussed are objects that are distinct from sets, with no internal structure.
-These will be called \emph{atoms} from this point forward.
-Our ordered pairs will be distinct from sets, but with an internal structure consisting of two elements, the left and right projections of the pair.
-We will use the general term \emph{object} to mean something that is either a set, or an ordered pair.
+\subsection{Requirements}\label{zfpreq}
+The main desired property that the projection relation symbols $\pleft$ and $\pright$ should have is:
+$$a\pleft p \wedge b\pright p \iff p = (a,b).$$ 
+Since we are using relation symbols rather than function symbols, we also require that the projections are \emph{unique}, and that for any ordered pair, its left and right right projections \emph{always exist}.
+That way, we ensure that no ordered pairs have more than one left or right projection, and that there is no such thing as an ``empty pair'' or a pair with only one projection. 
+
+The urelements most commonly discussed are objects with no elements via the membership relation, yet still distinct from the empty set.
+For this reason, these objects with no internal are sometimes called \emph{atoms}. 
+We use the general term \emph{object} to mean something that is either a set, or an ordered pair.
+We adopt this vocabulary from this point forward.
+Our ordered pairs are technically urelements, in the sense that they are distinct from sets.
+In order to make statements about sets and ordered pairs specifically, it is a requirement that our language needs two unary predicates to distinguish between them: 
+$$U(p) \iff \text{``$p$ is an ordered pair".}$$
+$$Set(x) \iff \text{``$x$ is a set".}$$
+Obviously, ordered pairs still have some internal structure, which is endowed via the left and projection relations.
+To ensure that our urelements are distinct from sets, we require the property that no ordered pairs have any elements via the set membership relation.
+Stated formally, this is: 
+$$\forall p: U(p) \Rightarrow \forall a: a\notin p$$
+
 Since these ordered pairs are not sets, their behaviour and existence is not determined by the current axioms of $\mathit{ZF}$.
 They will need their own axioms to govern their use.
+On top of this, we have the problem that a lot of the axioms of $\mathit{ZF}$ use universal quantification $(\forall)$.
+This means that the statement that follows the quantifier must hold for all objects of the theory, which clearly won't be the case for ordered pairs. 
+It is thus a requirement to modify the axioms of $\mathit{ZF}$ so that they only hold for the sets of the new theory $\mathit{ZFP}$. 
 
+We then require some basic properties for the ordered pairs in our theory. 
+Firstly, we must be able to prove the characteristic property of ordered pairs, that is:
+$$(a,b) = (c,d) \Rightarrow (a = c \wedge b = d)$$
+In addition to thus, we must be able to prove that all of the ordered pairs that can be proven to exist using the Kuratowski definition in $\mathit{ZF}$, can be proven to exists in $\mathit{ZF}$.
+
+In order to find a model similar to the \emph{Von-Neumann universe}, we must ensure that all of the objects of our theory are well-founded. 
+This means that we must be able to show that there are no infinitely descending chains of sets, or pairs, or a combination of the two. 
+ 
 \subsection{Discussion}\label{zfpaxioms}
-We propose an extension to the current language of the theory of $\mathit{ZF}$, that contains binary predicate symbols for the set membership relation $\in$ as standard, along with projection relations for ordered pairs $\pleft$, and $\pright$.
-In addition to this, we will have a unary predicate for identifying our urelements, which are ordered pairs.
+We begin by extending the current language of the theory of $\mathit{ZF}$ which contains a single binary predicate symbol for the set membership.
+We add symbols $\pleft$ and $\pright$ for the projection relations on ordered pairs. 
 \begin{definition}
 The signature of the language of $\mathit{ZFP}$ is defined as:
-$$\sigma_\mathit{ZFP} = (\emptyset,\{\in, \pleft, \pright\},\{(\in,2),(\pleft,2),(\pright,2),(\mathit{U},1)\})$$
+$$\sigma_\mathit{ZFP} = (\emptyset,\{\in, \pleft, \pright\},\{(\in,2),(\pleft,2),(\pright,2)\})$$
 \end{definition}
 \noindent
 Just as the axiomatisation of the membership relation entirely represents the notion of set, we will use the projection relations in a similar way, to characterise the behaviour and existence of ordered pairs.
 We will consider the language of our set theory to be the first order language of signature $\sigma_\mathit{ZFP}$.
 
-We do not have a relation symbol for identifying sets and ordered pairs, since we will see that we can define relations $U$ and $\mathit{Set}$ with formula using the projection relations.
+Projections of ordered pairs are usually described using function symbols, which take a pair, and return a projection.
+Instead, we opt for the use of relation symbols as a design choice. 
+If we were to use function symbols instead, then we would be assuming the uniqueness of the projections, therefore assuming a more powerful form of first-order logic.
+Relation symbols are also more in the spirit of set theory, since $\mathit{ZF}$only uses a single relation symbol. 
+Another advantage of this is that we are then able mimic proofs of $\mathit{ZF}$, since the projection relations are somewhat analogous to the membership relation.
+This facilitates the aim of the new theory being $\mathit{ZF}$-like.  
+
+We do not have a relation symbol for identifying sets and ordered pairs, since we will show that the relations $U$ and $\mathit{Set}$ can be defined with formula using the projection relations.
 We will use the $\mathit{U}$ and $\mathit{Set}$ relations for restricting quantifications over the domain of discourse to only ordered pairs, or to only sets.
 This is similar to when we use the membership relation to only quantify over elements of a certain set.
 For example, the formula $\forall x: (x\in A \Rightarrow \varphi)$ is often denoted as $\forall x\in A: \varphi$.
@@ -768,19 +777,21 @@ The quantifiers denoted $\all{Set}, \all{U}, \ex{Set}, \ex{U}$ are defined as fo
 \end{align*}
 \end{definition}
 \noindent
-An additional convention is also given by Barwise relating to the use of symbols for variables standing for sets and urelements \cite{barwise}.
+Additional convention is also given by Barwise relating to the use of symbols for variables standing for sets and urelements \cite{barwise}.
 The symbols $x,y,z,\ldots$ are used for sets, $p,q,r,\ldots$ for urelements, and $a,b,c,\ldots$ for objects in general.
 This convention will be adopted, but it should be noted that the use of these symbols is only for visual aid, and do not imply that the objects themselves are actually sets, or urelements.
 
 As mentioned earlier, we can specify a first-order theory either by creating a model in a theory such as $\mathit{ZF}$ and trying to axiomatise it.
-Alternatively, we can create a list of axioms, and search for models within $\mathit{ZF}$ that satisy these axioms, so that results in our new theory are consistent with $\mathit{ZF}$.
+Alternatively, we can create a list of axioms which state the desired behaviour of our relation symbols, and search for models within $\mathit{ZF}$ that satisfy these axioms, so that results in our new theory are consistent with $\mathit{ZF}$.
+We attempt to be economical in that we list a minimal number of axioms, however finding a minimal core of axioms is left to future work.
+It is enough to simply list various properties that are required, and that will be useful for common set theoretical reasoning. 
 
-\subsubsection*{1. Axiom of Projections}
+\subsubsection*{I. Axiom of Projections}
 Firstly, we give an axiom to characterise the ordered pair by existence of a first projection, and a second projection.
 \begin{enumerate}[label=(\roman*)]
 \item $\forall x: (\exists a: a\pleft x \Leftrightarrow \exists b: b\pright x)$
 \end{enumerate}
-From this axiom, we can prove that no object has a left projection, but no right projection, and vice versa.
+From this axiom, it follows that no object has a left projection, but no right projection, and vice versa.
 This makes for a convenient definition for the ordered pair unary relation, which is characterised by the existence of its left and right projections.
 
 \begin{definition} Any object which has a left projection, or equivalently, a right projection, is defined as an ordered pair:
@@ -791,6 +802,7 @@ This makes for a convenient definition for the ordered pair unary relation, whic
 \end{definition}
 \noindent
 By this definition, anything that has two projections is an ordered pair. We then define anything that isn't an ordered pair - that is, anything that has no projections - as a set.
+This leaves the potential for an object to have no projections, and no members --- the empty set.
 \begin{definition} Any object which is not an ordered pair, is defined as a set:
 $$\mathit{Set}(x) \eqdef \neg\mathit{U}(x)$$
 \end{definition}
@@ -802,7 +814,7 @@ Next, a two additional parts of the axiom are given to ensure the uniqueness of 
 \end{enumerate}
 Now that we have axiomatised the structure of the ordered pair, and the dualism of sets and pairs, we can run through the axioms of $\mathit{ZF}$ and make adjustments where necessary.
 
-\subsubsection*{I. Axiom of Extensionality}
+\subsubsection*{II. Axiom of Extensionality}
 The original axiom of extensionality must be changed, since both the empty set, and any ordered pair would be considered equal under the original axiom, since they both contain no members.
 Thus we must have an axiom in two parts, one that determines the equality of sets, and one that determines the equality of ordered pairs.
 \begin{enumerate}[label=(\roman*)]
@@ -813,10 +825,13 @@ Thus we must have an axiom in two parts, one that determines the equality of set
              \wedge (\forall b: b\pright p \Leftrightarrow b\pright q)
              \Rightarrow p=q)$
 \end{enumerate}
+From these axioms, the identity of both sets and ordered pairs are respectively determined by their members, and their projections. 
 
-\subsubsection*{II. Axiom of Pairing}
-The axiom of pairing from the original theory allows us to create a set containing two given elements.
-This axiom can remain unchanged, since the use of the membership relation implies that the quantified objects are sets.
+\subsubsection*{III. Axiom of Pairing}
+The axiom of pairing of $\mathit{ZF}$ allows us to create a set containing two given elements.
+This axiom can remain unchanged, it states the existence of an object which contains two elements via the membership relation.
+Therefore, the object must be a set.
+
 We add an analogous axiom for creating ordered pairs, similarly with no need to assert that the quantified object is an ordered pair, because of the use of the projection relations.
 \begin{enumerate}[label=(\roman*)]
 \item $\forall a,b: (\exists x: \forall c:
@@ -824,16 +839,18 @@ We add an analogous axiom for creating ordered pairs, similarly with no need to 
 \item $\forall a,b: (\exists p: a\pleft p \wedge b\pright p)$
 \end{enumerate}
 
-\subsubsection*{III. Axiom of Union}
+\subsubsection*{IV. Axiom of Union}
 The axiom of union can stay mostly the same, with the small change of only quantifying over sets.
-This means that we can only take the union of sets, and not ordered pairs, since we can find the union of an ordered pair using the axiom of projections, pairing, and union.
+This means that we can only take the union of sets, and not ordered pairs, since we can find the ``union" of an ordered pair using the axiom of projections, pairing, and union.
 $$\all{Set}x: [\exists y:\forall a:
     (a\in y \Leftrightarrow (\exists z: z\in x \wedge a\in z))]$$
 Note that for sets containing ordered pairs, the union axiom states the existence of a set containing all of the elements of the sets, ignoring the ordered pairs.
+This turns out to be a good design choice, as it makes the axiom easier to prove within a model later.
 For example, if $x=\{\{a,b\},\{c\},(d,e)\}$, then the union axiom states the existence of $\cup x=\{a,b,c\}$.
-\subsubsection*{IV. Axiom of Power Set}
-We must first change how we define the subset relation, since under the original definition, any ordered pair is considered a subset of any set, and the empty set is a subset of any ordered pair.
-The definition must be changed so that both objects are sets.
+
+\subsubsection*{V. Axiom of Power Set}
+We must first change how we define the subset relation, since under the original definition, any ordered pair would be considered a subset of any set, and the empty set would also be a subset of any ordered pair.
+The definition must be changed so that both objects need to be sets.
 
 \begin{definition} A set $x$ is called a subset of a set $y$ if $y$ contains all of the elements that are in $x$:
 $$x\subseteq y \eqdef \mathit{Set}(x) \wedge
@@ -847,20 +864,25 @@ $$\all{Set}x: [\exists y:\forall z:
     (z\in y \Leftrightarrow z\subseteq x)]$$
 All of the members of any power set can be proved to be sets, since $z\in \mathcal{P}(x)$ iff $z\subseteq x$, which is only true if $z$ is a set.
 
-\subsubsection*{V. Axiom Schema of Specification}
-The axiom schema must be modified, again with the change that only sets can be specified. In the case where no elements of $x$ satisfy the predicate $\varphi$, we want to make sure that this results in $y$ being the empty set, and not anything else, thus we must assert that $y$ is indeed a set.
+\subsubsection*{VI. Axiom Schema of Specification}
+The axiom schema must be modified, again with the change that only sets can be specified. 
+In the case where no elements of $x$ satisfy the predicate $\varphi$, we want to make sure that this results in $y$ being the empty set, and not anything else, thus we must assert that $y$ is indeed a set.
 $$\all{Set}x: [\ex{Set} y:\forall a:
     (a\in y \Leftrightarrow (z\in y \wedge \varphi(a)))]$$
 
-\subsubsection*{VI. Axiom of Infinity}
-The axiom of infinity is the only axiom from $\mathit{ZF}$ that we do not need to change. We know that the object $z$ is a set since it contains an element, the empty set. However, we do need to change the definition of the $\emptyset \in z$. In $\mathit{ZF}$, the empty set was defined as the object containing no elements, characterised as: $x = \emptyset \iff (\forall u: u\notin x)$, making the empty set unique by extensionality.
+\subsubsection*{VII. Axiom of Infinity}
+The axiom of infinity is the only axiom from $\mathit{ZF}$ that we do not need to change. 
+We know that the object $z$ is a set since it contains an element, the empty set. 
+However, we do need to change the definition of the $\emptyset \in z$. In $\mathit{ZF}$, the empty set was defined as the object containing no elements, characterised as: $x = \emptyset \iff (\forall u: u\notin x)$, making the empty set unique by extensionality.
 Now there are many objects with no elements, we must require that $x$ is a set.
-$$\exists y: \underbrace
-                {(\ex{Set}x:x\in y \wedge\forall u:u\notin x)}
+$$\exists z: \underbrace
+                {(\ex{Set}x:x\in z \wedge\forall u:u\notin x)}
                 _{{\emptyset\in z}}
-                \wedge (\forall x: x\in y \Rightarrow \{x\}\in y)$$
+                \wedge\hspace{0.6mm} (\forall x: x\in z \Rightarrow x\cup\{x\}\in z)$$
+An appropriate definition for the statement $x\cup \{x\} \in z$ should also be given. However, this is only a minor issue, and will be left to future work.
 
-\subsubsection*{VII. Axiom Schema of Replacement}
+
+\subsubsection*{VIII. Axiom Schema of Replacement}
 To convert the axiom schema of replacement to our new system, we make the usual changes of restriction on quantifiers:
 $$\forall x: [\forall a: a\in x \Rightarrow \exists!b: \varphi(a,b)]
   \Rightarrow \ex{Set} y:[\forall b: b\in y \Leftrightarrow
@@ -868,7 +890,7 @@ $$\forall x: [\forall a: a\in x \Rightarrow \exists!b: \varphi(a,b)]
 We require that $y$ is a set, due to the case where $y$ is empty as a result of $x$ being empty.
 We do not require that this axiom only applies to sets, since $x$ being an ordered pair would only assert the existence of the empty set, since $x$ has no members.
 
-\subsubsection*{VIII. Axiom of Foundation}
+\subsubsection*{IX. Axiom of Foundation}
 This axiom allows us to state the requirement that all sets, and also all ordered pairs are \emph{well founded}.
 In $ZF$, this banishes self-containing sets, and infinitely descending membership chains.
 We must adapt this axiom to include banish self-projecting pairs, and infinitely descending projection chains.
@@ -905,7 +927,7 @@ Some combination of both sets, and ordered pairs, in both projections:
 But since $a_{i+1} \mathrel{\circ_i} a_i$,
 where $\mathrel{\circ_i}$ is either $\in$, $\pleft$, or $\pright$, it must be the case that either $a_{i+1} \in a_i$, $a_{i+1}\pleft a_i$, or $a_{i+1}\pright a_i$, giving contradiction.\qed
 
-\subsubsection*{IX. Axiom of Cartesian Product}
+\subsubsection*{X. Axiom of Cartesian Product}
 In $\mathit{ZF}$, we were able to prove the existence of the Cartesian Product $x \times y$ for any sets $x$ and $y$, by using the axioms of union, power set, and specification.
 We could do this because ordered pairs were defined as sets, and the power set allows us to access an ``upper level" of sets to which the required ordered pairs belong.
 In $\mathit{ZFP}$, our ordered pairs are primitive, and we currently have no operation analogous to that of power set.
@@ -915,29 +937,68 @@ $$\all{Set} x,y: \ex{Set} z:
  \exists a,b: (a \in x \wedge a\pleft u \wedge b\in x \wedge b\pright u))$$
 
 \subsection{Conclusion}
+We have presented an axiomatisation of the desired theory $\mathit{ZFP}$, which can be used to reason about ordered pairs as primitive objects.
+The provided reasoning is something that is usually merely assumed, and therefore fills a gap in the literature.
+Examples of standard mathematical reasoning in the new theory is given in~\ref{zfpexamples}. 
+We now reflect on the success criteria for the axiomatisation presented in~\ref{objectives}.
+
+The understandability of the axioms was ensured by a clear explanation and motivation for each axiom, and any modifications needed. 
+The syntax provided for the restricted quantifiers intend to give the reader a better idea of what the axiom says.
+For instance $(\all{Set} x: \varphi)$ reads in natural language as ``for all sets $x$, $\varphi$ is true'', yet abbreviates the statement $(\forall x: \mathit{Set}(x) \Rightarrow \varphi)$, which would read as ``for all $x$, if $x$ is a set, then $\varphi$ is true''.
+Extra readability is also facilitated by the convention of using the Latin symbols $p,q,r$ for urelements, $x,y,z$ for sets, and $a,b,c$ for general objects.  
+
+The modified axioms of $\mathit{ZF}$ provide a framework reasoning for reasoning about sets. 
+This contributes to the objective of the theory being powerful and $\mathit{ZF}$-like.
+We later show that all of the sets of $\mathit{ZF}$ can be modelled isomorphically as pure sets\footnote{Pure sets are sets that contain no urelements in their transitive closure, see~\ref{embedding}.} of $\mathit{ZFP}$.
+However, we were unable to show that all of the sets of $\mathit{ZFP}$ satisfy all of the axioms of $\mathit{ZF}$.
+Discussions with my supervisor led us to suspect that it would be possible to provide an argument for this by defining a translation from proofs of $\mathit{ZFP}$ to provable statements of $\mathit{ZF}$.   
+Due to time constraints, this will be left to future work. 
+
+The axioms give us the power to reason about primitive ordered pairs, by guaranteeing the existence of objects that have no members, but instead, they have projections.
+The axiom of pairing of $\mathit{ZFP}$ allows us to create pairs, just as the pairing axiom of $\mathit{ZF}$ allowed us to create Kuratowski pairs. 
+To our curiosity and initial surprise, we had to add an axiom of cartesian product to allow us to form sets of ordered pairs.
+Perhaps a more general, or less powerful axiom could have been used to prove the existence of cartesian products. 
+An example of this can be found from Barwise~\cite{barwise}, where he uses $\Delta_0$ separation in the absence of a power set axiom.  
+
+We were unsure if there are any uses of ordered pairs which are available in $\mathit{ZF}$ but not in $\mathit{ZFP}$. 
+We hope that the axioms of pairing and cartesian product provide all of the functionality required in mathematics. 
+
+When modifying and designing these axioms, the existence of models satisfying the axioms was kept in mind. 
+Evidence of this can be seen from the flavour of the axioms --- we try to stay within the realm of ideas of $\mathit{ZF}$ so that a model is easily proved to exist by the axioms of $\mathit{ZF}$. 
+
+In order to avoid contradictions and paradoxes, each of the axioms were given test cases.
+Statements involving universal quantification were tested to ensure that they still remained true when the quantified variable was either set or an ordered pair.
+Necessary restrictions were put on the quantifiers in the cases of unwanted behaviour. 
+
+We hope that this theory retains some resemblance of Zermelo-Fraenkel set theory, and that it would suit as a theoretical extension to $\mathit{ZF}$ for those who require reasoning about ordered pairs, but don't want to worry about which encoding they use. 
+As mentioned above, the use of relation symbols facilitates this, as does the minimal modification of the original axioms. 
 
 \section{A Model of $\mathit{ZFP}$}
+Now that we have stated the axioms of our new theory, we construct a model in which all of the axioms are true, to show that our theory is satisfiable.
+Specifically, this means we find a structure $\mathcal{W}$ such that $\mathcal{W} \vDash \psi$, for each axiom $\psi$ of $\mathit{ZFP}$.
+Moreover, we provide an informal argument that the existence of a model in $\mathit{ZF}$ implies the consistency of the theory $\mathit{ZFP}$. 
+
 \subsection{Requirements}
-
-Now that we have stated the axioms of our new theory, we must search for a model in which all of the axioms are true, to show that our theory is satisfiable.
-This model will consist of a domain of interpretation in which the objects of the theory range over, and a definition for each relation symbol.
-When constructing this model, we will be working axiomatically in $\mathit{ZF}$, so really, we are looking for some collection of sets obtainable in $\mathit{ZF}$, and some definition of a new membership relation, and the projection relations, which satisfy the axioms of $\mathit{ZFP}$.
+When constructing this model, we are using $\mathit{ZF}$ as our meta-theory, and so the definitions given for the domain and relations are defined in $\mathit{ZF}$.
 This means that unless specified otherwise, the sets, and operations used in this construction, are that of $\mathit{ZF}$.
-In particular, when we refer to ordered pairs, we will use the notation $\pair{a}{b}$ to refer to the Kuratowski defined ordered pair $\{\{a\}, \{a,b\}\}$, to avoid confusion with the primitive pairs of $\mathit{ZFP}$, denoted $(a,b)$.
+In particular, when we refer to ordered pairs in $\mathit{ZF}$, we will use the notation $\pair{a}{b}$ to refer to the Kuratowski defined ordered pair $\{\{a\}, \{a,b\}\}$, to avoid confusion with the primitive pairs of $\mathit{ZFP}$, denoted $(a,b)$.
 
-The projection relations for the Kuratowski defined pairs $\pleft$ and $\pright$ are defined as:
-\begin{align*}
-a\pleft p &\eqdef (\forall x\in p: a\in x) \\
-b\pright p &\eqdef (\exists x\in p: b\in x) \wedge
-                (\forall x,y \in p: x\neq y \Rightarrow (b\notin x \vee b\notin y))
-\end{align*}
-These defininitions can easily be shown to have the properties of uniqueness, so that if $a\pleft p$, and $b\pleft p$, then $a=b$, and similarly for $\pright$. As a consequence, they also have the characteristic property of ordered pairs, so that if $\forall a: (a\pleft p)\Leftrightarrow(a\pleft q)$, and $\forall b: (b\pright p)\Leftrightarrow(b\pright q)$, then $p=q$.
+A model for our theory consists of a domain of interpretation in which the objects of the theory range over, and a definition for each relation symbol.
+More formally, we define a class $W$, and relations $\zin$, $\zpleft$, $\zpright$. 
+The main requirement for the construction of this model is that sets and ordered pairs are distinct, so that the predicates $U$ and $\mathit{Set}$ are meaningful.
+One of the key requirements for satisfaction of the theory $\mathit{ZFP}$ is that sets and ordered pairs are \emph{distinct}. 
+The membership relation $a\in x$ must only be true if $x$ is a set, and the projection relations $a\pleft p$, $a\pright p$ must only be true if $p$ is a pair.
+A common technical trick, is to represent each set as an ordered pair $\pair{0}{x}$, and each ordered pair as $\pair{1}{p}$.
+This way we can easily define the new set membership relation to be false in statements where the object in question is an ordered pair, and \emph{vice versa}. 
+
+We simply hope that this design choice is the only one we need in order to meet the success criteria of satisfaction of the $\mathit{ZFP}$ axioms. 
+An argument for this is simply that the underlying theory is ZF, and most of ZFP is modification of ZF, so we should be able to use ZF to prove 
 
 \subsection{Discussion}\label{zfpmodel}
 
 \subsubsection{Domain of Interpretation}
 First, we construct a domain of discourse in which all of the objects of our theory belong.
-One of the key points of the theory of $\mathit{ZFP}$ is that sets and ordered pairs are \emph{distinct}, so that the membership relation $a\in x$ can only be true if $x$ is a set, and the projection relations $a\pleft p$, $a\pright p$ can only be true if $p$ is a pair.
+
 An easy way to do this is to `tag' each object using ordered pairs, so that each set $x$ in $\mathit{ZFP}$ is identified with the pair $\pair{0}{x'}$ in $\mathit{ZF}$, and each pair $(a,b)$ is identified with $\pair{1}{\pair{a'}{b'}}$. To construct a universe where all objects are of this form, we follow a similar construction to the Von-Neumann Universe:
 
 \begin{definition} For each ordinal $\alpha$, the set $W_\alpha$ is defined via transfinite recursion:
@@ -952,7 +1013,7 @@ Since the definition is recursive, the existence of each $W_\alpha$ is reliant o
 
 \begin{theorem} For each ordinal $\alpha$, the set $W_\alpha$ exists.
   \begin{proof} \hspace{1mm}\\
-    \begin{tabular}{p{20mm} p{10cm}}
+    \begin{tabular}{p{20mm} p{138mm}}
       $\alpha = 0$: \rule{0pt}{4ex} &
       Using the axiom schema of specification with the predicate $\phi \Leftrightarrow a \neq a$ on any set $x$ gives $x_\phi = \{a \in x \mid a \neq a \} = \emptyset$. \\
       $\alpha = \beta+1$: \rule{0pt}{4ex} &
@@ -992,13 +1053,13 @@ We now move on to showing that our model $W$ satisfies all of the axioms of our 
         Thus $\exists a: a\zpleft x \Rightarrow \exists b: b\zpright x$.
         The converse can be proved similarly.
       \end{proof}
-
 \end{enumerate}
+
 We defined the ordered pair identifier $U(x)$ by the existence of a first projection, or equivalently, the existence of a second projection. Using this definition, and the interpretation, we can prove that $U(x)$ is equivalent to $x$ being of the form $\pair{1}{x'}$, and a similar result for the $\mathit{Set}(x)$ relation.
 \begin{lemma} $U(a) \Leftrightarrow \exists p: a = \pair{1}{p}$, and $Set(a)\Leftrightarrow \exists x: a = \pair{0}{x}$.
   \begin{proof} Let $x\in W$:
 
-    \begin{tabular}{p{7mm} p{10.6cm}}
+    \begin{tabular}{p{7mm} p{133mm}}
       $(\Rightarrow)$\rule{0pt}{5mm} &
       Suppose that $U(x)$, then by definition, there exists $a$ such that $a\zpleft x$, and so $\exists p: x=\pair{1}{p} \wedge a\pleft p$, and so we have $x=\pair{1}{p}$.
       \\
@@ -1108,7 +1169,7 @@ Now that we have proved these properties relating to the form, existence and uni
   Recall that the $\mathit{ZFP}$ axiom of power set required a new definition of the subset relation, and also that the relation symbols in this definition fall under the interpretation of the membership relation, so:
     $$z\mathrel{\widehat\subseteq} x \iff \mathit{Set}(z)\wedge\mathit{Set}(x)
                         \wedge \forall a: (a\zin z \Rightarrow a\zin x)$$
-\begin{tabular}{p{7mm} p{10.6cm}}
+\begin{tabular}{p{7mm} p{133mm}}
   $(\Rightarrow)$\rule{0pt}{5mm} &
   Suppose that $z\zin y$, then $z\in\{0\}\times\mathcal{P}(x')$, and so $z=\pair{0}{z'}$, where $z'\subseteq x'$.
   By definition of $\subseteq$, $\forall a:(a\in z' \Rightarrow a\in x')$.
@@ -1138,7 +1199,7 @@ Now let $y=\pair{0}{y'}$, where $y'=\{a\in x' : \varphi(a)\}$, and since $y'\sub
 
 \subsection{Conclusion}
 
-\section{Embedding $V$ in $W$}
+\section{Embedding $V$ in $W$}\label{embedding}
 \subsection{Requirements}
 
 Since $\mathit{ZFP}$ is itself a set theory, we should want that everything that is true about the sets of $\mathit{ZF}$ should also be true about the pure sets of $\mathit{ZFP}$, that is, those not containing primitive pairs in their transitive closure. To show this, we want to find a correspondence between the sets of $\mathit{ZF}$ and the pure sets of $\mathit{ZFP}$ that preserves truth. This notion of correspondence is captured in a certain kind of map known as an \emph{embedding}.
@@ -1164,7 +1225,7 @@ W'_\lambda &\eqdef \bigcup_{\beta < \lambda} W'_\beta
 The existence of these sets can be proved via transfinite induction similarly to $W$. Thus we can define the class $W_{\mathit{Pure}}$ by taking the union of all of these sets.
 \begin{lemma} For each ordinal $\alpha$, $W'_\alpha \subseteq W_\alpha$.
   \begin{proof} \hspace{1mm}\\
-    \begin{tabular}{p{20mm} p{10cm}}
+    \begin{tabular}{p{20mm} p{137mm}}
       $\alpha = 0$: \rule{0pt}{4ex} &
       $W'_0 = W_0 = \emptyset$, and clearly $\emptyset \subseteq \emptyset$. \\
       $\alpha = \beta+1$: \rule{0pt}{4ex} &
@@ -1187,7 +1248,7 @@ We now prove that this map is well-defined:
 \begin{lemma}
 For each set $x\in V_\alpha$, there exists a set $y\in W'_\alpha$ such that $F_\alpha(x)=y$.
 \begin{proof} \hspace{1mm}\\
-  \begin{tabular}{p{20mm} p{10cm}}
+  \begin{tabular}{p{20mm} p{137mm}}
     $\alpha = 0$: \rule{0pt}{4ex} &
     For $F_0$, the domain is empty since $V_0 = \emptyset$. So the zero case is trivial.
     \\
@@ -1204,7 +1265,7 @@ For each set $x\in V_\alpha$, there exists a set $y\in W'_\alpha$ such that $F_\
 We now prove that $F_\alpha$ is both injective (and therefore invertible), and surjective. Proving both of these properties will show that $F_\alpha$ is a \emph{bijection}.
 \begin{lemma} For all ordinals $\alpha$, $F_\alpha$ is injective.
   \begin{proof} \hspace{1mm}\\
-    \begin{tabular}{p{20mm} p{10cm}}
+    \begin{tabular}{p{20mm} p{137mm}}
       $\alpha = 0$: \rule{0pt}{3ex} &
       For $F_0$, the domain is empty, so the zero case is trivial.
       \\
@@ -1221,7 +1282,7 @@ We now prove that $F_\alpha$ is both injective (and therefore invertible), and s
 
 \begin{lemma} For all ordinals $\alpha$, $F_\alpha$ is surjective.
   \begin{proof} \hspace{1mm}\\
-    \begin{tabular}{p{20mm} p{10cm}}
+    \begin{tabular}{p{20mm} p{137mm}}
       $\alpha = 0$: \rule{0pt}{3ex} &
       Trivial since $\mathit{Im}(F_0) = \emptyset = W'_0$\\
       $\alpha = \beta+1$: \rule{0pt}{3ex} &
@@ -1239,7 +1300,7 @@ Since $F_\alpha$ is both injective and surjective, $F_\alpha$ is a bijection. We
   $$x\in y \Leftrightarrow F_\alpha(x) \zin F_\alpha(y)$$
 \begin{proof} Let $x,y\in V$. \hspace{1mm} \\
 
-  \begin{tabular}{p{7mm} p{11.5cm}}
+  \begin{tabular}{p{7mm} p{144mm}}
     $(\Rightarrow)$ \rule{0pt}{10ex} &
     Suppose that $x\in y$, then $x\in V_{\alpha-1}$ since $y\subseteq V_{\alpha-1}$.
     By definition, $F_\alpha(y) = \pair{0}{y'}$, where $y' = \{F_{\alpha-1}(u) : u\in y\}$.
@@ -1261,7 +1322,7 @@ $$\mathcal N \vDash \phi(\bar m) \Leftrightarrow \mathcal M \vDash \phi(\alpha(\
 \subsection{Conclusion}
 
 \chapter{Evaluation}
-\section{Examples of $\mathit{ZFP}$ Set Theory}
+\section{Examples of $\mathit{ZFP}$ Set Theory}\label{zfpexamples}
 \section{Outcome}
 \section{Evaluation of Research Process}
 
