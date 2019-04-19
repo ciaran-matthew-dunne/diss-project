@@ -1003,10 +1003,18 @@ The membership relation $a\in x$ must only be true if $x$ is a set, and the proj
 A common technical trick, is to represent each set as an ordered pair $\pair{0}{x}$, and each ordered pair as $\pair{1}{p}$.
 This way we can easily define the new set membership relation to be false in statements where the object in question is an ordered pair, and \emph{vice versa}. 
 
-We simply hope that this design choice is the only one we need in order to meet the success criteria of satisfaction of the $\mathit{ZFP}$ axioms. 
-An argument for this is simply that the underlying theory is ZF, and most of ZFP is modification of ZF, so we should be able to use ZF to prove 
+In order to satisfy the axioms of $\mathit{ZFP}$, the model must be large enough to contain large infinite sets that are in $\mathit{ZF}$. 
+Defining a domain via transfinite induction will allow this, in a similar fashion to the Von-Neumann universe.  
 
-\subsection{Discussion}\label{zfpmodel}
+If we have a model that satisfies the axioms of $\mathit{ZFP}$, then we are able to `simulate' $\mathit{ZFP}$ in $\mathit{ZF}$.
+The \emph{soundness} and \emph{completeness} of first-order logic tells us that there is a correspondence between true statements which can be derived from a set of axioms, and statements holding in any model that satisfies the axioms. 
+Symbolically, if $\mathcal{M}$ is a model satisfying $\Gamma$: 
+$$\Gamma \vdash \varphi \iff \mathcal{M}\vDash \varphi $$
+This means that statements that can be syntactically proved from the axioms, hold in any model $\mathcal{M}$. 
+And conversely, anything that holds in a model $\mathcal{M}$ can be syntactically proved from the axioms. 
+We will use these properties to show that the theory is consistent, relative to $\mathit{ZF}$.
+
+\subsection{Development}\label{zfpmodel}
 
 \subsubsection{Domain of Interpretation}
 First, we construct a domain of discourse in which all of the objects of our theory belong.
@@ -1016,7 +1024,7 @@ An easy way to do this is to `tag' each object using ordered pairs, so that each
 \begin{definition} For each ordinal $\alpha$, the set $W_\alpha$ is defined via transfinite recursion:
 \begin{align*}
  W_0 &\eqdef \emptyset\\
- W_{\beta+1} &\eqdef \{0\}\times\mathcal{P}(W_\beta) \cup \{1\}\times \mathcal{P}(W_\beta)^2 \\
+ W_{\beta+1} &\eqdef \{0\}\times\mathcal{P}(W_\beta) \cup \{1\}\times W_\beta^2\\
  W_\lambda &\eqdef \bigcup_{\beta < \lambda} W_\beta
 \end{align*}
 \end{definition}
@@ -1029,7 +1037,7 @@ Since the definition is recursive, the existence of each $W_\alpha$ is reliant o
       $\alpha = 0$: \rule{0pt}{4ex} &
       Using the axiom schema of specification with the predicate $\phi \Leftrightarrow a \neq a$ on any set $x$ gives $x_\phi = \{a \in x \mid a \neq a \} = \emptyset$. \\
       $\alpha = \beta+1$: \rule{0pt}{4ex} &
-      Suppose that $W_\beta$ exists. Then $\mathcal{P}(W_\beta)$ and $\mathcal{P}(W_\beta)^2$ exist by the axiom of power set, and by the existence of cartesian product. Thus the set $W_{\beta+1} = \{0\}\times\mathcal{P}(W_\beta) \cup \{1\}\times \mathcal{P}(W_\beta)^2$ exists by cartesian product, and the axiom of union. \\
+      Suppose that $W_\beta$ exists. Then $\mathcal{P}(W_\beta)$ and $W_\beta^2$ exist by the axiom of power set, and by the existence of cartesian product. Thus the set $W_{\beta+1} = \{0\}\times\mathcal{P}(W_\beta) \cup \{1\}\times W_\beta^2$ exists by cartesian product, and the axiom of union. \\
 
       $\alpha = \lambda$ \rule{0pt}{4ex} &
       Suppose that $W_\alpha$ exists for all ordinals $\alpha<\lambda$, then the set $W_\lambda = \bigcup_{\beta < \lambda} W_\beta$ exists by the axiom of union.
@@ -1055,9 +1063,9 @@ We now go on to define the interpretations of the relation symbols of the signat
 We now move on to showing that our model $W$ satisfies all of the axioms of our new theory. When proving these axioms, we will be explicit about which relations we are using. We are trying to prove that the relations $\zin$, $\zpleft$, $\zpright$ satisfy the axioms, but they are defined in terms of formula involving the membership relation of $\mathit{ZF}$. We simply run through each of the axioms, with constant discussion:
 
 \begin{enumerate}[series=axiomlist, label=\Roman*.]
-  \item \textit{Projections:}
+  \item \textit{\textbf{Projections:}}
         \begin{enumerate}[series=sublist, label=(\roman*)]
-        \item \textit{Existence:} $\forall x: (\exists a: a\pleft x) \Leftrightarrow (\exists b: b\pright x)$
+        \item \textit{\textbf{Existence:}} $\forall x: (\exists a: a\pleft x) \Leftrightarrow (\exists b: b\pright x)$
         \end{enumerate}
         \begin{proof}
         Let $x\in W_\alpha$ for some ordinal $\alpha$, and suppose that $(\exists a: a\zpleft x)$.
@@ -1076,7 +1084,7 @@ We defined the ordered pair identifier $U(x)$ by the existence of a first projec
       Suppose that $U(x)$, then by definition, there exists $a$ such that $a\zpleft x$, and so $\exists p: x=\pair{1}{p} \wedge a\pleft p$, and so we have $x=\pair{1}{p}$.
       \\
       $(\Leftarrow)$ &\rule{0pt}{5mm}
-      Suppose that $x = \pair{1}{p}$ for some $p$, then $x\in\{1\}\times \mathcal{P}(W_\alpha)^2$ for some ordinal $\alpha$, so $p\in P(W_\alpha)^2$.
+      Suppose that $x = \pair{1}{p}$ for some $p$, then $x\in\{1\}\times W_\alpha^2$ for some ordinal $\alpha$, so $p\in W_\alpha^2$.
       Thus $p$ is in fact an ordered pair, and must have a first and second projection, so it holds that $U(x)$.
     \end{tabular}\\
 
@@ -1093,7 +1101,7 @@ We defined the ordered pair identifier $U(x)$ by the existence of a first projec
 \begin{enumerate}[series=axiomlist, label=\Roman*.]
 \item \hspace{1mm}
   \begin{enumerate}[resume=sublist, label=(\roman*)]
-  \item \textit{Uniqueness:} $\all{U} p: (\exists! a: a\pleft p) \wedge (\exists! b: b\pright p)$
+  \item \textit{\textbf{Uniqueness:}} $\all{U} p: (\exists! a: a\pleft p) \wedge (\exists! b: b\pright p)$
   \end{enumerate}
     \begin{proof}
       Let $p$ be such that $U(p)$, then there exists $q,a,b$, such that $(p = \pair{1}{q}) \wedge (a\pleft q) \wedge (b\pright q)$.
@@ -1101,7 +1109,7 @@ We defined the ordered pair identifier $U(x)$ by the existence of a first projec
       $\exists! q: \exists! a, b:(p=\pair{1}{q})\wedge (a\pleft q) \wedge (b\pright q)$, and so $\exists! a: a\zpleft x$, and $\exists! b: b\zpright x$.
     \end{proof}
   \begin{enumerate}[resume=sublist, label=(\roman*)]
-    \item \textit{Emptiness:} $\all{U} p:(\forall a: a\notin p)$
+    \item \textit{\textbf{Emptiness:}} $\all{U} p:(\forall a: a\notin p)$
   \end{enumerate}
   \begin{proof}
     Let $p\in W$ such that $U(p)$, then $p = \pair{1}{q}$ for some $q$. Now suppose that $a\zin p$ for some $a$.
@@ -1111,7 +1119,7 @@ We defined the ordered pair identifier $U(x)$ by the existence of a first projec
 \end{enumerate}
 Now that we have proved these properties relating to the form, existence and uniqueness of projections of ordered pairs, we move on to proving the axiom of extensionality:
 \begin{enumerate}[resume=axiomlist, label=\Roman*.]
-  \item \textit{Extensionality:}
+  \item \textit{\textbf{Extensionality:}}
   \begin{enumerate}[series=sublist, label=(\roman*)]
     \item \textit{Sets:} $\all{Set} x: (\forall a: (a\in x \Leftrightarrow a\in y)) \Rightarrow x=y$
   \end{enumerate}
@@ -1123,20 +1131,20 @@ Now that we have proved these properties relating to the form, existence and uni
     $$x'=y'\implies \pair{0}{x'} = \pair{0}{y'} \implies x = y$$
   \end{proof}
   \begin{enumerate}[resume=sublist, label=(\roman*)]
-    \item \textit{Ordered Pairs:}
+    \item \textit{\textbf{Ordered Pairs:}}
     $\all{U}p,q: ((\forall a: a\pi_1 p \Leftrightarrow a\pi_1 q))\wedge(\forall b: b\pi_2 p \Leftrightarrow b\pi_2 q)\Rightarrow p=q$
   \end{enumerate}
   \begin{proof}
-  Let $p,q$ be ordered pairs, so $p = \pair{1}{p'}$, and $q= \pair{1}{q'}$, where $p'\in \mathcal{P}(W_\alpha)^2$ and $q'\in \mathcal{P}(W_\beta)^2$ for some ordinals $\alpha$, $\beta$.
+  Let $p,q$ be ordered pairs, so $p = \pair{1}{p'}$, and $q= \pair{1}{q'}$, where $p'\in W_\alpha^2$ and $q'\in W_\beta^2$ for some ordinals $\alpha$, $\beta$.
   Suppose that $(\forall a\in W: a\zpleft p \Leftrightarrow a\zpleft q)$, and also $(\forall b\in W: b\zpright p \Leftrightarrow b\zpright q)$.
   By definition of $\zpleft$ and $\zpright$, we have that $(\forall a\in W: a\pleft p' \Leftrightarrow a\pleft q')$, and also $(\forall b\in W: b\pright p' \Leftrightarrow b\pright q')$.
-  Since the pairs $p'$, $q'$ only have projections in $W$, the above statement is equivalent to: $$(\forall a: a\pleft p' \Leftrightarrow a\pleft q')\wedge(\forall bW: b\pright p' \Leftrightarrow b\pright q')$$
+  Since the pairs $p'$, $q'$ only have projections in $W$, the above statement is equivalent to: $$(\forall a: a\pleft p' \Leftrightarrow a\pleft q')\wedge(\forall b: b\pright p' \Leftrightarrow b\pright q')$$
   and so $p'=q'$.
   $$p'=q' \implies \pair{1}{p'} = \pair{1}{q'} \implies p = q$$
   \end{proof}
-  \item \textit{Pairing:}
+  \item \textit{\textbf{Pairing:}}
   \begin{enumerate}[series=sublist, label=(\roman*)]
-    \item \textit{Sets:}
+    \item \textit{\textbf{Sets:}}
     $\forall a,b: (\exists x: \forall c: c\in x \Leftrightarrow (c=a \vee c=b))$
   \end{enumerate}
   \begin{proof}
@@ -1148,7 +1156,7 @@ Now that we have proved these properties relating to the form, existence and uni
   \end{proof}
 
   \begin{enumerate}[resume=sublist,label=(\roman*)]
-    \item \textit{Pairs:}
+    \item \textit{\textbf{Ordered Pairs:}}
     $\forall a,b: (\exists p: a\pleft p \wedge b\pright p)$
   \end{enumerate}
   \begin{proof}
@@ -1156,28 +1164,33 @@ Now that we have proved these properties relating to the form, existence and uni
   Now let $p = \pair{1}{p'}$ where $p'=\pair{a}{b} \in W_\alpha^2$, and so $p\in W_{\alpha+1}$, and $a\zpleft p$, $b\zpright p$.
   \end{proof}
 
-\item \textit{Union:}
+\item \textit{\textbf{Union:}}
       $\all{Set} x: \exists y: \forall a: (a\in y \Leftrightarrow (\exists z: z\in x \wedge a\in z))$
-\begin{proof}
-  Let $x=\pair{0}{x'}$ be a set, and let $y=\pair{0}{y'}$, where $$y'=\cup(\cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\})$$
-  Then:
-  \begin{align*}
-    a\zin y &\iff (a\in \cup(\cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\})) \\
-    &\iff (\exists u: u\in \cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\} \wedge a\in u) \\
-    &\iff (\exists u: (\exists v: v \in \cup \{p\in x' : 0\pleft p\} \wedge u \in v) \wedge u \neq 0 \wedge a\in u) \\
-    &\iff (\exists u: (\exists v: (\exists w: w\in\{p\in x' : 0\pleft p\}\wedge v \in w) \wedge u \in v) \wedge u \neq 0 \wedge a\in u)\\
-  \end{align*}
-  So if $w\in\{p\in x' : 0\pleft p\}$, $w=\pair{0}{w'}=\{\{0\},\{0,w'\}\}$ for some $w'$.
-  Then if $v\in w$, then either $v=\{0\}$, or $v=\{0,w'\}$.
-  But $u\in v$, and $u\neq 0$, so $u=w'$.
-  Finally $a\in u$, so $a\in w'$, and $a \zin w$, and $w \zin x$.\\
+  \begin{proof}
+%   Let $x=\pair{0}{x'}\in W$ be a set, and let $y=\pair{0}{y'}$, where $$y'=\cup(\cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\})$$
+%   Then:
+%   \begin{align*}
+%     a\zin y &\iff (a\in \cup(\cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\})) \\
+%     &\iff (\exists u: u\in \cup\cup \{p\in x' : 0\pleft p\} \setminus \{0\} \wedge a\in u) \\
+%     &\iff (\exists u: (\exists v: v \in \cup \{p\in x' : 0\pleft p\} \wedge u \in v) \wedge u \neq 0 \wedge a\in u) \\
+%     &\iff (\exists u: (\exists v: (\exists w: w\in\{p\in x' : 0\pleft p\}\wedge v \in w) \wedge u \in v) \wedge u \neq 0 \wedge a\in u)\\
+%   \end{align*}
+%   So if $w\in\{p\in x' : 0\pleft p\}$, $w=\pair{0}{w'}=\{\{0\},\{0,w'\}\}$ for some $w'$.
+%   Then if $v\in w$, then either $v=\{0\}$, or $v=\{0,w'\}$.
+%   But $u\in v$, and $u\neq 0$, so $u=w'$.
+%   Finally $a\in u$, so $a\in w'$, and $a \zin w$, and $w \zin x$.\\
 
-  We are also required to show that $y\in W$, which can be seen easily since $x\in W_\alpha$ for some ordinal $\alpha$, then if $a\zin y$, there exists $v\in x'$ such that $a\zin v$.
-  Since $v\in x'$, and $x'\in\mathcal{P}(W_{\alpha-1})$, $v\in W_{\alpha-1}$, thus $a\in W_{\alpha-2}$.
-  So $y'\subseteq W_{\alpha-2}$, and thus $y \in W_{\alpha-1}$.
+%   We are also required to show that $y\in W$, which can be seen easily since $x\in W_\alpha$ for some ordinal $\alpha$, then if $a\zin y$, there exists $v\in x'$ such that $a\zin v$.
+%   Since $v\in x'$, and $x'\in\mathcal{P}(W_{\alpha-1})$, $v\in W_{\alpha-1}$, thus $a\in W_{\alpha-2}$.
+%   So $y'\subseteq W_{\alpha-2}$, and thus $y \in W_{\alpha-1}$.
+
+  Let $x=\pair{0}{x'}\in W_\alpha$.
+  If $z\zin x$, and $a\zin z$, then $z\in W_{\alpha-1}$, and $a\zin W_{\alpha-2}$. 
+  By the $\mathit{ZF}$ specification schema we prove the existence of the set $y' = \{a\in W_{\alpha-2} : \exists z: z\zin x \wedge a\zin z\}$.
+  Letting $y=\pair{0}{y'}$ clearly yields the desired set, and since $y'\in\mathcal{P}(W_{\alpha-2})$, it follows that $y\in W_{\alpha-1}$. 
 \end{proof}
 
-\item \textit{Power Set:} $\all{Set}x:(\exists y:\forall z:(z\in y \Leftrightarrow z\subseteq x))$
+\item \textit{\textbf{Power Set:}} $\all{Set}x:(\exists y:\forall z:(z\in y \Leftrightarrow z\subseteq x))$
 \begin{proof}
   Let $x\in W_\alpha$ be a set, then $x=\pair{0}{x'}$ for some $x'\subseteq W_{\alpha-1}$.
   Now let $y=\pair{0}{\{0\}\times\mathcal{P}(x')}$, then $y\in W_{\alpha+1}$.
@@ -1194,11 +1207,11 @@ Now that we have proved these properties relating to the form, existence and uni
   $(\Leftarrow)$ &\rule{0pt}{5mm}
   Now suppose that $z\mathrel{\widehat\subseteq}x$, then $\mathit{Set}(z)$, $\mathit{Set}(x)$, and $\forall a:(a\zin z\Rightarrow a\zin x)$.
   Then $\forall a:(a\in z\Rightarrow a\in x)$, so $z'\subseteq x'$, $z'\in \mathcal{P}(x')$, and $z\in\pair{0}{\mathcal{P}(x')}$.
-  Thus $z\zin y$.
+  Thus $z\zin y$.\qedhere
 \end{tabular}\\
 \end{proof}
 
-\item \textit{Specification Schema: For any first-order predicate} $\varphi(x)$: \\
+\item \textit{\textbf{Specification Schema:} For any first-order predicate} $\varphi(x)$: \\
 $\all{Set}x: (\ex{Set}y: \forall a:
                               (a\in y \Leftrightarrow (a\in x \wedge \varphi(a))))$
 \begin{proof}
@@ -1212,7 +1225,74 @@ Now let $y=\pair{0}{y'}$, where $y'=\{a\in x' : \varphi(a)\}$, and since $y'\sub
 \end{align*}
 \end{proof}
 \end{enumerate}
+Due to time constraints, we did not manage to proof that $\mathcal{W}$ satisfies all of the axioms of $\mathit{ZFP}$. 
+The full proofs for the axioms of infinity, replacement, and foundation will be left to future work.
+Informal arguments are presented below: 
 
+\begin{enumerate}[resume=axiomlist, label=\Roman*.]
+\item  \textit{\textbf{Infinity: }} 
+$\exists z: (\emptyset\in z \wedge\hspace{0.6mm} (\forall x: x\in z \Rightarrow x\cup\{x\}\in z))$ \\ 
+The design of the domain $W$ is similar to that of $V$, and if $V$ has been shown to satisfy the axiom of infinity, there must be a simple modification of this proof for $W$.
+
+\item \textit{\textbf{Replacement: }}\\
+$\forall x: [\forall a: a\in x \Rightarrow \exists!b: \varphi(a,b)]
+  \Rightarrow \ex{Set} y:[\forall b: b\in y \Leftrightarrow
+                                     \exists a: a\in x \wedge\varphi(a,b)]$\\
+The problem with replacement is that it is possible to create the desired set $y$ with the axioms of $\mathit{ZF}$, but I wasn't able to show that it belonged to $W$.
+However, I do suspect there would be a simple way of proving this property. 
+
+\item \textit{\textbf{Foundation:} } \\$\all{Set} x: [x\neq\emptyset
+  \Rightarrow \exists a: (a\in x \wedge
+               \forall b: (b\in x
+               \Rightarrow \neg(b\pleft a \vee b\pright a \vee b\in a)))]$\\
+The membership and projection relations, $\zin$, $\zpright$ and $\zpleft$ are defined by $\in$, which is well-founded in $\mathit{ZF}$.
+Therefore it is sufficient to assume that foundation holds in $\mathcal{W}$.
+\end{enumerate}
+Finally, we give a proof for the axiom of cartesian product:
+
+\begin{enumerate}[resume=axiomlist, label=\Roman*.]
+\item \textit{\textbf{Cartesian Product:} } \\$\all{Set} x,y: \ex{Set} z:
+ \forall u: (u \in z \Leftrightarrow
+ \exists a,b: (a \in x \wedge a\pleft u \wedge b\in y \wedge b\pright u))$
+\begin{proof}
+Let $x,y \in W$, then both $x,y\in W_\alpha$ for some ordinal $\alpha$.
+Then for any $a\zin x$ and $b\zin y$, we have $a, b \zin W_{\alpha-1}$.
+Since $\{1\} \times W_{\alpha-1}^2 \subseteq W_\alpha$, any ordered pair $(a,b)$ is in $W_{\alpha}$. 
+Defining the cartesian product via the $\mathit{ZF}$ specification schema gives: 
+$$x \widehat{\times}y = \pair{0}{\{p\in W_\alpha : \exists a, b: a\zin x \wedge b\zin y \wedge a\zpleft p \wedge b\zpright p\}}$$
+Then, since this set is a subset of $W_\alpha$, it follows that $x\widehat{\times} y \in W_{\alpha + 1}$. 
+\end{proof}
+\end{enumerate}
+Since we did not manage to prove all of the axioms, we will refer to the theory $\mathit{ZFP}$ without the axioms of replacement, infinity, and foundation as $\mathit{ZFP}^{-}$. 
+We have now proved that $\mathcal{W} \vDash \mathit{ZFP}^{-}$. 
+However, in the following subsection, we will make the safe assumption that $\mathcal{W}$ does indeed satisfy all of $\mathit{ZFP}$. 
+
+\subsubsection{Consistency of $\mathit{ZFP}$}
+We now examine a simple consequence of $\mathcal{W}$ satisfying each of the axioms of $\mathit{ZFP}$.
+We begin by introducing the co
+\begin{theorem}The Soundness Theorem of First-Order Logic\\
+Let $\Sigma$ be a set of sentences in first-order logic. 
+Let $\mathcal{M}$ be a structure that satisfies $\Sigma$, written $\mathcal{M} \vDash \Sigma$. 
+If $\varphi$ is a sentence such that $\Sigma \vdash \varphi$, then $\mathcal{M} \vDash \varphi$.
+\end{theorem}
+
+We are able to use this to prove that the consistency of $\mathit{ZF}$ implies the consistency of $\mathit{ZFP}$. 
+\begin{theorem}
+$$\mathit{Con(ZF)} \Rightarrow \mathit{Con(ZFP)}$$
+\begin{proof}
+Let $\mathcal{W}$ be the model given above, so $\mathcal{W} \vDash \mathit{ZFP}$.
+Then by the soundness theorem, for any sentence $\psi$ such that $\mathit{ZFP}\vdash \psi$, we have that $\mathcal{W} \vDash \psi$. 
+Suppose that $\mathit{ZFP}$ is inconsistent, then $ZFP \vdash \varphi,\neg\varphi$ for some formula $\varphi$. 
+And so $\mathcal{W} \vDash \varphi, \neg\varphi$.
+By definition of the satisfaction relation, we have that $\mathcal{W} \vDash \neg\varphi$ if and only if $\mathcal{W} \nvDash \varphi$.
+Supposing the consistency of $\mathit{ZF}$, we cannot have this contradiction, and so it follows that $\mathit{ZFP}$ is also consistent. 
+\end{proof}
+\end{theorem}
+
+This result is also supported by Enderton~\cite{enderton}:
+\begin{quote}
+``\textbf{Corollary 25E:} If $\Gamma$ is satisfiable, then $\Gamma$ is consistent."
+\end{quote}
 \subsection{Conclusion}
 
 \section{Embedding $V$ in $W$}\label{embedding}
